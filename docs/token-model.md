@@ -1,6 +1,6 @@
 # Token model
 
-The map, modes, checks and exports all read one set of 12 colour tokens. This document covers schema `0.1.0`, built in M1.
+The map, modes, checks and exports all read one set of 11 colour tokens. This document covers schema `0.2.0`. It differs from `0.1.0` by removing `background`, so `0.1.0` token sets do not validate.
 
 ## Tokens
 
@@ -8,13 +8,12 @@ Map tokens are stored as hex. CSS export names are `--b2b-*`, kept apart from th
 
 | Token | CSS variable | Role |
 | --- | --- | --- |
-| `background` | `--b2b-background` | Map canvas. Neither base style has a land polygon, so this is what reads as land. |
-| `land` | `--b2b-land` | Residential land, and the anchor for sand, ice and institutional tints. |
+| `land` | `--b2b-land` | Map canvas. Neither base style has a land polygon, so the background layer is the land. Also the anchor for residential, sand, ice and institutional tints. |
 | `water` | `--b2b-water` | Water fills and waterways. |
 | `park` | `--b2b-park` | Parks, green landuse and landcover. |
-| `roadMajor` | `--b2b-road-major` | Motorway, trunk, primary. Secondary and tertiary on Liberty. |
-| `roadMinor` | `--b2b-road-minor` | Residential, service, paths. Also secondary and tertiary on Streets. |
-| `building` | `--b2b-building` | Building fill. The outline derives from it. |
+| `roadMajor` | `--b2b-road-major` | Motorway, trunk, primary, secondary. Also tertiary on Liberty. |
+| `roadMinor` | `--b2b-road-minor` | Tertiary, residential, service, paths. |
+| `building` | `--b2b-building` | Building fill, drawn flat at full opacity. The outline derives from it. |
 | `boundary` | `--b2b-boundary` | Admin boundary lines. |
 | `labelPrimary` | `--b2b-label-primary` | Countries, cities, towns, major road names. |
 | `labelSecondary` | `--b2b-label-secondary` | States, villages, suburbs, minor road names. |
@@ -32,7 +31,7 @@ brand input -> base tokens -> per-mode transform -> per-mode overrides -> auto-f
 Each later layer is a `TokenTransform`: a pure function from tokens to tokens. `resolveTokens(tokenSet, transforms)` runs them in order, and `applyTokens` only ever sees the final result.
 
 ```ts
-const darkMode: TokenTransform = (tokens) => ({ ...tokens, land: '#1c2029' });
+const darkMode: TokenTransform = (tokens) => ({ ...tokens, land: '#14171f' });
 const userOverrides: TokenTransform = (tokens) => ({ ...tokens, water: '#0b2a3f' });
 applyTokens(base, resolveTokens(tokenSet, [darkMode, userOverrides]), { mapping });
 ```
@@ -46,9 +45,13 @@ Each base style has one mapping file in [src/mapping](../src/mapping): an ordere
 - **Rules** match on layer type, `source-layer`, a `class` read from the filter, or an ID pattern. `class` matching reads expression and legacy filter syntax and ignores negations.
 - **Explicit IDs** are the fallback. Liberty is mostly rules, because its IDs and filters are regular. Streets uses IDs on `transportation` layers, because their filters rely on negations such as `!in class ...`.
 
+**Splits** run before the rules. When one base layer holds features for different tokens or groups, the mapping's `splits` divide it by class into two layers with the same paint. The rules then treat them like any other layer. Streets uses this so secondary roads are `roadMajor` and stay on when `minorRoads` is off, and so tunnels divide the same way. Splits currently write legacy filter syntax, so they suit legacy-filter styles.
+
 A layer's status is computed, not declared: **mapped** if every colour is a bare token, **derived** if any colour mixes two tokens, **hidden** if the rule removes it. `applyTokens` throws if a layer has no rule or a colour property has no assignment, so no colour can pass through unnoticed. Derived and hidden layers must give a reason, which goes into the reports: [Liberty](reports/unmapped-liberty.md), [Streets v2](reports/unmapped-streets-v2.md).
 
 The survivor test runs a sentinel token set and fails if any original colour remains in the output. Its allow-list is empty. The only colours outside token control are in sprites (see Known limits).
+
+The isolation test changes each token in turn and requires that exactly the layers reading that token change, and that every token is read by at least one layer.
 
 ## Derived colours
 
@@ -60,9 +63,13 @@ The structure of each paint value is preserved: `interpolate`, `step`, `match`, 
 
 For a plain token assignment, each stop keeps its original lightness offset from the last stop and its original alpha, so the last stop lands on the token and earlier stops ramp around it. If a ramp would pass white or black, the whole ramp shifts to fit, so stops stay ordered and distinct.
 
-When branches of an expression belong to different tokens, the rule uses `stops` to assign one colour per position. Streets' `Tunnel` layer does this for its major and minor branches.
+When branches of an expression belong to different tokens, the rule uses `stops` to assign one colour per position. The Streets road-construction layer does this for its major and minor branches.
 
 Widths and label sizes are not touched. **Extension point:** a per-token ramp override would be a new optional `ramps` field on the token set, keyed by token, applied by a new rule property alongside `colors`. Not built.
+
+## Buildings
+
+Rules with `flatten` draw layers as opaque fills, and `fill-extrusion` layers become `fill`. MapLibre's 3D lighting darkens walls away from the token, so a token set could not control how buildings look. Both styles use this. `npm run screens` ends with a render check: at z16, at least 5% of pixels must be the exact `building` token, for every style and token set.
 
 ## Toggle groups
 
@@ -76,11 +83,15 @@ The harness turns every group on so all layers can be inspected, so its screensh
 
 Core code knows no provider. The mapping declares `provider.keyHost`, and `bindProviderKey` adds the user's key to those URLs at runtime. Pinned styles and stored output are key-free. Sources are copied unchanged, which preserves attribution.
 
-Base styles are pinned in [base-styles](../base-styles); `npm run styles:fetch` refreshes them and records the source URL and date in `metadata["b2b:pin"]`.
+**Liberty** is pinned in [base-styles](../base-styles). **Streets v2 is not in the repo or the deploy**, because MapTiler's licence limits the style to use with MapTiler. `npm run fetch-styles` writes it locally, gitignored and key-free, for tests and reports. A mapping with `provider.styleUrl` is fetched at runtime by `loadBaseStyle` using the user's key, and the build refuses a `dist/` containing MapTiler's style. The mapping file and report stay in the repo.
+
+The runtime fetch means Streets is not version-pinned in production. If MapTiler adds a layer, `applyTokens` throws because it has no rule. The app must show that as an error and offer OpenFreeMap (M4).
+
+Liberty's harness styles are static files on plain MapLibre with no prototype code. Streets restyles in the browser through `harness/runtime.ts`, then hands the result to the same plain map.
 
 ## Adding a base style
 
-1. Add the style to `scripts/fetch-base-styles.mjs` and run `npm run styles:fetch`.
+1. Add the style to `scripts/fetch-styles.mjs` and run `npm run fetch-styles`. If its licence rules out a public copy, gitignore it and set `provider.styleUrl`.
 2. Write `src/mapping/<id>.ts` and register it in `src/mapping/index.ts`. Any unmapped layer or colour property throws with its name, so the errors work as a to-do list.
 3. Add the ID to the test cases, `scripts/build-harness.ts`, the harness page and `scripts/capture-screens.mjs`.
 4. Run `npm run reports`.
@@ -90,9 +101,8 @@ No core code changes. Step 3 is test and harness wiring, not model code.
 ## Known limits
 
 - **Liberty sprites are baked.** All 264 icons are non-SDF, so POI icons, highway shields, one-way arrows and town dots keep provider colours. This is most visible on dark sets. Shield text keeps MapLibre's default black because it sits on a light baked sprite.
-- **Road classes do not split at the token boundary.** Liberty draws secondary and tertiary in one layer, so tertiary reads as major. Streets draws them in "Minor road", so secondary reads as minor and follows the `minorRoads` toggle.
+- **Liberty's tertiary roads are major.** Liberty draws secondary and tertiary in one layer, so tertiary uses `roadMajor`. Liberty's `road_minor` also has zero width until z13.5, so at z12 only `roadMajor` is visible and the colour hierarchy goes flat. Streets splits these classes; Liberty does not.
 - **Road label class on Streets.** One `Road labels` layer holds all classes, so they all use `labelSecondary`.
 - **Shaded relief.** Liberty's `natural_earth` raster is removed, because its colours cannot be tokenised.
 - **Liberty filter guard.** Three shield layers throw MapLibre warnings on features without `ref_length`. The mapping prepends a `has` check; rendering is unchanged.
-- **3D walls.** From about z14, both styles draw `fill-extrusion` buildings. `building` sets their colour, but MapLibre's lighting darkens the walls, so they look much darker than the token. Liberty's are the most visible, at 0.8 opacity. The base styles do the same.
 - **Missing POI icons.** Both base styles request icons their sprites lack, which logs `Image could not be loaded` warnings. These come from tile data, not style validation, and also appear with the unmodified styles.

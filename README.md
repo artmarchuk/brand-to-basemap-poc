@@ -4,6 +4,7 @@ Enter 2-5 brand colours and get a quality-checked MapLibre basemap in light, dar
 
 ```sh
 npm install
+npm run fetch-styles   # optional: Streets v2 for local tests, needs MAPTILER_KEY
 npm run dev     # local app
 npm test        # unit tests and lint guards
 npm run build   # tokens, lint, typecheck, bundle

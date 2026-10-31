@@ -13,20 +13,21 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 - **Design agency** (a separate Claude project): designs app UX, UI and branding in Figma after the working prototype exists (Phase 2). Not involved in P0.
 
 ## Locked decisions (Oct 31, 2026)
-- Base styles: OpenFreeMap **Liberty** and MapTiler **Streets v2**.
+- Base styles: OpenFreeMap **Liberty** and MapTiler **Streets v2**. Liberty is pinned in the repo. Streets is gitignored because of its licence: `npm run fetch-styles` gets it for local tests, and the deployed app fetches it at runtime with the user's key.
 - Palette derivation: **OKLCH** rules, tested on a set of 10 palettes.
 - Save/share: URL-encoded state in the hash plus local autosave. The MapTiler key is never put in the URL.
 - Data mode: a 0-100 "recede" slider on the light palette only (dark + data is P1). The demo overlay (fictional points and a hex-grid choropleth) is generated on the fly, is demo-only, and is never exported.
 - Zoom: no multi-map strip. One main map with zoom stops (about z4, z8, z12, z16), a sweep, and a review dot per stop.
 - Default location Zurich; the user can pan anywhere or pick from 6 curated cities (Kyiv included). No place search in P0.
 - No forced final step: a persistent Export button.
+- Buildings are always flat fills, so they show the exact `building` token. No 3D in P0.
 - Token layering: brand input, base tokens, per-mode transform, per-mode overrides, auto-fix adjustments.
 - Stack: Vite, TypeScript, React, maplibre-gl, culori, Vitest, plain CSS custom properties, Radix UI primitives (unstyled).
 - UI tokens: Figma Variables will be the source of truth for the tool's own UI, exported as DTCG JSON into the repo and built into CSS variables. Until then, placeholder tokens.
 
 ## Working rules
 - **Lean and fast.** The target is a working, presentable P0 in 1-2 days. No scope creep; anything not in the P0 requirements is out. Decide small things yourself and note them in your report.
-- **Two token families, kept apart.** *Map tokens* (the 12 semantic colours, generated from brand colours) and *UI tokens* (the tool's own interface). Components never hard-code a colour, size or font; a lint check enforces it.
+- **Two token families, kept apart.** *Map tokens* (the 11 semantic colours, generated from brand colours) and *UI tokens* (the tool's own interface). Components never hard-code a colour, size or font; a lint check enforces it.
 - **Single source of truth.** The map, modes, checks and exports all read from the map token set. No other place may hold a colour the map renders.
 - **No personal or unrestricted keys in the repo or bundle.** The deployed app ships with no MapTiler key and defaults to OpenFreeMap; MapTiler works only when the user pastes their own key, which stays in localStorage and never goes in the URL. The personal `MAPTILER_KEY` lives in `.env.local` for local scripts only and is never written into fixtures, screenshots, exports or `dist/`; `npm run build` fails if it appears there. There is no demo key.
 - **Attribution** (provider and OpenStreetMap) is always visible and included in exports.
