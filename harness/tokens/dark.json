@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "0.1.0",
+  "metadata": { "name": "Dark-looking" },
+  "tokens": {
+    "background": "#14171f",
+    "land": "#1c2029",
+    "water": "#0b2a3f",
+    "park": "#1d3128",
+    "roadMajor": "#566074",
+    "roadMinor": "#343b49",
+    "building": "#2a2f3b",
+    "boundary": "#8290a8",
+    "labelPrimary": "#eef1f6",
+    "labelSecondary": "#aab3c2",
+    "halo": "#0e1016",
+    "accent": "#ffb454"
+  }
+}

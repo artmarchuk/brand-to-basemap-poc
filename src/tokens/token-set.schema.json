@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brand-to-basemap/token-set-0.1.0.schema.json",
+  "title": "Brand-to-Basemap token set",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "metadata",
+    "tokens"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "0.1.0"
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseStyle": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        }
+      }
+    },
+    "tokens": {
+      "$ref": "#/$defs/fullTokens"
+    },
+    "modes": {
+      "$ref": "#/$defs/perMode"
+    },
+    "overrides": {
+      "$ref": "#/$defs/perMode"
+    }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "fullTokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "background",
+        "land",
+        "water",
+        "park",
+        "roadMajor",
+        "roadMinor",
+        "building",
+        "boundary",
+        "labelPrimary",
+        "labelSecondary",
+        "halo",
+        "accent"
+      ],
+      "properties": {
+        "background": {
+          "$ref": "#/$defs/hex"
+        },
+        "land": {
+          "$ref": "#/$defs/hex"
+        },
+        "water": {
+          "$ref": "#/$defs/hex"
+        },
+        "park": {
+          "$ref": "#/$defs/hex"
+        },
+        "roadMajor": {
+          "$ref": "#/$defs/hex"
+        },
+        "roadMinor": {
+          "$ref": "#/$defs/hex"
+        },
+        "building": {
+          "$ref": "#/$defs/hex"
+        },
+        "boundary": {
+          "$ref": "#/$defs/hex"
+        },
+        "labelPrimary": {
+          "$ref": "#/$defs/hex"
+        },
+        "labelSecondary": {
+          "$ref": "#/$defs/hex"
+        },
+        "halo": {
+          "$ref": "#/$defs/hex"
+        },
+        "accent": {
+          "$ref": "#/$defs/hex"
+        }
+      }
+    },
+    "partialTokens": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/tokenName"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/hex"
+      }
+    },
+    "tokenName": {
+      "enum": [
+        "background",
+        "land",
+        "water",
+        "park",
+        "roadMajor",
+        "roadMinor",
+        "building",
+        "boundary",
+        "labelPrimary",
+        "labelSecondary",
+        "halo",
+        "accent"
+      ]
+    },
+    "perMode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "light": {
+          "$ref": "#/$defs/partialTokens"
+        },
+        "dark": {
+          "$ref": "#/$defs/partialTokens"
+        },
+        "data": {
+          "$ref": "#/$defs/partialTokens"
+        }
+      }
+    }
+  }
+}
