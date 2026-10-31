@@ -17,7 +17,8 @@
     "reports": "tsx scripts/generate-reports.ts",
     "harness:build": "tsx scripts/build-harness.ts",
     "screens": "node scripts/capture-screens.mjs && node scripts/check-building-colour.mjs",
-    "fetch-styles": "node scripts/fetch-styles.mjs"
+    "fetch-styles": "node scripts/fetch-styles.mjs",
+    "check-drift": "tsx scripts/check-drift.ts"
   },
   "dependencies": {
     "@radix-ui/react-slider": "^1.6.1",
