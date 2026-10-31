@@ -9,6 +9,6 @@ npm test        # unit tests and lint guards
 npm run build   # tokens, lint, typecheck, bundle
 ```
 
-Scope and plan: [docs/p0-requirements.md](docs/p0-requirements.md). Stack and UI token pipeline: [docs/stack.md](docs/stack.md).
+Scope and plan: [docs/p0-requirements.md](docs/p0-requirements.md). Stack and UI token pipeline: [docs/stack.md](docs/stack.md). Map token model: [docs/token-model.md](docs/token-model.md).
 
-The MapTiler key comes from the `MAPTILER_KEY` environment variable or `.env.local`. It is never committed.
+The deployed app ships with no MapTiler key. MapTiler works when a user pastes their own key. For local scripts, `MAPTILER_KEY` lives in `.env.local`, which is never committed.
