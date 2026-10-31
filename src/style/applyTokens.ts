@@ -3,6 +3,7 @@ import type { LabelDensity, MappingRule, StyleMapping, ToggleGroup } from '../ma
 import type { ResolvedTokens } from '../tokens/types';
 import { colorProperties, findRule } from './match';
 import { rewriteColors } from './rewrite';
+import { expandLayers } from './split';
 
 /** F2 default: land, water, parks, major roads (all `core`) and place labels. */
 export const DEFAULT_GROUPS: ToggleGroup[] = ['core', 'labels'];
@@ -43,7 +44,8 @@ function restyleLayer(
 
   const output = {
     ...layer,
-    paint,
+    ...(rule.flatten && { type: 'fill' }),
+    paint: rule.flatten ? flatPaint(paint, rule, tokens) : paint,
     layout: { ...layer.layout, visibility: visible ? 'visible' : 'none' },
     metadata: {
       ...(layer.metadata as object | undefined),
@@ -59,13 +61,21 @@ function restyleLayer(
   return output;
 }
 
+/** An opaque fill in exactly the token's colour, with no 3D lighting to shift it. */
+function flatPaint(paint: Record<string, unknown>, rule: MappingRule, tokens: ResolvedTokens) {
+  return {
+    'fill-color': paint['fill-extrusion-color'] ?? paint['fill-color'],
+    'fill-outline-color': paint['fill-outline-color'] ?? rewriteColors('#000', rule.colors!['fill-outline-color'], tokens),
+  };
+}
+
 /** Pure: the base style is not mutated and the same inputs give the same style. */
 export function applyTokens(
   baseStyle: StyleSpecification,
   tokens: ResolvedTokens,
   { mapping, groups = DEFAULT_GROUPS, labelDensity = DEFAULT_LABEL_DENSITY }: ApplyOptions,
 ): StyleSpecification {
-  const layers = baseStyle.layers.flatMap((layer) => {
+  const layers = expandLayers(baseStyle.layers, mapping).flatMap((layer) => {
     const rule = findRule(mapping, layer);
     if (rule.hidden) return [];
     return [restyleLayer(layer, rule, tokens, isVisible(rule, groups, labelDensity))];

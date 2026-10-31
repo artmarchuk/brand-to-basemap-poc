@@ -10,6 +10,8 @@ export type ToggleGroup =
   | 'boundaries'
   | 'labels';
 
+export const ALL_GROUPS: ToggleGroup[] = ['core', 'pois', 'transit', 'buildings', 'landuse', 'minorRoads', 'boundaries', 'labels'];
+
 export type LabelDensity = 'low' | 'medium' | 'high';
 
 /** A colour taken from one token, optionally moved towards another token. */
@@ -40,6 +42,8 @@ export interface MappingRule {
   /** Only for the `labels` group: the lowest density that shows this layer. */
   density?: LabelDensity;
   colors?: Record<string, ColorSpec>;
+  /** Draws the layer as an opaque flat fill, so it shows the token exactly. Fill-extrusions become fills. */
+  flatten?: boolean;
   /** Replaces a sprite fill pattern with the colours in `colors`. */
   replacePattern?: boolean;
   /** Prepended to an `all` filter, for features the base style's filter does not guard. */
@@ -50,6 +54,14 @@ export interface MappingRule {
   why?: string;
 }
 
+/** Divides a base layer whose features belong to different tokens or groups. */
+export interface LayerSplit {
+  layerId: string;
+  /** ID of the new layer, which takes these classes and sits directly above the original. */
+  newId: string;
+  classes: string[];
+}
+
 export interface StyleMapping {
   id: string;
   name: string;
@@ -57,7 +69,11 @@ export interface StyleMapping {
     id: string;
     /** Requests to this host need the user's key. Absent when the provider needs none. */
     keyHost?: string;
+    /** Fetched at runtime with the user's key. Absent when the style is pinned in the repo. */
+    styleUrl?: string;
   };
+  /** Run before the rules, which then see the new layers like any others. */
+  splits?: LayerSplit[];
   /** First matching rule wins. Every layer in the base style must match one. */
   rules: MappingRule[];
 }

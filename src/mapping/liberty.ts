@@ -1,4 +1,4 @@
-import { casing, rail, text, tint, tunnel, waterLabel } from './shared';
+import { BUILDING_WHY, buildingColors, casing, rail, text, tint, tunnel, waterLabel } from './shared';
 import type { MappingRule, StyleMapping } from './types';
 
 const transport = { sourceLayer: 'transportation', type: 'line' };
@@ -17,7 +17,7 @@ export const libertyMapping: StyleMapping = {
   name: 'OpenFreeMap Liberty',
   provider: { id: 'openfreemap' },
   rules: [
-    { match: { type: 'background' }, group: 'core', colors: { 'background-color': 'background' } },
+    { match: { type: 'background' }, group: 'core', colors: { 'background-color': 'land' } },
     {
       match: { type: 'raster' },
       hidden: true,
@@ -39,7 +39,7 @@ export const libertyMapping: StyleMapping = {
     { match: { sourceLayer: 'landcover', classes: ['sand'] }, group: 'core', colors: { 'fill-color': tint('land', 'labelSecondary', 0.08) }, why: 'No sand token; a faint land tint.' },
 
     // Land use
-    { match: { sourceLayer: 'landuse', classes: ['residential'] }, group: 'landuse', colors: { 'fill-color': 'land' } },
+    { match: { sourceLayer: 'landuse', classes: ['residential'] }, group: 'landuse', colors: { 'fill-color': tint('land', 'labelSecondary', 0.05) }, why: 'Built-up land is the canvas with a faint tint.' },
     { match: { sourceLayer: 'landuse', classes: ['pitch', 'track', 'cemetery'] }, group: 'landuse', colors: { 'fill-color': 'park', 'fill-outline-color': 'park' } },
     { match: { sourceLayer: 'landuse', classes: ['hospital', 'school'] }, group: 'landuse', colors: { 'fill-color': tint('land', 'labelSecondary', 0.08) }, why: 'Institutional land has no token; a faint land tint.' },
 
@@ -54,7 +54,7 @@ export const libertyMapping: StyleMapping = {
     // Rail: matched before roads because tunnel_ and bridge_ prefixes overlap
     { match: { ...transport, idPattern: /_rail(_hatching)?$/ }, group: 'transit', colors: { 'line-color': rail }, why: 'No rail token; a neutral between land and secondary label.' },
 
-    // Roads. Secondary and tertiary share layers in Liberty, so tertiary reads as major here.
+    // Roads. Tertiary reads as major: it shares one layer, width ramp included, with secondary.
     ...roadRules(/(motorway|trunk_primary|secondary_tertiary|link)/, 'roadMajor', 'core'),
     ...roadRules(/(service_track|street|minor|path_pedestrian)/, 'roadMinor', 'minorRoads'),
     {
@@ -67,8 +67,7 @@ export const libertyMapping: StyleMapping = {
     { match: { sourceLayer: 'transportation', type: 'symbol' }, group: 'minorRoads', bakedSprite: true },
 
     // Buildings and boundaries
-    { match: { sourceLayer: 'building', type: 'fill' }, group: 'buildings', colors: { 'fill-color': 'building', 'fill-outline-color': tint('building', 'labelPrimary', 0.15) }, why: 'Outline is a slightly stronger building.' },
-    { match: { sourceLayer: 'building', type: 'fill-extrusion' }, group: 'buildings', colors: { 'fill-extrusion-color': 'building' } },
+    { match: { sourceLayer: 'building' }, group: 'buildings', flatten: true, colors: buildingColors, why: BUILDING_WHY },
     { match: { sourceLayer: 'boundary' }, group: 'boundaries', colors: { 'line-color': 'boundary' } },
 
     // Water names

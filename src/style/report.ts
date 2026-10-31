@@ -2,6 +2,7 @@ import type { LayerSpecification, StyleSpecification } from 'maplibre-gl';
 import type { ColorRef, ColorSpec, MappingRule, StyleMapping } from '../mapping/types';
 import { collectColors } from './expressions';
 import { colorProperties, findRule } from './match';
+import { expandLayers } from './split';
 
 export type LayerStatus = 'mapped' | 'derived' | 'hidden';
 
@@ -13,11 +14,15 @@ export interface ReportRow {
   group: string;
   originalColors: string[];
   assignment: string;
+  /** Every token this layer reads. */
+  tokens: string[];
   why: string;
   bakedSprite: boolean;
 }
 
 const refs = (spec: ColorSpec): ColorRef[] => (typeof spec === 'object' && 'stops' in spec ? spec.stops : [spec]);
+
+const refTokens = (ref: ColorRef) => (typeof ref === 'string' ? [ref] : [ref.token, ref.mix.with]);
 
 const describeRef = (ref: ColorRef) =>
   typeof ref === 'string' ? ref : `${ref.token} → ${ref.mix.with} ${Math.round(ref.mix.amount * 100)}%`;
@@ -25,6 +30,7 @@ const describeRef = (ref: ColorRef) =>
 function activeSpecs(layer: LayerSpecification, rule: MappingRule): [string, ColorSpec][] {
   const properties = colorProperties(layer);
   if (rule.replacePattern) properties.push('fill-color');
+  if (rule.flatten) properties.push('fill-outline-color');
   return [...new Set(properties)].flatMap((property) => {
     const spec = rule.colors?.[property];
     return spec ? [[property, spec]] : [];
@@ -37,7 +43,7 @@ function statusOf(rule: MappingRule, specs: [string, ColorSpec][]): LayerStatus 
 }
 
 export function buildReport(style: StyleSpecification, mapping: StyleMapping): ReportRow[] {
-  return style.layers.map((layer) => {
+  return expandLayers(style.layers, mapping).map((layer) => {
     const rule = findRule(mapping, layer);
     const specs = activeSpecs(layer, rule);
     const paint = (layer.paint ?? {}) as Record<string, unknown>;
@@ -49,6 +55,7 @@ export function buildReport(style: StyleSpecification, mapping: StyleMapping): R
       group: rule.group ?? '-',
       originalColors: colorProperties(layer).flatMap((property) => collectColors(paint[property])),
       assignment: specs.map(([property, spec]) => `${property}: ${refs(spec).map(describeRef).join(' / ')}`).join('; '),
+      tokens: [...new Set(specs.flatMap(([, spec]) => refs(spec).flatMap(refTokens)))],
       why: rule.why ?? '',
       bakedSprite: rule.bakedSprite ?? false,
     };
@@ -67,6 +74,7 @@ const cell = (text: string) => text.replaceAll('|', '\\|');
 export function reportMarkdown(rows: ReportRow[], mapping: StyleMapping): string {
   const count = (status: LayerStatus) => rows.filter((row) => row.status === status).length;
   const unmapped = rows.filter((row) => row.status !== 'mapped').sort(byImportance);
+  const splits = (mapping.splits ?? []).map((split) => `\`${split.layerId}\` → \`${split.newId}\``);
   const baked = rows.filter((row) => row.bakedSprite).map((row) => `\`${row.id}\``);
 
   return [
@@ -76,6 +84,7 @@ export function reportMarkdown(rows: ReportRow[], mapping: StyleMapping): string
     '',
     `${rows.length} layers: ${count('mapped')} mapped, ${count('derived')} derived, ${count('hidden')} hidden by design.`,
     '',
+    ...(splits.length > 0 ? [`Includes ${splits.length} layers split out by road class: ${splits.join(', ')}.`, ''] : []),
     'Sorted by visual importance: default-on layers first, then fills, lines and symbols.',
     '',
     '| Layer | Type | Source layer | Status | Original colours | Assigned | Why |',
