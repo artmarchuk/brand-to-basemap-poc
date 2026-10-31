@@ -1,0 +1,60 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--ui-color-surface-base);
+  color: var(--ui-color-text-primary);
+  font-family: var(--ui-font-family-sans);
+  font-size: var(--ui-font-size-md);
+  line-height: var(--ui-font-line-height-normal);
+}
+
+:focus-visible {
+  outline: var(--ui-border-width-focus) solid var(--ui-color-focus-ring);
+  outline-offset: var(--ui-border-width-focus);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--ui-space-1) var(--ui-space-3);
+  padding: var(--ui-space-3) var(--ui-space-4);
+  border-bottom: var(--ui-border-width-default) solid var(--ui-color-border-subtle);
+}
+
+.app-title {
+  margin: 0;
+  font-size: var(--ui-font-size-lg);
+  font-weight: var(--ui-font-weight-semibold);
+  line-height: var(--ui-font-line-height-tight);
+}
+
+.app-subtitle {
+  margin: 0;
+  color: var(--ui-color-text-secondary);
+  font-size: var(--ui-font-size-sm);
+}
+
+.app-map,
+.map-preview {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
