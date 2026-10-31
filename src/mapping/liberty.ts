@@ -16,6 +16,15 @@ export const libertyMapping: StyleMapping = {
   id: 'liberty',
   name: 'OpenFreeMap Liberty',
   provider: { id: 'openfreemap' },
+  // Secondary is roadMajor and tertiary is roadMinor, but Liberty draws them in one layer.
+  splits: [
+    { layerId: 'tunnel_secondary_tertiary_casing', newId: 'tunnel_tertiary_casing', classes: ['tertiary'] },
+    { layerId: 'tunnel_secondary_tertiary', newId: 'tunnel_tertiary', classes: ['tertiary'] },
+    { layerId: 'road_secondary_tertiary_casing', newId: 'road_tertiary_casing', classes: ['tertiary'] },
+    { layerId: 'road_secondary_tertiary', newId: 'road_tertiary', classes: ['tertiary'] },
+    { layerId: 'bridge_secondary_tertiary_casing', newId: 'bridge_tertiary_casing', classes: ['tertiary'] },
+    { layerId: 'bridge_secondary_tertiary', newId: 'bridge_tertiary', classes: ['tertiary'] },
+  ],
   rules: [
     { match: { type: 'background' }, group: 'core', colors: { 'background-color': 'land' } },
     {
@@ -54,9 +63,9 @@ export const libertyMapping: StyleMapping = {
     // Rail: matched before roads because tunnel_ and bridge_ prefixes overlap
     { match: { ...transport, idPattern: /_rail(_hatching)?$/ }, group: 'transit', colors: { 'line-color': rail }, why: 'No rail token; a neutral between land and secondary label.' },
 
-    // Roads. Tertiary reads as major: it shares one layer, width ramp included, with secondary.
+    // Roads
     ...roadRules(/(motorway|trunk_primary|secondary_tertiary|link)/, 'roadMajor', 'core'),
-    ...roadRules(/(service_track|street|minor|path_pedestrian)/, 'roadMinor', 'minorRoads'),
+    ...roadRules(/(tertiary|service_track|street|minor|path_pedestrian)/, 'roadMinor', 'minorRoads'),
     {
       match: { sourceLayer: 'transportation', type: 'fill' },
       group: 'minorRoads',
