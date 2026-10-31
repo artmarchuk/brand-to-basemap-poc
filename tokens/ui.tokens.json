@@ -1,0 +1,101 @@
+{
+  "$description": "Placeholder UI tokens for the tool's own interface (DTCG format). Figma Variables replace this file in Phase 2. Map tokens are a separate family and do not live here.",
+  "color": {
+    "$type": "color",
+    "neutral": {
+      "0": { "$value": "#ffffff" },
+      "50": { "$value": "#f7f7f8" },
+      "100": { "$value": "#eeeef0" },
+      "200": { "$value": "#dedfe3" },
+      "300": { "$value": "#c5c7cd" },
+      "400": { "$value": "#9a9da6" },
+      "500": { "$value": "#6f727c" },
+      "600": { "$value": "#55585f" },
+      "700": { "$value": "#3f4147" },
+      "800": { "$value": "#2a2b30" },
+      "900": { "$value": "#18191c" }
+    },
+    "blue": {
+      "500": { "$value": "#2f5fd0" },
+      "600": { "$value": "#254ca8" }
+    },
+    "surface": {
+      "base": { "$value": "{color.neutral.0}" },
+      "raised": { "$value": "{color.neutral.50}" },
+      "sunken": { "$value": "{color.neutral.100}" }
+    },
+    "text": {
+      "primary": { "$value": "{color.neutral.900}" },
+      "secondary": { "$value": "{color.neutral.600}" },
+      "on-accent": { "$value": "{color.neutral.0}" }
+    },
+    "border": {
+      "subtle": { "$value": "{color.neutral.200}" },
+      "strong": { "$value": "{color.neutral.500}" }
+    },
+    "focus": {
+      "ring": { "$value": "{color.blue.500}" }
+    },
+    "accent": {
+      "default": { "$value": "{color.blue.500}" },
+      "hover": { "$value": "{color.blue.600}" }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "1": { "$value": "4px" },
+    "2": { "$value": "8px" },
+    "3": { "$value": "12px" },
+    "4": { "$value": "16px" },
+    "6": { "$value": "24px" },
+    "8": { "$value": "32px" },
+    "12": { "$value": "48px" }
+  },
+  "radius": {
+    "$type": "dimension",
+    "sm": { "$value": "4px" },
+    "md": { "$value": "8px" },
+    "lg": { "$value": "12px" },
+    "full": { "$value": "999px" }
+  },
+  "border-width": {
+    "$type": "dimension",
+    "default": { "$value": "1px" },
+    "focus": { "$value": "2px" }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": { "$value": ["system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"] },
+      "mono": { "$value": ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"] }
+    },
+    "size": {
+      "$type": "dimension",
+      "xs": { "$value": "12px" },
+      "sm": { "$value": "14px" },
+      "md": { "$value": "16px" },
+      "lg": { "$value": "20px" },
+      "xl": { "$value": "28px" }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 }
+    },
+    "line-height": {
+      "$type": "number",
+      "tight": { "$value": 1.2 },
+      "normal": { "$value": 1.5 }
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "sm": {
+      "$value": { "color": "#18191c1f", "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px" }
+    },
+    "md": {
+      "$value": { "color": "#18191c29", "offsetX": "0px", "offsetY": "4px", "blur": "12px", "spread": "0px" }
+    }
+  }
+}
