@@ -34,3 +34,16 @@ export function rgbKey(css: string): string | undefined {
   const parsed = parse(css);
   return parsed ? formatHex(parsed) : undefined;
 }
+
+export function lightnessOf(css: string): number {
+  const color = parseColor(css);
+  if (!color) throw new Error(`Invalid colour: ${css}`);
+  return color.l;
+}
+
+/** Same hue, same or lower chroma if the new lightness needs it, as opaque hex. */
+export function withLightness(css: string, lightness: number): string {
+  const color = parseColor(css);
+  if (!color) throw new Error(`Invalid colour: ${css}`);
+  return formatColor({ ...color, l: lightness, alpha: 1 });
+}
