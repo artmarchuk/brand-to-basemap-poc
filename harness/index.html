@@ -76,25 +76,38 @@
         return restyleFromProvider(state.style, tokenSet.tokens, key);
       }
 
+      // Without a usable key the page says so and offers the keyless style. No request goes to MapTiler.
+      const explain = (message) => {
+        notice.replaceChildren(message + ' ');
+        const link = Object.assign(document.createElement('a'), { textContent: 'Show OpenFreeMap Liberty instead', href: '#' });
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          location.hash = new URLSearchParams({ ...state, style: 'liberty' }).toString();
+          location.reload();
+        });
+        notice.append(link);
+      };
+
       if (state.style === 'streets-v2' && !key) {
-        notice.textContent = 'MapTiler needs your own key. Paste it above; it stays in this browser.';
+        explain('MapTiler needs your own key. Paste it above; it stays in this browser.');
       } else {
         setWorkerUrl(new URL('./vendor/maplibre-gl-worker.mjs', import.meta.url).href);
         const style = await loadStyle().catch((error) => {
-          notice.textContent = `Could not load this style: ${error.message}`;
-          throw error;
+          explain(`Could not load MapTiler Streets (${error.message}). Check the key.`);
         });
-        const map = new Map({
-          container: 'map',
-          style,
-          center: AMSTERDAM,
-          zoom: Number(state.zoom),
-          transformRequest: (url) =>
-            url.startsWith('https://api.maptiler.com/')
-              ? { url: `${url}${url.includes('?') ? '&' : '?'}key=${encodeURIComponent(key)}` }
-              : { url },
-        });
-        map.once('idle', () => { window.mapIdle = true; });
+        if (style) {
+          const map = new Map({
+            container: 'map',
+            style,
+            center: AMSTERDAM,
+            zoom: Number(state.zoom),
+            transformRequest: (url) =>
+              url.startsWith('https://api.maptiler.com/')
+                ? { url: `${url}${url.includes('?') ? '&' : '?'}key=${encodeURIComponent(key)}` }
+                : { url },
+          });
+          map.once('idle', () => { window.mapIdle = true; });
+        }
       }
     </script>
   </body>
