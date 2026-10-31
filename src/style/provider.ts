@@ -24,3 +24,18 @@ export function bindProviderKey(style: StyleSpecification, mapping: StyleMapping
     ...(typeof style.sprite === 'string' && { sprite: withKey(style.sprite) }),
   };
 }
+
+/** Fetches a style that cannot be pinned. The key is stripped; bind it again to render. */
+export async function loadBaseStyle(
+  mapping: StyleMapping,
+  key: string,
+  fetcher: typeof fetch = fetch,
+): Promise<StyleSpecification> {
+  const { styleUrl } = mapping.provider;
+  if (!styleUrl) throw new Error(`${mapping.id} is pinned in the repo`);
+  const encoded = encodeURIComponent(key);
+  const response = await fetcher(`${styleUrl}?key=${encoded}`);
+  if (!response.ok) throw new Error(`${mapping.name} returned HTTP ${response.status}`);
+  const text = await response.text();
+  return JSON.parse(text.replaceAll(`?key=${encoded}`, '').replaceAll(`&key=${encoded}`, ''));
+}

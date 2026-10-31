@@ -64,14 +64,29 @@
       });
       document.body.classList.toggle('shot', state.shot === '1');
 
+      const notice = document.getElementById('notice');
       const key = readKey();
+
+      // Liberty is a static file. MapTiler's licence keeps Streets out of the repo and the
+      // deploy, so it is fetched and restyled here, then handed to the same plain map.
+      async function loadStyle() {
+        if (state.style !== 'streets-v2') return `./styles/${state.style}--${state.set}.json`;
+        const { restyleFromProvider } = await import('./vendor/b2b-runtime.mjs');
+        const tokenSet = await (await fetch(`./tokens/${state.set}.json`)).json();
+        return restyleFromProvider(state.style, tokenSet.tokens, key);
+      }
+
       if (state.style === 'streets-v2' && !key) {
-        document.getElementById('notice').textContent = 'MapTiler needs your own key. Paste it above; it stays in this browser.';
+        notice.textContent = 'MapTiler needs your own key. Paste it above; it stays in this browser.';
       } else {
         setWorkerUrl(new URL('./vendor/maplibre-gl-worker.mjs', import.meta.url).href);
+        const style = await loadStyle().catch((error) => {
+          notice.textContent = `Could not load this style: ${error.message}`;
+          throw error;
+        });
         const map = new Map({
           container: 'map',
-          style: `./styles/${state.style}--${state.set}.json`,
+          style,
           center: AMSTERDAM,
           zoom: Number(state.zoom),
           transformRequest: (url) =>

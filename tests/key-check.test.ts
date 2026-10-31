@@ -24,6 +24,11 @@ describe('bundle key check', () => {
     expect(result.stderr + result.stdout).not.toContain(key);
   });
 
+  it('fails if MapTiler\'s style reached the bundle', () => {
+    const style = '{"copyright":"You are licensed to use the style or its derivate for serving map tiles"}';
+    expect(runCheck('style.json', style, { MAPTILER_KEY: key }).status).toBe(1);
+  });
+
   it('fails on a key-shaped URL parameter even without a local key', () => {
     const url = 'https://api.maptiler.com/maps/streets/style.json?key=abcdefghij0123456789';
     expect(runCheck('index.js', url, { MAPTILER_KEY: 'different' }).status).toBe(1);
