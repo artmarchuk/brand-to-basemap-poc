@@ -24,7 +24,7 @@ const noHardCodedDesignValues = [
 ];
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules'] },
+  { ignores: ['dist', 'node_modules', 'public'] },
   js.configs.recommended,
   tseslint.configs.recommended,
   {
@@ -34,7 +34,7 @@ export default tseslint.config(
     rules: reactHooks.configs.recommended.rules,
   },
   {
-    files: ['*.{js,mjs,ts}', 'tests/**/*.ts'],
+    files: ['*.{js,mjs,ts}', 'tests/**/*.ts', 'scripts/**/*.{mjs,ts}'],
     languageOptions: { globals: { ...globals.node } },
   },
   {
