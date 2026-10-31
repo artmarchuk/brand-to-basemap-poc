@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "0.2.0",
+  "metadata": {
+    "name": "Neutral"
+  },
+  "tokens": {
+    "land": "#f2f1ee",
+    "water": "#b8c6d0",
+    "park": "#d3dccb",
+    "roadMajor": "#ffffff",
+    "roadMinor": "#fafaf8",
+    "building": "#dcd9d2",
+    "boundary": "#8a8a90",
+    "labelPrimary": "#26272b",
+    "labelSecondary": "#5b5d65",
+    "halo": "#ffffff",
+    "accent": "#3b5bdb"
+  }
+}

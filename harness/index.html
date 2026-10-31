@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand-to-Basemap harness</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./vendor/maplibre-gl.css" />
+    <style>
+      html, body, #map { height: 100%; margin: 0; }
+      body { font: 14px/1.4 system-ui, sans-serif; }
+      #controls {
+        position: absolute; z-index: 1; top: 8px; left: 8px; display: flex; flex-wrap: wrap; gap: 8px;
+        align-items: center; max-width: calc(100% - 32px); padding: 8px; background: #fff; color: #18191c;
+        border-radius: 8px; box-shadow: 0 1px 4px #0004;
+      }
+      #notice { position: absolute; z-index: 1; top: 72px; left: 8px; padding: 8px; background: #fff; color: #18191c; border-radius: 8px; }
+      #notice:empty { display: none; }
+      .shot #controls { display: none; }
+    </style>
+  </head>
+  <body>
+    <div id="controls">
+      <label>Style <select id="style"></select></label>
+      <label>Tokens <select id="set"></select></label>
+      <label>Zoom <select id="zoom"><option>4</option><option>8</option><option>12</option><option>16</option></select></label>
+      <label>MapTiler key <input id="key" type="password" autocomplete="off" size="16" /></label>
+    </div>
+    <div id="notice" role="status"></div>
+    <div id="map"></div>
+    <script type="module">
+      // Plain MapLibre on a static style file. No prototype code runs on this page.
+      import { Map, setWorkerUrl } from './vendor/maplibre-gl.mjs';
+
+      const KEY_STORAGE = 'b2b:maptilerKey';
+      const AMSTERDAM = [4.9, 52.37];
+      const STYLES = { liberty: 'OpenFreeMap Liberty', 'streets-v2': 'MapTiler Streets v2' };
+      const SETS = { neutral: 'Neutral', brand: 'Saturated brand', dark: 'Dark-looking' };
+
+      const fill = (select, options) => {
+        for (const [value, label] of Object.entries(options)) select.add(new Option(label, value));
+      };
+      const readKey = () => {
+        try { return localStorage.getItem(KEY_STORAGE) ?? ''; } catch { return ''; }
+      };
+
+      // The hash holds view state only. The key never goes in the URL.
+      const state = { style: 'liberty', set: 'neutral', zoom: '12', ...Object.fromEntries(new URLSearchParams(location.hash.slice(1))) };
+      const controls = { style: document.getElementById('style'), set: document.getElementById('set'), zoom: document.getElementById('zoom') };
+      const keyInput = document.getElementById('key');
+      fill(controls.style, STYLES);
+      fill(controls.set, SETS);
+      for (const [name, control] of Object.entries(controls)) {
+        control.value = state[name];
+        control.addEventListener('change', () => {
+          location.hash = new URLSearchParams({ ...state, [name]: control.value }).toString();
+          location.reload();
+        });
+      }
+      keyInput.value = readKey();
+      keyInput.addEventListener('change', () => {
+        try { localStorage.setItem(KEY_STORAGE, keyInput.value.trim()); } catch {}
+        location.reload();
+      });
+      document.body.classList.toggle('shot', state.shot === '1');
+
+      const notice = document.getElementById('notice');
+      const key = readKey();
+
+      // Liberty is a static file. MapTiler's licence keeps Streets out of the repo and the
+      // deploy, so it is fetched and restyled here, then handed to the same plain map.
+      async function loadStyle() {
+        if (state.style !== 'streets-v2') return `./styles/${state.style}--${state.set}.json`;
+        const { restyleFromProvider } = await import('./vendor/b2b-runtime.mjs');
+        const tokenSet = await (await fetch(`./tokens/${state.set}.json`)).json();
+        return restyleFromProvider(state.style, tokenSet.tokens, key);
+      }
+
+      // Without a usable key the page says so and offers the keyless style. No request goes to MapTiler.
+      const explain = (message) => {
+        notice.replaceChildren(message + ' ');
+        const link = Object.assign(document.createElement('a'), { textContent: 'Show OpenFreeMap Liberty instead', href: '#' });
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          location.hash = new URLSearchParams({ ...state, style: 'liberty' }).toString();
+          location.reload();
+        });
+        notice.append(link);
+      };
+
+      if (state.style === 'streets-v2' && !key) {
+        explain('MapTiler needs your own key. Paste it above; it stays in this browser.');
+      } else {
+        setWorkerUrl(new URL('./vendor/maplibre-gl-worker.mjs', import.meta.url).href);
+        const style = await loadStyle().catch((error) => {
+          explain(`Could not load MapTiler Streets (${error.message}). Check the key.`);
+        });
+        if (style) {
+          const map = new Map({
+            container: 'map',
+            style,
+            center: AMSTERDAM,
+            zoom: Number(state.zoom),
+            transformRequest: (url) =>
+              url.startsWith('https://api.maptiler.com/')
+                ? { url: `${url}${url.includes('?') ? '&' : '?'}key=${encodeURIComponent(key)}` }
+                : { url },
+          });
+          map.once('idle', () => { window.mapIdle = true; });
+        }
+      }
+    </script>
+  </body>
+</html>

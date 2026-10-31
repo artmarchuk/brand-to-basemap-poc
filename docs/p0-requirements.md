@@ -48,7 +48,7 @@ Six P0 features, each with the outcome it must deliver and its minimum requireme
 
 Everything else depends on this, so it is specified first.
 
-- A fixed set of about 12 semantic tokens: background, land, water, park, road major, road minor, building, boundary, label primary, label secondary, halo, accent.
+- A fixed set of 11 semantic tokens: land, water, park, road major, road minor, building, boundary, label primary, label secondary, halo, accent.
 - Each token maps to a set of style layers by layer ID and source-layer, for every supported base style. Layers that fit no token are listed and get a sensible derived value, never their original colour.
 - Tokens carry zoom behaviour (for example, road width and label size ramps) so one colour change stays correct at every zoom.
 - The token set is the single source of truth: the map, the modes, the checks and the exports all read from it.
@@ -58,7 +58,7 @@ Everything else depends on this, so it is specified first.
 **Outcome:** brand colours become a complete, coherent token set in one step.
 
 - Input 2–5 colours via a colour picker or pasted hex values. One is marked primary.
-- The system derives all 12 tokens from the input, with harmonised neutrals for land, background and labels, derived by OKLCH rules (lightness and chroma targets per token, hue taken from the brand) and tested on a set of 10 palettes.
+- The system derives all 11 tokens from the input, with harmonised neutrals for land and labels, derived by OKLCH rules (lightness and chroma targets per token, hue taken from the brand) and tested on a set of 10 palettes.
 - The map updates live, within about 300 ms of a change.
 - Any single token can be overridden by hand; an override survives later changes to the brand colours until reset.
 - Reset to derived values, per token and for all.
@@ -77,7 +77,7 @@ Everything else depends on this, so it is specified first.
 **Outcome:** one brand produces three consistent variants without separate styling work.
 
 - Light is the default. Dark is derived automatically from the same tokens, not a separate style.
-- Data mode: one "recede for data" slider (0–100) scales fill and line chroma down to about 20%, pulls land, road and background lightness toward each other, hides POIs above 30 and thins minor labels above 60. Labels are thinned, never faded, so they keep passing the contrast check. In P0 data mode applies to the light palette only; dark with data recede is P1.
+- Data mode: one "recede for data" slider (0–100) scales fill and line chroma down to about 20%, pulls land and road lightness toward each other, hides POIs above 30 and thins minor labels above 60. Labels are thinned, never faded, so they keep passing the contrast check. In P0 data mode applies to the light palette only; dark with data recede is P1.
 - In data mode, a sample overlay (fictional points and a hex-grid choropleth) can be shown, and labels render above it. The overlay is generated on the fly with seeded values for whatever location and zoom is on screen, so it works anywhere. It is demo-only and is not part of any export.
 - All three modes are exportable.
 
@@ -106,7 +106,7 @@ Everything else depends on this, so it is specified first.
 
 **Outcome:** the user leaves with something they can ship, on the provider they choose.
 
-- Provider switch: OpenFreeMap (default, no key) or MapTiler (user pastes their own key).
+- Provider switch: OpenFreeMap (default, no key) or MapTiler (user pastes their own key, stored in localStorage, never in the URL). The deployed app ships with no key and there is no demo key.
 - Switching provider keeps the token set and re-applies it to that provider's base style.
 - Exports: MapLibre style JSON per mode; the token set as JSON and as CSS variables; a copy-paste HTML/JS embed snippet.
 - Required attribution is included automatically for the chosen provider.
@@ -163,7 +163,7 @@ Everything else depends on this, so it is specified first.
 | Q1 | Base style per provider | OpenFreeMap **Liberty** + MapTiler **Streets v2**. We repaint every layer from tokens, so what matters is layer richness (POIs, transit, buildings for the F2 toggles). Revisit only if M1 finds a blocking mapping problem. |
 | Q2 | How the derived palette is generated | **OKLCH** rules (lightness and chroma targets per token, hue from the brand), tested on a 10-palette set. |
 | Q3 | Save and share | **URL-encoded state** (brand colours, overrides, toggles, mode, location) in the hash, plus local autosave. The MapTiler key is never put in the URL. The token JSON export already serves as a project file. |
-| Q4 | What the data-mode slider changes, and which overlay | 0→100 scales chroma down (to about 20%), compresses land/road/background lightness toward each other, hides POIs above 30 and minor labels above 60. Receding acts on fills and lines; labels are thinned, never faded. Overlay: fictional points and a hex-grid choropleth, generated on the fly with seeded values; demo only, not exported. In P0, data mode applies to the light palette only. |
+| Q4 | What the data-mode slider changes, and which overlay | 0→100 scales chroma down (to about 20%), compresses land/road lightness toward each other, hides POIs above 30 and minor labels above 60. Receding acts on fills and lines; labels are thinned, never faded. Overlay: fictional points and a hex-grid choropleth, generated on the fly with seeded values; demo only, not exported. In P0, data mode applies to the light palette only. |
 | Q5 | Default location and how to change it | **Zurich** by default; the user can pan anywhere or pick from 6 curated cities, Kyiv among them. The other four are still to be chosen for variety (proposal: Barcelona, New York, Tokyo, Nairobi). No place search in P0. |
 | Q6 | What "done" looks like | No forced final step; a persistent **Export** button; the scripted demo ends in the export panel. |
 

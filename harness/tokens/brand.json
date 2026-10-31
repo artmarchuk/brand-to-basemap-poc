@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "0.2.0",
+  "metadata": {
+    "name": "Saturated brand"
+  },
+  "tokens": {
+    "land": "#fff1dc",
+    "water": "#00a6c7",
+    "park": "#8fd14f",
+    "roadMajor": "#ff4d6d",
+    "roadMinor": "#ffb3a7",
+    "building": "#ffc98a",
+    "boundary": "#7a1fa2",
+    "labelPrimary": "#3a0a55",
+    "labelSecondary": "#7a1fa2",
+    "halo": "#fff7ea",
+    "accent": "#d6006c"
+  }
+}
