@@ -1,6 +1,7 @@
 import type { LayerSpecification, StyleSpecification } from 'maplibre-gl';
 import type { ColorRef, ColorSpec, MappingRule, StyleMapping } from '../mapping/types';
 import { collectColors } from './expressions';
+import { fallbackRef, fallbackRule } from './fallback';
 import { colorProperties, findRule } from './match';
 import { expandLayers } from './split';
 
@@ -29,22 +30,22 @@ const describeRef = (ref: ColorRef) =>
 
 function activeSpecs(layer: LayerSpecification, rule: MappingRule): [string, ColorSpec][] {
   const properties = colorProperties(layer);
-  if (rule.replacePattern) properties.push('fill-color');
+  if (rule.replacePattern) properties.push(layer.type === 'line' ? 'line-color' : 'fill-color');
   if (rule.flatten) properties.push('fill-outline-color');
   return [...new Set(properties)].flatMap((property) => {
-    const spec = rule.colors?.[property];
-    return spec ? [[property, spec]] : [];
+    return [[property, rule.colors?.[property] ?? fallbackRef(property)]];
   });
 }
 
 function statusOf(rule: MappingRule, specs: [string, ColorSpec][]): LayerStatus {
   if (rule.hidden) return 'hidden';
+  if (rule.fallback) return 'derived';
   return specs.some(([, spec]) => refs(spec).some((ref) => typeof ref !== 'string')) ? 'derived' : 'mapped';
 }
 
 export function buildReport(style: StyleSpecification, mapping: StyleMapping): ReportRow[] {
-  return expandLayers(style.layers, mapping).map((layer) => {
-    const rule = findRule(mapping, layer);
+  return expandLayers(style.layers, mapping, () => {}).map((layer) => {
+    const rule = findRule(mapping, layer) ?? fallbackRule(layer);
     const specs = activeSpecs(layer, rule);
     const paint = (layer.paint ?? {}) as Record<string, unknown>;
     return {

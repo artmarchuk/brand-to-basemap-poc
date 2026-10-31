@@ -28,10 +28,8 @@ function matches(match: LayerMatch, layer: LayerSpecification): boolean {
   return true;
 }
 
-export function findRule(mapping: StyleMapping, layer: LayerSpecification): MappingRule {
-  const rule = mapping.rules.find((candidate) => matches(candidate.match, layer));
-  if (!rule) throw new Error(`${mapping.id}: no rule for layer "${layer.id}"`);
-  return rule;
+export function findRule(mapping: StyleMapping, layer: LayerSpecification): MappingRule | undefined {
+  return mapping.rules.find((candidate) => matches(candidate.match, layer));
 }
 
 export function colorProperties(layer: LayerSpecification): string[] {

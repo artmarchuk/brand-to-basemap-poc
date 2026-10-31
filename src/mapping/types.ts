@@ -50,6 +50,8 @@ export interface MappingRule {
   filterGuard?: unknown[];
   /** The layer also draws baked sprite colours that tokens cannot reach. */
   bakedSprite?: boolean;
+  /** Set on rules made at runtime for layers the mapping does not know. */
+  fallback?: boolean;
   /** Required on derived and hidden layers; goes into the report. */
   why?: string;
 }

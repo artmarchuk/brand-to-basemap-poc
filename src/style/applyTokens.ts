@@ -1,6 +1,7 @@
 import type { LayerSpecification, StyleSpecification } from 'maplibre-gl';
-import type { LabelDensity, MappingRule, StyleMapping, ToggleGroup } from '../mapping/types';
+import type { ColorRef, ColorSpec, LabelDensity, MappingRule, StyleMapping, ToggleGroup } from '../mapping/types';
 import type { ResolvedTokens } from '../tokens/types';
+import { fallbackRef, fallbackRule, warnToConsole, type WarningHandler } from './fallback';
 import { colorProperties, findRule } from './match';
 import { rewriteColors } from './rewrite';
 import { expandLayers } from './split';
@@ -15,6 +16,8 @@ export interface ApplyOptions {
   mapping: StyleMapping;
   groups?: ToggleGroup[];
   labelDensity?: LabelDensity;
+  /** Called for each layer or colour the mapping does not cover. Defaults to console.warn. */
+  onWarning?: WarningHandler;
 }
 
 function isVisible(rule: MappingRule, groups: ToggleGroup[], density: LabelDensity): boolean {
@@ -23,23 +26,47 @@ function isVisible(rule: MappingRule, groups: ToggleGroup[], density: LabelDensi
   return !rule.density || DENSITY_ORDER.indexOf(rule.density) <= DENSITY_ORDER.indexOf(density);
 }
 
+const firstRef = (spec: ColorSpec): ColorRef => (typeof spec === 'object' && 'stops' in spec ? spec.stops[0] : spec);
+
+function rewriteSafely(
+  layer: LayerSpecification,
+  property: string,
+  value: unknown,
+  spec: ColorSpec,
+  tokens: ResolvedTokens,
+  warn: WarningHandler,
+): unknown {
+  try {
+    return rewriteColors(value, spec, tokens);
+  } catch (error) {
+    const message = `Layer "${layer.id}" ${property}: ${(error as Error).message}`;
+    warn({ code: 'unsupported-color', layerId: layer.id, message });
+    return rewriteColors('#000', firstRef(spec), tokens);
+  }
+}
+
 function restyleLayer(
   layer: LayerSpecification,
   rule: MappingRule,
   tokens: ResolvedTokens,
   visible: boolean,
+  warn: WarningHandler,
 ): LayerSpecification {
   const paint: Record<string, unknown> = { ...layer.paint };
 
   for (const property of colorProperties(layer)) {
-    const spec = rule.colors?.[property];
-    if (!spec) throw new Error(`Layer "${layer.id}": no colour rule for ${property}`);
-    paint[property] = rewriteColors(paint[property], spec, tokens);
+    let spec = rule.colors?.[property];
+    if (!spec) {
+      warn({ code: 'unmapped-color', layerId: layer.id, message: `Layer "${layer.id}": no colour rule for ${property}` });
+      spec = fallbackRef(property);
+    }
+    paint[property] = rewriteSafely(layer, property, paint[property], spec, tokens, warn);
   }
 
   if (rule.replacePattern) {
-    delete paint['fill-pattern'];
-    paint['fill-color'] = rewriteColors('#000', rule.colors!['fill-color'], tokens);
+    const kind = layer.type === 'line' ? 'line' : 'fill';
+    delete paint[`${kind}-pattern`];
+    paint[`${kind}-color`] = rewriteColors('#000', rule.colors![`${kind}-color`], tokens);
   }
 
   const output = {
@@ -73,12 +100,16 @@ function flatPaint(paint: Record<string, unknown>, rule: MappingRule, tokens: Re
 export function applyTokens(
   baseStyle: StyleSpecification,
   tokens: ResolvedTokens,
-  { mapping, groups = DEFAULT_GROUPS, labelDensity = DEFAULT_LABEL_DENSITY }: ApplyOptions,
+  { mapping, groups = DEFAULT_GROUPS, labelDensity = DEFAULT_LABEL_DENSITY, onWarning = warnToConsole }: ApplyOptions,
 ): StyleSpecification {
-  const layers = expandLayers(baseStyle.layers, mapping).flatMap((layer) => {
-    const rule = findRule(mapping, layer);
+  const layers = expandLayers(baseStyle.layers, mapping, onWarning).flatMap((layer) => {
+    let rule = findRule(mapping, layer);
+    if (!rule) {
+      onWarning({ code: 'unmapped-layer', layerId: layer.id, message: `${mapping.id}: no rule for ${layer.type} layer "${layer.id}"` });
+      rule = fallbackRule(layer);
+    }
     if (rule.hidden) return [];
-    return [restyleLayer(layer, rule, tokens, isVisible(rule, groups, labelDensity))];
+    return [restyleLayer(layer, rule, tokens, isVisible(rule, groups, labelDensity), onWarning)];
   });
   return { ...baseStyle, layers };
 }
