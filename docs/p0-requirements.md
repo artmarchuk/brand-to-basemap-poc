@@ -106,7 +106,7 @@ Everything else depends on this, so it is specified first.
 
 **Outcome:** the user leaves with something they can ship, on the provider they choose.
 
-- Provider switch: OpenFreeMap (default, no key) or MapTiler (user pastes their own key).
+- Provider switch: OpenFreeMap (default, no key) or MapTiler (user pastes their own key, stored in localStorage, never in the URL). The deployed app ships with no key and there is no demo key.
 - Switching provider keeps the token set and re-applies it to that provider's base style.
 - Exports: MapLibre style JSON per mode; the token set as JSON and as CSS variables; a copy-paste HTML/JS embed snippet.
 - Required attribution is included automatically for the chosen provider.

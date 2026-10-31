@@ -28,7 +28,7 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 - **Lean and fast.** The target is a working, presentable P0 in 1-2 days. No scope creep; anything not in the P0 requirements is out. Decide small things yourself and note them in your report.
 - **Two token families, kept apart.** *Map tokens* (the 12 semantic colours, generated from brand colours) and *UI tokens* (the tool's own interface). Components never hard-code a colour, size or font; a lint check enforces it.
 - **Single source of truth.** The map, modes, checks and exports all read from the map token set. No other place may hold a colour the map renders.
-- **No secrets in the repo.** The MapTiler key comes from the `MAPTILER_KEY` environment variable and is never committed or written into fixtures, screenshots or exports.
+- **No personal or unrestricted keys in the repo or bundle.** The deployed app ships with no MapTiler key and defaults to OpenFreeMap; MapTiler works only when the user pastes their own key, which stays in localStorage and never goes in the URL. The personal `MAPTILER_KEY` lives in `.env.local` for local scripts only and is never written into fixtures, screenshots, exports or `dist/`; `npm run build` fails if it appears there. There is no demo key.
 - **Attribution** (provider and OpenStreetMap) is always visible and included in exports.
 - **The tool's own UI meets WCAG AA.**
 - **Pure, tested core.** Style and token logic are pure functions with unit tests.

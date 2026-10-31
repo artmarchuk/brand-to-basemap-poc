@@ -8,6 +8,9 @@ Confirmed as specified: Vite, TypeScript, React, maplibre-gl, culori, Vitest, pl
 - **UI tokens.** Style Dictionary builds `tokens/ui.tokens.json` (DTCG) into `src/ui/tokens.generated.css`, with the `--ui-` prefix. The output is generated and not committed.
 - **Lint.** `npm run build` fails on hard-coded values. Stylelint covers colours, `px`/`rem`/`em` and raw fonts or shadows in CSS. ESLint covers colours and inline style values in `src/`, except `src/tokens`, `src/mapping` and `src/style`, which hold map-token data. `tests/ui-token-lint.test.ts` proves the rules fire.
 
+- **MapTiler keys.** The deployed app has no key. `scripts/check-no-keys.mjs` runs last in `npm run build` and fails if the local key, or anything shaped like a key in a URL, is in `dist/`. CI has no local key, so it relies on the URL pattern; a local build checks both.
+- **Extra dev tools from M1.** `tsx` runs TypeScript scripts, `ajv` validates token sets against the schema in tests, and `@maplibre/maplibre-gl-style-spec` validates output styles in tests.
+
 ## Figma sync
 
 Replace `tokens/ui.tokens.json` with the Figma Variables export. Keep the token paths, or update `src/ui/global.css` to match. Run `npm test`, which also checks AA contrast for the role pairs in `tests/ui-tokens.test.ts`.
