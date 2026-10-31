@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://brand-to-basemap/token-set-0.1.0.schema.json",
+  "$id": "https://brand-to-basemap/token-set-0.2.0.schema.json",
   "title": "Brand-to-Basemap token set",
   "type": "object",
   "required": [
@@ -11,7 +11,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.1.0"
+      "const": "0.2.0"
     },
     "metadata": {
       "type": "object",
@@ -51,7 +51,6 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "background",
         "land",
         "water",
         "park",
@@ -65,9 +64,6 @@
         "accent"
       ],
       "properties": {
-        "background": {
-          "$ref": "#/$defs/hex"
-        },
         "land": {
           "$ref": "#/$defs/hex"
         },
@@ -114,7 +110,6 @@
     },
     "tokenName": {
       "enum": [
-        "background",
         "land",
         "water",
         "park",

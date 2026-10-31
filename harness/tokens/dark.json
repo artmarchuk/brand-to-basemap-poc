@@ -1,9 +1,10 @@
 {
-  "schemaVersion": "0.1.0",
-  "metadata": { "name": "Dark-looking" },
+  "schemaVersion": "0.2.0",
+  "metadata": {
+    "name": "Dark-looking"
+  },
   "tokens": {
-    "background": "#14171f",
-    "land": "#1c2029",
+    "land": "#14171f",
     "water": "#0b2a3f",
     "park": "#1d3128",
     "roadMajor": "#566074",

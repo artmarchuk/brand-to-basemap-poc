@@ -1,7 +1,6 @@
-export const SCHEMA_VERSION = '0.1.0';
+export const SCHEMA_VERSION = '0.2.0';
 
 export const TOKEN_NAMES = [
-  'background',
   'land',
   'water',
   'park',
@@ -17,7 +16,7 @@ export const TOKEN_NAMES = [
 
 export type TokenName = (typeof TOKEN_NAMES)[number];
 
-/** The 12 semantic colours as hex. This is the only thing applyTokens reads. */
+/** The 11 semantic colours as hex. This is the only thing applyTokens reads. */
 export type ResolvedTokens = Record<TokenName, string>;
 
 export type Mode = 'light' | 'dark' | 'data';

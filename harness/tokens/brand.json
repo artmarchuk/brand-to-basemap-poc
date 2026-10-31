@@ -1,9 +1,10 @@
 {
-  "schemaVersion": "0.1.0",
-  "metadata": { "name": "Saturated brand" },
+  "schemaVersion": "0.2.0",
+  "metadata": {
+    "name": "Saturated brand"
+  },
   "tokens": {
-    "background": "#fff1dc",
-    "land": "#ffe3bd",
+    "land": "#fff1dc",
     "water": "#00a6c7",
     "park": "#8fd14f",
     "roadMajor": "#ff4d6d",
