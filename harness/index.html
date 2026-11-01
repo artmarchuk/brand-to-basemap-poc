@@ -22,14 +22,18 @@
   <body>
     <div id="controls">
       <label>Style <select id="style"></select></label>
-      <label>Tokens <select id="set"></select></label>
+      <label>Palette <select id="palette"></select></label>
+      <label id="set-label">Tokens <select id="set"></select></label>
+      <label id="mode-label">Mode <select id="mode"><option>light</option><option>dark</option><option>data</option></select></label>
+      <label id="recede-label">Recede <input id="recede" type="range" min="0" max="100" step="1" /> <output id="recede-out"></output></label>
       <label>Zoom <select id="zoom"><option>4</option><option>8</option><option>12</option><option>16</option></select></label>
       <label>MapTiler key <input id="key" type="password" autocomplete="off" size="16" /></label>
     </div>
     <div id="notice" role="status"></div>
     <div id="map"></div>
     <script type="module">
-      // Plain MapLibre on a static style file. No prototype code runs on this page.
+      // The map is plain MapLibre on a style object. Without a palette that object is a static file;
+      // with one, b2b-runtime restyles the base style in the browser.
       import { Map, setWorkerUrl } from './vendor/maplibre-gl.mjs';
 
       const KEY_STORAGE = 'b2b:maptilerKey';
@@ -45,18 +49,32 @@
       };
 
       // The hash holds view state only. The key never goes in the URL.
-      const state = { style: 'liberty', set: 'neutral', zoom: '12', ...Object.fromEntries(new URLSearchParams(location.hash.slice(1))) };
-      const controls = { style: document.getElementById('style'), set: document.getElementById('set'), zoom: document.getElementById('zoom') };
-      const keyInput = document.getElementById('key');
+      // Overrides for the active mode are `o.<token>=<hex>`, for example #palette=3&mode=dark&o.water=%23112233.
+      const params = new URLSearchParams(location.hash.slice(1));
+      const state = { style: 'liberty', set: 'neutral', zoom: '12', palette: '', mode: 'light', recede: '60', ...Object.fromEntries(params) };
+      const overrides = Object.fromEntries([...params].filter(([k]) => k.startsWith('o.')).map(([k, v]) => [k.slice(2), v]));
+
+      const palettes = await (await fetch('./palettes.json')).json();
+      const control = (id) => document.getElementById(id);
+      const controls = { style: control('style'), palette: control('palette'), set: control('set'), mode: control('mode'), zoom: control('zoom'), recede: control('recede') };
       fill(controls.style, STYLES);
       fill(controls.set, SETS);
-      for (const [name, control] of Object.entries(controls)) {
-        control.value = state[name];
-        control.addEventListener('change', () => {
-          location.hash = new URLSearchParams({ ...state, [name]: control.value }).toString();
+      controls.palette.add(new Option('M1 hand-written sets', ''));
+      palettes.forEach((palette, index) => controls.palette.add(new Option(`${index + 1}. ${palette.name}`, String(index + 1))));
+      for (const [name, element] of Object.entries(controls)) {
+        element.value = state[name];
+        element.addEventListener('change', () => {
+          location.hash = new URLSearchParams({ ...Object.fromEntries(params), [name]: element.value }).toString();
           location.reload();
         });
       }
+      const usingPalette = state.palette !== '';
+      control('set-label').hidden = usingPalette;
+      control('mode-label').hidden = !usingPalette;
+      control('recede-label').hidden = !(usingPalette && state.mode === 'data');
+      control('recede-out').textContent = state.recede;
+
+      const keyInput = control('key');
       keyInput.value = readKey();
       keyInput.addEventListener('change', () => {
         try { localStorage.setItem(KEY_STORAGE, keyInput.value.trim()); } catch {}
@@ -64,17 +82,8 @@
       });
       document.body.classList.toggle('shot', state.shot === '1');
 
-      const notice = document.getElementById('notice');
+      const notice = control('notice');
       const key = readKey();
-
-      // Liberty is a static file. MapTiler's licence keeps Streets out of the repo and the
-      // deploy, so it is fetched and restyled here, then handed to the same plain map.
-      async function loadStyle() {
-        if (state.style !== 'streets-v2') return `./styles/${state.style}--${state.set}.json`;
-        const { restyleFromProvider } = await import('./vendor/b2b-runtime.mjs');
-        const tokenSet = await (await fetch(`./tokens/${state.set}.json`)).json();
-        return restyleFromProvider(state.style, tokenSet.tokens, key);
-      }
 
       // Without a usable key the page says so and offers the keyless style. No request goes to MapTiler.
       const explain = (message) => {
@@ -88,12 +97,34 @@
         notice.append(link);
       };
 
+      async function loadBase(runtime) {
+        if (state.style === 'liberty') return (await fetch('./base/liberty.json')).json();
+        return runtime.loadBaseStyle(runtime.MAPPINGS[state.style], key);
+      }
+
+      async function loadStyle() {
+        if (!usingPalette) {
+          if (state.style !== 'streets-v2') return `./styles/${state.style}--${state.set}.json`;
+          const runtime = await import('./vendor/b2b-runtime.mjs');
+          const tokenSet = await (await fetch(`./tokens/${state.set}.json`)).json();
+          return runtime.restyleFromProvider(state.style, tokenSet.tokens, key);
+        }
+        const runtime = await import('./vendor/b2b-runtime.mjs');
+        const palette = palettes[Number(state.palette) - 1];
+        const view = { brand: { colors: palette.colors, primary: palette.primary }, mode: state.mode, recede: Number(state.recede), overrides };
+        const base = await loadBase(runtime);
+        const { style, tokens } = runtime.buildPaletteStyle(base, state.style, view);
+        window.resolvedTokens = tokens;
+        if (state.perf === '1') window.perfResult = runtime.benchmark(base, state.style, view);
+        return style;
+      }
+
       if (state.style === 'streets-v2' && !key) {
         explain('MapTiler needs your own key. Paste it above; it stays in this browser.');
       } else {
         setWorkerUrl(new URL('./vendor/maplibre-gl-worker.mjs', import.meta.url).href);
         const style = await loadStyle().catch((error) => {
-          explain(`Could not load MapTiler Streets (${error.message}). Check the key.`);
+          explain(`Could not load the style (${error.message}). Check the key.`);
         });
         if (style) {
           const map = new Map({
