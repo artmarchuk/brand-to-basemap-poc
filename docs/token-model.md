@@ -87,7 +87,7 @@ Rules with `flatten` draw layers as opaque fills, and `fill-extrusion` layers be
 
 ## Road gap
 
-`enforceRoadGap(minGap)` is a `TokenTransform` that keeps roadMajor and roadMinor at least `minGap` apart in OKLCH lightness. `roadMajor` carries the brand and stays put; `roadMinor` moves. The default, 0.10, is `minRoadLightnessGap` in [src/palette/config.ts](../src/palette/config.ts) and is a starting value until M2 tunes it on the ten palettes.
+The palette engine ([palette-engine.md](palette-engine.md)) uses this in light and dark. `enforceRoadGap(minGap)` is a `TokenTransform` that keeps roadMajor and roadMinor at least `minGap` apart in OKLCH lightness. `roadMajor` carries the brand and stays put; `roadMinor` moves. The default, 0.10, is `minRoadLightnessGap` in [src/palette/config.ts](../src/palette/config.ts). It is a floor: the ten palettes already derive gaps of at least 0.22.
 
 ## Toggle groups
 
