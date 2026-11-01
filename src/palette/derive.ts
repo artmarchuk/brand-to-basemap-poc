@@ -52,19 +52,34 @@ export function deriveTokens(input: BrandInput, config: PaletteConfig = PALETTE_
   const hue = tintHue ?? config.neutralHue;
   const tinted = (share: number, cMax: number) => Math.min(cMax, tintChroma * share);
 
+  // Second colour: the most chromatic colour that is not the tint source shapes the quiet linework.
+  const second = byChroma.find((color) => color !== tintSource);
+  const secondHue = second?.h ?? hue;
+  const secondTinted = (share: number, cMax: number) => Math.min(cMax, (second?.c ?? tintChroma) * share);
+  // The lightest low-chroma colour is the brand's own neutral, so it tints the land.
+  const landSeed = brand.colors
+    .filter((color) => color.c <= config.secondColour.landSeedMaxChroma && color.c >= config.secondColour.landSeedMinChroma)
+    .sort((a, b) => b.l - a.l)[0];
+
   const water = anchoredHue(chromatic, tintHue, config.water);
   const park = anchoredHue(chromatic, tintHue, config.park);
 
-  const land = makeColor(L.land.l, tinted(L.land.tint, L.land.cMax), hue);
+  const land = landSeed
+    ? makeColor(L.land.l, Math.min(L.land.cMax, landSeed.c), landSeed.h)
+    : makeColor(L.land.l, tinted(L.land.tint, L.land.cMax), hue);
   const landColor = parseColor(land)!;
   const waterHex = makeColor(L.water.l, areaChroma(water, L.water), water.hue);
   const parkHex = makeColor(L.park.l, areaChroma(park, L.park), park.hue);
-  const building = makeColor(L.land.l + L.building.lOffsetFromLand, tinted(L.building.tint, L.building.cMax), hue);
+  const building = makeColor(L.land.l + L.building.lOffsetFromLand, secondTinted(L.building.tint, L.building.cMax), secondHue);
 
   const roadSource = tintSource ?? brand.primary;
   const majorChroma = tintSource ? clamp(roadSource.c, L.roadMajor.cMin, L.roadMajor.cMax) : 0;
   const roadMajor = makeColor(clamp(roadSource.l, L.roadMajor.lMin, L.roadMajor.lMax), majorChroma, hue);
-  const roadMinor = makeColor(L.roadMinor.l, majorChroma * L.roadMinor.chromaShare, hue);
+  const roadMinor = makeColor(
+    L.roadMinor.l,
+    (second && tintSource ? clamp(second.c, L.roadMajor.cMin, L.roadMajor.cMax) : majorChroma) * L.roadMinor.chromaShare,
+    secondHue,
+  );
 
   // Labels sit on land, water, park and buildings, so they must pass on the worst of them.
   const surfaces = [land, waterHex, parkHex, building];
@@ -89,7 +104,7 @@ export function deriveTokens(input: BrandInput, config: PaletteConfig = PALETTE_
     roadMajor,
     roadMinor,
     building,
-    boundary: makeColor(L.boundary.l, tinted(L.boundary.tint, L.boundary.cMax), hue),
+    boundary: makeColor(L.boundary.l, secondTinted(L.boundary.tint, L.boundary.cMax), secondHue),
     labelPrimary: label(L.labelPrimary),
     labelSecondary: label(L.labelSecondary),
     halo: makeColor(landColor.l + L.halo.lOffsetFromLand, landColor.c, landColor.h),

@@ -7,6 +7,13 @@ export const PALETTE_CONFIG = {
 
   /** A brand colour with less chroma than this has no usable hue. */
   minHueChroma: 0.03,
+  /**
+   * Second-colour roles. The lightest brand colour with chroma up to `landSeedMaxChroma` (a cream, a pale
+   * blue) tints the land, using its own chroma within the land cap, if it has at least `landSeedMinChroma`
+   * to carry a hue. The most chromatic brand colour other than the primary tints roadMinor, boundary and
+   * building. Without such a colour the primary tints them, as before.
+   */
+  secondColour: { landSeedMaxChroma: 0.06, landSeedMinChroma: 0.008 },
   /** Hue used for tints and the accent when no brand colour has one (pure greys). */
   neutralHue: 255,
 
@@ -28,7 +35,7 @@ export const PALETTE_CONFIG = {
     boundary: { l: 0.56, cMax: 0.03, tint: 0.25 },
     // The brand lives in the roads: lightness follows the brand colour inside this band.
     roadMajor: { lMin: 0.5, lMax: 0.62, cMin: 0.08, cMax: 0.2 },
-    roadMinor: { l: 0.84, chromaShare: 0.45 },
+    roadMinor: { l: 0.82, chromaShare: 0.45 },
     labelPrimary: { l: 0.26, cMax: 0.03, tint: 0.2, contrast: 7 },
     labelSecondary: { l: 0.46, cMax: 0.03, tint: 0.2, contrast: 4.5 },
     halo: { lOffsetFromLand: 0.02 },

@@ -29,16 +29,18 @@ All colour maths is OKLCH. Out-of-gamut colours lose chroma at constant lightnes
 
 | Token | Rule |
 | --- | --- |
-| `land` | L 0.96, chroma at most 0.012, 10% of the brand's chroma, at the brand hue. |
+| `land` | L 0.96, chroma at most 0.012. Seeded by the lightest brand colour with chroma between 0.008 and 0.06 (a cream, a pale blue), at that colour's own hue and chroma within the cap. Without one: 10% of the primary's chroma, at the primary's hue. |
 | `water` | L 0.86. Hue from the brand colour nearest 240° if within 40°, else 240° moved up to 15° towards the brand hue. Chroma 0.03-0.06. |
 | `park` | The same, around 140°, L 0.90, chroma 0.03-0.07. |
-| `building` | 0.045 darker than land, tinted like land. |
-| `boundary` | L 0.56, so it reaches 3:1 on land. |
+| `building` | 0.045 darker than land, tinted by the second colour (below). |
+| `boundary` | L 0.56, so it reaches 3:1 on land. Tinted by the second colour. |
 | `roadMajor` | Brand hue and chroma (0.08-0.20), with the primary's lightness held to 0.50-0.62. At most 0.62 so it reaches 3:1 on land. Grey brands get grey roads. |
-| `roadMinor` | L 0.84, 45% of the major chroma, then pushed apart from `roadMajor` by the gap rule. |
+| `roadMinor` | L 0.82 (1.5:1 on land), 45% of the second colour's chroma (the major chroma without one), at the second colour's hue, then pushed apart from `roadMajor` by the gap rule. |
 | `labelPrimary`, `labelSecondary` | Brand-tinted neutrals, darkened until 7:1 and 4.5:1 against the worst of land, water, park and building. |
 | `halo` | Land lightness plus 0.02, so it always sits on the map. |
 | `accent` | The brand colour that keeps the most chroma after reaching 4.5:1 on land, with each unit of lightness moved costing 0.5 chroma. Greys get a blue at L 0.5. |
+
+**Second colour.** The most chromatic brand colour that is not the tint source (the primary) shapes `roadMinor`, `boundary` and the `building` tint, so a second brand colour shows on the map. With no such colour, the primary tints them as before. Checkpoint A2 decision; the thresholds are in `secondColour` in the config.
 
 **Why water and park are anchored.** A map with orange water reads as broken. Without the 15° cap, a red brand pulled the water hue to violet (285°).
 
@@ -83,7 +85,8 @@ The budget is 300 ms for the whole live update. This is the style build only: Ma
 
 ## Known limits
 
-- **Only the primary shapes the roads.** Other brand colours influence the accent, and by chance the water and park hue, so a five-colour palette can look like a two-colour one. Compare Ember and Tricolor Transit.
+- **Three brand colours do the work.** The primary shapes `roadMajor`, the lightest low-chroma colour tints the land, and the second most chromatic shapes `roadMinor`, `boundary` and `building`. Colours beyond that only influence the accent, and by chance the water and park hue.
+- **A dark colour can seed the land.** The lightest colour with chroma under 0.06 qualifies even if it is dark, so Tricolor Transit's navy gives a pale blue land.
 - **A quiet water cannot reach 3:1.** See the [contrast report](contrast-report.md).
 - **Yellows and pastels are darkened to reach contrast,** which dulls them: Saffron & Ink's roads are mustard, and Pastel Studio's are dusty mauve.
 - **Dark water is near black.** Blue at lightness 0.15 cannot hold much chroma inside sRGB.

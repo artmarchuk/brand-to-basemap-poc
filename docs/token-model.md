@@ -69,7 +69,7 @@ The isolation test changes each token in turn and requires that exactly the laye
 
 ## Derived colours
 
-A derived colour is an OKLCH mix of one token towards another, for example `tint('roadMajor', 'labelPrimary', 0.25)` for a casing. Mixing towards a token rather than applying a fixed lighter or darker offset means the result works in light and dark sets: `labelPrimary` contrasts with the map in both, so a casing stays visible either way.
+A derived colour is an OKLCH mix of one token towards another, for example `tint('roadMajor', 'labelPrimary', 0.25)` for a casing. Mixing towards a token rather than applying a fixed lighter or darker offset means the result works in light and dark sets: `labelPrimary` contrasts with the map in both, so a casing stays visible either way. A near-grey end of a mix (chroma under 0.03, such as a tinted land) takes the other end's hue, so the mix does not sweep the colour wheel: before this, a green park mixed with a blue or pink land came out aqua or peach on Streets at z4.
 
 ## Zoom behaviour
 
