@@ -16,10 +16,13 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 - Base styles: OpenFreeMap **Liberty** and MapTiler **Streets v2**. Liberty is pinned in the repo. Streets is gitignored because of its licence: `npm run fetch-styles` gets it for local tests, and the deployed app fetches it at runtime with the user's key.
 - Palette derivation: **OKLCH** rules, tested on a set of 10 palettes.
 - Save/share: URL-encoded state in the hash plus local autosave. The MapTiler key is never put in the URL.
-- Data mode: a 0-100 "recede" slider on the light palette only (dark + data is P1). The demo overlay (fictional points and a hex-grid choropleth) is generated on the fly, is demo-only, and is never exported.
+- Data mode: a 0-100 "recede" slider on the light palette only (dark + data is P1). The sample data overlay is dropped from the app; a dev-only generator stays in the harness (`#overlay=1`), outside the app bundle.
 - Zoom: no multi-map strip. One main map with zoom stops (about z4, z8, z12, z16), a sweep, and a review dot per stop.
 - Default location Zurich; the user can pan anywhere or pick from 6 curated cities (Kyiv included). No place search in P0.
 - No forced final step: a persistent Export button.
+- Second colour: the lightest low-chroma brand colour seeds the land tint, within the chroma cap; the second most chromatic seeds `roadMinor`, `boundary` and the `building` tint.
+- F5 thresholds: `roadMajor` and `boundary` 3:1 against land; `roadMinor` 1.5:1; water and park by OKLab distance from land; labels 7:1 and 4.5:1. In data mode `roadMajor`/land slides linearly from 3:1 at recede 0 to 1.5:1 at 100, and labels stay AA.
+- Minor roads are in the base map from z14; the toggle only adds them below that.
 - Buildings are always flat fills, so they show the exact `building` token. No 3D in P0.
 - Token layering: brand input, base tokens, per-mode transform, per-mode overrides, auto-fix adjustments.
 - Stack: Vite, TypeScript, React, maplibre-gl, culori, Vitest, plain CSS custom properties, Radix UI primitives (unstyled).
@@ -29,7 +32,8 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 - **Lean and fast.** The target is a working, presentable P0 in 1-2 days. No scope creep; anything not in the P0 requirements is out. Decide small things yourself and note them in your report.
 - **Two token families, kept apart.** *Map tokens* (the 11 semantic colours, generated from brand colours) and *UI tokens* (the tool's own interface). Components never hard-code a colour, size or font; a lint check enforces it.
 - **Single source of truth.** The map, modes, checks and exports all read from the map token set. No other place may hold a colour the map renders.
-- **No personal or unrestricted keys in the repo or bundle.** The deployed app ships with no MapTiler key and defaults to OpenFreeMap; MapTiler works only when the user pastes their own key, which stays in localStorage and never goes in the URL. The personal `MAPTILER_KEY` lives in `.env.local` for local scripts only and is never written into fixtures, screenshots, exports or `dist/`; `npm run build` fails if it appears there. There is no demo key.
+- **No personal or unrestricted keys in the repo or bundle; personal key only in `.env.local`.** The deployed app ships with no MapTiler key and defaults to OpenFreeMap; MapTiler works only when the user pastes their own key, which stays in localStorage and never goes in the URL. The personal `MAPTILER_KEY` lives in `.env.local` for local scripts only and is never written into fixtures, screenshots, exports or `dist/`; `npm run build` fails if it appears there. There is no demo key.
+- **The app UI is a proof-of-concept.** Phase 2 owns polish. Fix only what affects the map or the function.
 - **Attribution** (provider and OpenStreetMap) is always visible and included in exports.
 - **The tool's own UI meets WCAG AA.**
 - **Pure, tested core.** Style and token logic are pure functions with unit tests.

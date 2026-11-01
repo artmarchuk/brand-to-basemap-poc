@@ -93,7 +93,7 @@ The palette engine ([palette-engine.md](palette-engine.md)) uses this in light a
 
 Every layer carries one group in its `b2b:group` metadata: `core`, `pois`, `transit`, `buildings`, `landuse`, `minorRoads`, `boundaries` or `labels`. Labels also carry `b2b:density`.
 
-`applyTokens(base, tokens, { mapping, groups, labelDensity })` sets visibility. The default is `core` plus `labels` at low density: land, water, parks, major roads and place labels. `core` can never be hidden.
+`applyTokens(base, tokens, { mapping, groups, labelDensity })` sets visibility. Known `minorRoads` layers are in the base map from z14 (`MINOR_ROADS_BASE_ZOOM`): with the group off they draw from there, and the group adds them below it. Layers new to the mapping stay off. The default is `core` plus `labels` at low density: land, water, parks, major roads and place labels. `core` can never be hidden.
 
 The harness turns every group on so all layers can be inspected, so its screenshots show more than the F2 default.
 
