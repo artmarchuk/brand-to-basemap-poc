@@ -6,7 +6,7 @@ const GROUP_LABELS: Record<string, string> = {
   transit: 'Transit',
   buildings: 'Buildings',
   landuse: 'Land use',
-  minorRoads: 'Minor roads',
+  minorRoads: 'Minor roads below z14',
   boundaries: 'Boundaries',
 };
 

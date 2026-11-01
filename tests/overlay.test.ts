@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildOverlay, type Bounds } from '../src/app/overlay';
-import { withOverlay } from '../src/style/overlay';
+import { buildOverlay, withOverlay, type Bounds } from '../harness/overlay';
 import { deriveTokens } from '../src/palette';
 import type { StyleSpecification } from 'maplibre-gl';
 

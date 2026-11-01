@@ -10,6 +10,12 @@ import { expandLayers } from './split';
 export const DEFAULT_GROUPS: ToggleGroup[] = ['core', 'labels'];
 export const DEFAULT_LABEL_DENSITY: LabelDensity = 'low';
 
+/**
+ * Streets are part of the base map once they stop being clutter. With `minorRoads` off they still draw from
+ * this zoom; the toggle only decides whether they also show below it.
+ */
+export const MINOR_ROADS_BASE_ZOOM = 14;
+
 const DENSITY_ORDER: LabelDensity[] = ['low', 'medium', 'high'];
 
 export interface ApplyOptions {
@@ -104,12 +110,16 @@ export function applyTokens(
 ): StyleSpecification {
   const layers = expandLayers(baseStyle.layers, mapping, onWarning).flatMap((layer) => {
     let rule = findRule(mapping, layer);
+    const known = Boolean(rule);
     if (!rule) {
       onWarning({ code: 'unmapped-layer', layerId: layer.id, message: `${mapping.id}: no rule for ${layer.type} layer "${layer.id}"` });
       rule = fallbackRule(layer);
     }
     if (rule.hidden) return [];
-    return [restyleLayer(layer, rule, tokens, isVisible(rule, groups, labelDensity), onWarning)];
+    // A layer new to the mapping stays off: only known minor roads join the base map.
+    const fromBaseZoom = known && rule.group === 'minorRoads' && !groups.includes('minorRoads');
+    const styled = restyleLayer(layer, rule, tokens, fromBaseZoom || isVisible(rule, groups, labelDensity), onWarning);
+    return [fromBaseZoom ? { ...styled, minzoom: Math.max(styled.minzoom ?? 0, MINOR_ROADS_BASE_ZOOM) } : styled];
   });
   return { ...baseStyle, layers };
 }

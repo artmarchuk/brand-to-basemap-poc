@@ -6,7 +6,7 @@ import dark from '../harness/tokens/dark.json';
 import { MAPPINGS } from '../src/mapping';
 import { rgbKey } from '../src/tokens/color';
 import { TOKEN_NAMES, type ResolvedTokens } from '../src/tokens/types';
-import { applyTokens, DEFAULT_GROUPS } from '../src/style/applyTokens';
+import { applyTokens, DEFAULT_GROUPS, MINOR_ROADS_BASE_ZOOM } from '../src/style/applyTokens';
 import { detectDrift, hasDrift } from '../src/style/drift';
 import { collectColors } from '../src/style/expressions';
 import type { StyleWarning } from '../src/style/fallback';
@@ -153,15 +153,15 @@ describe.each(CASES)('$id', ({ base, mapping }) => {
     }
   });
 
-  it('hides everything outside the default groups and never hides core', () => {
+  it('hides everything outside the default groups, except minor roads from z14, and never hides core', () => {
     const hiddenByDefault = output.layers.filter((layer) => layer.layout?.visibility === 'none');
     for (const layer of hiddenByDefault) {
       expect(layer.metadata as object).not.toHaveProperty('b2b:group', 'core');
     }
     const nothing = applyTokens(base, SENTINEL, { mapping, groups: [] });
     for (const layer of nothing.layers) {
-      const isCore = (layer.metadata as Record<string, string>)['b2b:group'] === 'core';
-      expect(layer.layout?.visibility).toBe(isCore ? 'visible' : 'none');
+      const group = (layer.metadata as Record<string, string>)['b2b:group'];
+      expect(layer.layout?.visibility).toBe(group === 'core' || group === 'minorRoads' ? 'visible' : 'none');
     }
     expect(DEFAULT_GROUPS).toContain('core');
   });
@@ -195,7 +195,8 @@ describe('road classes on Streets v2', () => {
     expect(secondary.layout?.visibility).toBe('visible');
     const minor = byId(output, 'Minor road');
     expect((minor.paint as Record<string, unknown>)['line-color']).toBe(SENTINEL.roadMinor);
-    expect(minor.layout?.visibility).toBe('none');
+    expect(minor.layout?.visibility).toBe('visible');
+    expect(minor.minzoom).toBeGreaterThanOrEqual(MINOR_ROADS_BASE_ZOOM);
   });
 
   it.runIf(streets)('keeps the original width ramp and a filter that excludes the class', () => {
@@ -212,10 +213,10 @@ describe('road classes on Liberty', () => {
   const liberty = CASES.find(({ id }) => id === 'liberty')!;
   const output = applyTokens(liberty.base, SENTINEL, { mapping: liberty.mapping });
 
-  it('draws tertiary as a default-off minor road and secondary as major', () => {
+  it('draws tertiary as a minor road, from z14 by default, and secondary as major', () => {
     const tertiary = byId(output, 'road_tertiary');
     expect((tertiary.paint as Record<string, unknown>)['line-color']).toBe(SENTINEL.roadMinor);
-    expect(tertiary.layout?.visibility).toBe('none');
+    expect(tertiary.minzoom).toBeGreaterThanOrEqual(MINOR_ROADS_BASE_ZOOM);
     const secondary = byId(output, 'road_secondary_tertiary');
     expect((secondary.paint as Record<string, unknown>)['line-color']).toBe(SENTINEL.roadMajor);
     expect(secondary.layout?.visibility).toBe('visible');
@@ -297,5 +298,28 @@ describe('provider drift', () => {
     const row = buildReport(unknown(NEW_LAYERS), mapping).find((candidate) => candidate.id === 'new symbol')!;
     expect(row.status).toBe('derived');
     expect(row.why).toMatch(/No mapping rule/);
+  });
+});
+
+describe.each(CASES)('minor roads in the base map: $id', ({ base, mapping }) => {
+  const minor = (style: StyleSpecification) => style.layers.filter((layer) => (layer.metadata as Record<string, string> | undefined)?.['b2b:group'] === 'minorRoads');
+  const visibility = (layer: { layout?: unknown }) => (layer.layout as { visibility?: string }).visibility;
+
+  it('draws minor roads from z14 when the toggle is off', () => {
+    const layers = minor(applyTokens(base, SENTINEL, { mapping, groups: ['core', 'labels'], onWarning: () => {} }));
+    expect(layers.length).toBeGreaterThan(0);
+    for (const layer of layers) {
+      expect(visibility(layer)).toBe('visible');
+      expect(layer.minzoom).toBeGreaterThanOrEqual(MINOR_ROADS_BASE_ZOOM);
+    }
+  });
+
+  it('leaves the base minzoom alone when the toggle is on', () => {
+    const style = applyTokens(base, SENTINEL, { mapping, groups: ['core', 'labels', 'minorRoads'], onWarning: () => {} });
+    const original = new Map(base.layers.map((layer: LayerSpecification) => [layer.id, layer.minzoom]));
+    for (const layer of minor(style)) {
+      if (original.has(layer.id)) expect(layer.minzoom).toBe(original.get(layer.id));
+    }
+    expect(minor(style).some((layer) => (layer.minzoom ?? 0) < MINOR_ROADS_BASE_ZOOM)).toBe(true);
   });
 });

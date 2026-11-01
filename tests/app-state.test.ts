@@ -18,7 +18,6 @@ describe('app state', () => {
     ['override', { type: 'override', token: 'water', hex: '#00aaff' }],
     ['toggle', { type: 'toggleGroup', group: 'pois' }],
     ['density', { type: 'density', density: 'high' }],
-    ['overlay', { type: 'overlay', on: false }],
   ])('resets the review dots on a %s change', (_name, action) => {
     const viewed = reducer(start, { type: 'viewed', zoom: 4 });
     expect(viewed.reviewed).toEqual([4]);

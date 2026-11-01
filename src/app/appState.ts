@@ -18,7 +18,6 @@ export interface AppState {
   palette: BrandState;
   groups: ToggleGroup[];
   labelDensity: LabelDensity;
-  overlay: boolean;
   cityId: string;
   /** Zoom stops viewed since the last style change. A reminder, not a gate. */
   reviewed: number[];
@@ -33,7 +32,6 @@ export type Action =
   | { type: 'resetOverrides' }
   | { type: 'toggleGroup'; group: ToggleGroup }
   | { type: 'density'; density: LabelDensity }
-  | { type: 'overlay'; on: boolean }
   | { type: 'city'; cityId: string }
   | { type: 'viewed'; zoom: number };
 
@@ -42,7 +40,6 @@ export function initialState(brand: BrandInput): AppState {
     palette: createState(brand),
     groups: ['core', 'labels'],
     labelDensity: 'low',
-    overlay: true,
     cityId: DEFAULT_CITY.id,
     reviewed: [],
   };
@@ -76,8 +73,6 @@ export function reducer(state: AppState, action: Action): AppState {
       });
     case 'density':
       return restyled(state, { labelDensity: action.density });
-    case 'overlay':
-      return restyled(state, { overlay: action.on });
     case 'city':
       return { ...state, cityId: action.cityId };
     case 'viewed': {

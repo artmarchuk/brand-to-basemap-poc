@@ -4,14 +4,12 @@ import libertyStyle from '../../base-styles/liberty.json';
 import samples from '../../fixtures/palettes.json';
 import { initialState, reducer } from '../app/appState';
 import { CITIES, DEFAULT_CITY } from '../app/cities';
-import { buildOverlay } from '../app/overlay';
 import { MAPPINGS } from '../mapping';
 import { applyVisibility, resolve } from '../palette';
 import { applyTokens } from '../style/applyTokens';
-import { withOverlay } from '../style/overlay';
 import { BrandPanel } from './BrandPanel';
 import { DetailPanel } from './DetailPanel';
-import { MapView, type View } from './MapView';
+import { MapView } from './MapView';
 import { ModePanel } from './ModePanel';
 import { TokenPanel } from './TokenPanel';
 import { ZoomBar } from './ZoomBar';
@@ -24,7 +22,7 @@ const base = libertyStyle as unknown as StyleSpecification;
 
 export function App() {
   const [state, dispatch] = useReducer(reducer, { colors: START.colors, primary: START.primary }, initialState);
-  const [view, setView] = useState<View | null>(null);
+  const [zoom, setZoom] = useState(START_ZOOM);
   const [sweeping, setSweeping] = useState(false);
   const mapRef = useRef<MapLibreMap | null>(null);
   const { palette } = state;
@@ -34,15 +32,10 @@ export function App() {
     () => applyVisibility(state.groups, state.labelDensity, resolved.visibility),
     [state.groups, state.labelDensity, resolved.visibility],
   );
-  const overlay = useMemo(
-    () => (palette.mode === 'data' && state.overlay && view ? buildOverlay(view.bounds) : null),
-    [palette.mode, state.overlay, view],
+  const style = useMemo(
+    () => applyTokens(base, resolved.tokens, { mapping: MAPPINGS.liberty, groups, labelDensity, onWarning: () => {} }),
+    [resolved.tokens, groups, labelDensity],
   );
-
-  const style = useMemo(() => {
-    const styled = applyTokens(base, resolved.tokens, { mapping: MAPPINGS.liberty, groups, labelDensity, onWarning: () => {} });
-    return overlay ? withOverlay(styled, overlay, resolved.tokens) : styled;
-  }, [resolved.tokens, groups, labelDensity, overlay]);
 
   const city = CITIES.find((candidate) => candidate.id === state.cityId) ?? DEFAULT_CITY;
   const firstCity = useRef(city);
@@ -50,7 +43,7 @@ export function App() {
     if (city !== firstCity.current) mapRef.current?.flyTo({ center: city.center, duration: 1500 });
   }, [city]);
 
-  const goToStop = (zoom: number) => mapRef.current?.flyTo({ zoom, duration: 1200 });
+  const goToStop = (stop: number) => mapRef.current?.flyTo({ zoom: stop, duration: 1200 });
   const sweep = () => {
     const map = mapRef.current;
     if (!map) return;
@@ -76,10 +69,8 @@ export function App() {
           <ModePanel
             mode={palette.mode}
             recede={palette.recede}
-            overlay={state.overlay}
             onMode={(mode) => dispatch({ type: 'mode', mode })}
             onRecede={(recede) => dispatch({ type: 'recede', recede })}
-            onOverlay={(on) => dispatch({ type: 'overlay', on })}
           />
           <DetailPanel
             groups={state.groups}
@@ -104,11 +95,11 @@ export function App() {
             center={city.center}
             zoom={START_ZOOM}
             onReady={(map) => (mapRef.current = map)}
-            onView={(next) => {
-              setView(next);
-              dispatch({ type: 'viewed', zoom: next.zoom });
+            onZoom={(next) => {
+              setZoom(next);
+              dispatch({ type: 'viewed', zoom: next });
             }}
-            onIdle={(zoom) => dispatch({ type: 'viewed', zoom })}
+            onIdle={(next) => dispatch({ type: 'viewed', zoom: next })}
           />
           <div className="stage-top">
             <label className="field">
@@ -121,7 +112,7 @@ export function App() {
             </label>
           </div>
           <div className="stage-bottom">
-            <ZoomBar zoom={view?.zoom ?? START_ZOOM} reviewed={state.reviewed} sweeping={sweeping} onStop={goToStop} onSweep={sweep} />
+            <ZoomBar zoom={zoom} reviewed={state.reviewed} sweeping={sweeping} onStop={goToStop} onSweep={sweep} />
           </div>
         </main>
       </div>
