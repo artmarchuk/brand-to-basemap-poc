@@ -15,6 +15,7 @@ rmSync(OUT, { recursive: true, force: true });
 mkdirSync(`${OUT}/styles`, { recursive: true });
 mkdirSync(`${OUT}/vendor`);
 mkdirSync(`${OUT}/tokens`);
+mkdirSync(`${OUT}/base`);
 
 copyFileSync('harness/index.html', `${OUT}/index.html`);
 for (const file of ['maplibre-gl.mjs', 'maplibre-gl-worker.mjs', 'maplibre-gl.css']) {
@@ -27,6 +28,10 @@ buildSync({
   format: 'esm',
   outfile: `${OUT}/vendor/b2b-runtime.mjs`,
 });
+
+copyFileSync('fixtures/palettes.json', `${OUT}/palettes.json`);
+// Liberty is pinned in the repo, so it ships. Streets is fetched at runtime.
+copyFileSync('base-styles/liberty.json', `${OUT}/base/liberty.json`);
 
 const SETS = ['neutral', 'brand', 'dark'];
 for (const setId of SETS) copyFileSync(`harness/tokens/${setId}.json`, `${OUT}/tokens/${setId}.json`);

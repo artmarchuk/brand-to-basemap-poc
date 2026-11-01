@@ -1,5 +1,5 @@
 // The only file that knows about culori, so the colour library can change.
-import { clampChroma, converter, formatHex, formatRgb, interpolate, parse } from 'culori';
+import { clampChroma, converter, formatHex, formatRgb, interpolate, parse, wcagContrast } from 'culori';
 
 export interface Color {
   l: number;
@@ -17,8 +17,17 @@ export function parseColor(css: string): Color | undefined {
   return { l, c, h: h ?? 0, alpha: alpha ?? 1 };
 }
 
+/** Below this chroma a hue is too faint to steer a mix: it is a tint, not a colour. */
+const POWERLESS_HUE_CHROMA = 0.03;
+
+/**
+ * Mixes in OKLCH. A near-grey end (a tinted land) has no hue of its own, so the other end's hue is used for it;
+ * otherwise the hue would sweep across the wheel and turn a green-to-land mix aqua or peach.
+ */
 export function mixColors(from: Color, to: Color, amount: number): Color {
-  const mixed = interpolate([{ mode: 'oklch' as const, ...from }, { mode: 'oklch' as const, ...to }], 'oklch')(amount);
+  const fromHue = from.c < POWERLESS_HUE_CHROMA && to.c >= POWERLESS_HUE_CHROMA ? to.h : from.h;
+  const toHue = to.c < POWERLESS_HUE_CHROMA && from.c >= POWERLESS_HUE_CHROMA ? from.h : to.h;
+  const mixed = interpolate([{ mode: 'oklch' as const, ...from, h: fromHue }, { mode: 'oklch' as const, ...to, h: toHue }], 'oklch')(amount);
   return { l: mixed.l, c: mixed.c, h: mixed.h ?? 0, alpha: from.alpha };
 }
 
@@ -46,4 +55,22 @@ export function withLightness(css: string, lightness: number): string {
   const color = parseColor(css);
   if (!color) throw new Error(`Invalid colour: ${css}`);
   return formatColor({ ...color, l: lightness, alpha: 1 });
+}
+
+export function contrastRatio(a: string, b: string): number {
+  return wcagContrast(a, b);
+}
+
+/** Hex from OKLCH, with chroma reduced at constant lightness and hue when the colour is out of gamut. */
+export function makeColor(l: number, c: number, h: number): string {
+  return formatColor({ l: Math.min(1, Math.max(0, l)), c: Math.max(0, c), h: Number.isFinite(h) ? h : 0, alpha: 1 });
+}
+
+const toOklab = converter('oklab');
+
+/** Euclidean distance in OKLab: about 0.02 is a just-noticeable difference. */
+export function colorDistance(a: string, b: string): number {
+  const x = toOklab(a)!;
+  const y = toOklab(b)!;
+  return Math.hypot(x.l - y.l, x.a - y.a, x.b - y.b);
 }

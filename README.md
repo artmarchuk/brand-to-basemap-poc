@@ -8,8 +8,10 @@ npm run fetch-styles   # optional: Streets v2 for local tests, needs MAPTILER_KE
 npm run dev     # local app
 npm test        # unit tests and lint guards
 npm run build   # tokens, lint, typecheck, bundle
+npm run contrast-report   # regenerates docs/contrast-report.md
+npm run screens:m2        # contact sheets; needs `vite preview` on port 4173
 ```
 
-Scope and plan: [docs/p0-requirements.md](docs/p0-requirements.md). Stack and UI token pipeline: [docs/stack.md](docs/stack.md). Map token model: [docs/token-model.md](docs/token-model.md).
+Scope and plan: [docs/p0-requirements.md](docs/p0-requirements.md). Stack and UI token pipeline: [docs/stack.md](docs/stack.md). Map token model: [docs/token-model.md](docs/token-model.md). Palette engine: [docs/palette-engine.md](docs/palette-engine.md).
 
 The deployed app ships with no MapTiler key. MapTiler works when a user pastes their own key. For local scripts, `MAPTILER_KEY` lives in `.env.local`, which is never committed.

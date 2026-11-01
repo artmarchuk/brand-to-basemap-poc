@@ -69,7 +69,7 @@ The isolation test changes each token in turn and requires that exactly the laye
 
 ## Derived colours
 
-A derived colour is an OKLCH mix of one token towards another, for example `tint('roadMajor', 'labelPrimary', 0.25)` for a casing. Mixing towards a token rather than applying a fixed lighter or darker offset means the result works in light and dark sets: `labelPrimary` contrasts with the map in both, so a casing stays visible either way.
+A derived colour is an OKLCH mix of one token towards another, for example `tint('roadMajor', 'labelPrimary', 0.25)` for a casing. Mixing towards a token rather than applying a fixed lighter or darker offset means the result works in light and dark sets: `labelPrimary` contrasts with the map in both, so a casing stays visible either way. A near-grey end of a mix (chroma under 0.03, such as a tinted land) takes the other end's hue, so the mix does not sweep the colour wheel: before this, a green park mixed with a blue or pink land came out aqua or peach on Streets at z4.
 
 ## Zoom behaviour
 
@@ -87,7 +87,7 @@ Rules with `flatten` draw layers as opaque fills, and `fill-extrusion` layers be
 
 ## Road gap
 
-`enforceRoadGap(minGap)` is a `TokenTransform` that keeps roadMajor and roadMinor at least `minGap` apart in OKLCH lightness. `roadMajor` carries the brand and stays put; `roadMinor` moves. The default, 0.10, is `minRoadLightnessGap` in [src/palette/config.ts](../src/palette/config.ts) and is a starting value until M2 tunes it on the ten palettes.
+The palette engine ([palette-engine.md](palette-engine.md)) uses this in light and dark. `enforceRoadGap(minGap)` is a `TokenTransform` that keeps roadMajor and roadMinor at least `minGap` apart in OKLCH lightness. `roadMajor` carries the brand and stays put; `roadMinor` moves. The default, 0.10, is `minRoadLightnessGap` in [src/palette/config.ts](../src/palette/config.ts). It is a floor: the ten palettes already derive gaps of at least 0.22.
 
 ## Toggle groups
 
