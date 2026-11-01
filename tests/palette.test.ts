@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import palettes from '../fixtures/palettes.json';
 import { applyVisibility, createState, deriveTokens, PALETTE_CONFIG, PaletteError, parseState, resolve, resetOverride, resetOverrides, setBrand, setOverride, transformForMode } from '../src/palette';
-import { colorDistance, contrastRatio, lightnessOf, parseColor } from '../src/tokens/color';
+import { colorDistance, contrastRatio, lightnessOf, makeColor, mixColors, parseColor } from '../src/tokens/color';
 import { TOKEN_NAMES, type Mode, type ResolvedTokens } from '../src/tokens/types';
 
 const HEX = /^#[0-9a-f]{6}$/;
@@ -51,6 +51,18 @@ describe.each(palettes)('$name', (palette) => {
       expect(contrastRatio(tokens.labelPrimary, tokens[surface]), `primary on ${surface}`).toBeGreaterThanOrEqual(7);
       expect(contrastRatio(tokens.labelSecondary, tokens[surface]), `secondary on ${surface}`).toBeGreaterThanOrEqual(4.5);
     }
+  });
+
+  it.each(['light', 'dark'] as Mode[])('keeps the F5 feature contrast in %s', (mode) => {
+    const { tokens } = at(palette, mode);
+    expect(contrastRatio(tokens.roadMajor, tokens.land)).toBeGreaterThanOrEqual(3);
+    expect(contrastRatio(tokens.boundary, tokens.land)).toBeGreaterThanOrEqual(3);
+    expect(contrastRatio(tokens.roadMinor, tokens.land)).toBeGreaterThanOrEqual(1.5);
+  });
+
+  it.each([0, 30, 60, 100])('keeps roadMajor against land above the sliding threshold at recede %i', (recede) => {
+    const { tokens } = at(palette, 'data', recede);
+    expect(contrastRatio(tokens.roadMajor, tokens.land)).toBeGreaterThanOrEqual(3 - 1.5 * (recede / 100));
   });
 
   it.each(['light', 'dark'] as Mode[])('keeps the accent readable on land in %s', (mode) => {
@@ -126,6 +138,36 @@ describe.each(palettes)('$name', (palette) => {
 
   it('data at recede 0 equals light, exactly', () => {
     expect(at(palette, 'data', 0).tokens).toEqual(at(palette, 'light').tokens);
+  });
+});
+
+describe('second colour', () => {
+  const hueOf = (hex: string) => parseColor(hex)!.h;
+  const apart = (a: number, b: number) => Math.abs(((a - b + 540) % 360) - 180);
+  const byName = (name: string) => palettes.find((palette) => palette.name === name)!;
+
+  it('tints the land from the lightest low-chroma colour and the linework from the second most chromatic', () => {
+    const terracotta = deriveTokens(brandOf(byName('Terracotta Co.')));
+    expect(apart(hueOf(terracotta.land), hueOf('#E9D8C4'))).toBeLessThan(10);
+    expect(apart(hueOf(terracotta.roadMinor), hueOf('#2E3A59'))).toBeLessThan(10);
+    expect(apart(hueOf(terracotta.building), hueOf('#2E3A59'))).toBeLessThan(10);
+    expect(chroma(terracotta.land)).toBeLessThanOrEqual(PALETTE_CONFIG.light.land.cMax + 0.002);
+  });
+
+  it('falls back to the primary tint when no colour qualifies', () => {
+    const ember = deriveTokens(brandOf(byName('Ember')));
+    expect(apart(hueOf(ember.land), hueOf('#E8442E'))).toBeLessThan(10);
+  });
+});
+
+describe('mixing', () => {
+  it('keeps the hue of the chromatic end when the other end is a near-grey tint', () => {
+    const green = parseColor('#cfe8bc')!;
+    for (const landHue of [30, 200, 240, 350]) {
+      const land = parseColor(makeColor(0.96, 0.012, landHue))!;
+      const mixed = mixColors(green, land, 0.5);
+      expect(Math.abs(((mixed.h - green.h + 540) % 360) - 180), `land hue ${landHue}`).toBeLessThan(5);
+    }
   });
 });
 

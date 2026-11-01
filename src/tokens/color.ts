@@ -17,8 +17,17 @@ export function parseColor(css: string): Color | undefined {
   return { l, c, h: h ?? 0, alpha: alpha ?? 1 };
 }
 
+/** Below this chroma a hue is too faint to steer a mix: it is a tint, not a colour. */
+const POWERLESS_HUE_CHROMA = 0.03;
+
+/**
+ * Mixes in OKLCH. A near-grey end (a tinted land) has no hue of its own, so the other end's hue is used for it;
+ * otherwise the hue would sweep across the wheel and turn a green-to-land mix aqua or peach.
+ */
 export function mixColors(from: Color, to: Color, amount: number): Color {
-  const mixed = interpolate([{ mode: 'oklch' as const, ...from }, { mode: 'oklch' as const, ...to }], 'oklch')(amount);
+  const fromHue = from.c < POWERLESS_HUE_CHROMA && to.c >= POWERLESS_HUE_CHROMA ? to.h : from.h;
+  const toHue = to.c < POWERLESS_HUE_CHROMA && from.c >= POWERLESS_HUE_CHROMA ? from.h : to.h;
+  const mixed = interpolate([{ mode: 'oklch' as const, ...from, h: fromHue }, { mode: 'oklch' as const, ...to, h: toHue }], 'oklch')(amount);
   return { l: mixed.l, c: mixed.c, h: mixed.h ?? 0, alpha: from.alpha };
 }
 
