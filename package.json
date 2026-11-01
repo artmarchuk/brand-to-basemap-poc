@@ -18,7 +18,9 @@
     "harness:build": "tsx scripts/build-harness.ts",
     "screens": "node scripts/capture-screens.mjs && node scripts/check-building-colour.mjs",
     "fetch-styles": "node scripts/fetch-styles.mjs",
-    "check-drift": "tsx scripts/check-drift.ts"
+    "check-drift": "tsx scripts/check-drift.ts",
+    "contrast-report": "tsx scripts/generate-contrast-report.ts",
+    "screens:m2": "node scripts/capture-m2.mjs http://localhost:4173/harness/index.html \"1,4,8\" && node scripts/make-zoom-sheets.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slider": "^1.6.1",
