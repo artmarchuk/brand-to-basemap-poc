@@ -20,6 +20,7 @@
     "fetch-styles": "node scripts/fetch-styles.mjs",
     "check-drift": "tsx scripts/check-drift.ts",
     "contrast-report": "tsx scripts/generate-contrast-report.ts",
+    "screens:app": "node scripts/capture-app.mjs http://localhost:4173/",
     "screens:m2": "node scripts/capture-m2.mjs http://localhost:4173/harness/index.html \"1,4,8\" && node scripts/make-zoom-sheets.mjs"
   },
   "dependencies": {
