@@ -14,3 +14,6 @@ public/harness/
 
 # MapTiler's licence limits the style to use with MapTiler. Fetch it with `npm run fetch-styles`.
 base-styles/streets-v2.json
+
+# Raw M2 captures. The sheets built from them are committed; `npm run screens:m2` recreates these.
+docs/screens/m2/p[0-9]*-*.png
