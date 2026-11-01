@@ -1,0 +1,12 @@
+[
+  { "name": "Fjord Bank", "tests": "Brand blue colliding with water", "colors": ["#0B3C5D", "#D9E8F5"], "primary": 0 },
+  { "name": "Verdant", "tests": "Brand green colliding with park", "colors": ["#1F7A4D", "#F2C94C"], "primary": 0 },
+  { "name": "Ember", "tests": "Saturated red-orange with charcoal", "colors": ["#E8442E", "#2B2B2B"], "primary": 0 },
+  { "name": "Saffron & Ink", "tests": "Yellow, which fails contrast easily", "colors": ["#F5B700", "#1B1B3A"], "primary": 0 },
+  { "name": "Violet Hour", "tests": "Purple and pink, no natural water or park hue", "colors": ["#6C3FC5", "#FF6FB5", "#1A1033"], "primary": 0 },
+  { "name": "Plainsman", "tests": "Pure greys, no hue to take", "colors": ["#222222", "#888888", "#F0F0F0"], "primary": 0 },
+  { "name": "Neon Arcade", "tests": "Extreme chroma, gamut mapping", "colors": ["#00F0FF", "#FF2BD6"], "primary": 0 },
+  { "name": "Pastel Studio", "tests": "Low-contrast pastels", "colors": ["#F7C6D9", "#C6E2F7", "#D9F2C6"], "primary": 0 },
+  { "name": "Terracotta Co.", "tests": "Earthy four-colour palette", "colors": ["#C65D3B", "#E9D8C4", "#5B6B4F", "#2E3A59"], "primary": 0 },
+  { "name": "Tricolor Transit", "tests": "Five colours, the maximum", "colors": ["#D62828", "#F77F00", "#FCBF49", "#2A9D8F", "#264653"], "primary": 0 }
+]
