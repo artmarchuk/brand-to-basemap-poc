@@ -6,6 +6,7 @@ import { applyVisibility, createState, resolve, type BrandInput } from '../src/p
 import { applyTokens } from '../src/style/applyTokens';
 import { loadBaseStyle } from '../src/style/provider';
 import type { Mode, ResolvedTokens } from '../src/tokens/types';
+import { buildOverlay, withOverlay, type Bounds } from './overlay';
 
 export { loadBaseStyle, MAPPINGS };
 
@@ -40,6 +41,10 @@ export function buildPaletteStyle(base: StyleSpecification, styleId: string, vie
   const style = applyTokens(base, tokens, { mapping: MAPPINGS[styleId], groups, labelDensity });
   return { style, tokens };
 }
+
+/** Dev-only test overlay for trying data mode against real-looking data. */
+export const addOverlay = (style: StyleSpecification, bounds: Bounds, tokens: ResolvedTokens) =>
+  withOverlay(style, buildOverlay(bounds), tokens);
 
 /** Median and 95th percentile of resolve + applyTokens, in milliseconds. */
 export function benchmark(base: StyleSpecification, styleId: string, view: PaletteView, runs = 40) {

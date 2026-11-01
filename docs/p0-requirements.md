@@ -32,7 +32,7 @@ P0 serves both segments (agencies/freelancers and small product teams) with the 
 1. **Enter brand colours** — 2–5 colours, one marked primary. *(the only required decision)*
 2. **See the branded map** — minimal-first canvas, live.
 3. **Add detail** — toggle groups and label density.
-4. **Switch modes** — light, dark, data (recede slider, sample overlay).
+4. **Switch modes** — light, dark, data (recede slider).
 5. **Check zooms** — zoom stops (z4 / z8 / z12 / z16) on the main map, with a sweep and a review dot per stop.
 6. **Check accessibility** — pass/fail per mode, colour-vision simulation, auto-fix.
 7. **Choose provider** — OpenFreeMap (default) or MapTiler with own key.
@@ -58,6 +58,7 @@ Everything else depends on this, so it is specified first.
 **Outcome:** brand colours become a complete, coherent token set in one step.
 
 - Input 2–5 colours via a colour picker or pasted hex values. One is marked primary.
+- Second colour rule: the lightest low-chroma brand colour seeds the land tint, within the chroma cap; the second most chromatic seeds road minor, boundary and the building tint.
 - The system derives all 11 tokens from the input, with harmonised neutrals for land and labels, derived by OKLCH rules (lightness and chroma targets per token, hue taken from the brand) and tested on a set of 10 palettes.
 - The map updates live, within about 300 ms of a change.
 - Any single token can be overridden by hand; an override survives later changes to the brand colours until reset.
@@ -67,8 +68,8 @@ Everything else depends on this, so it is specified first.
 
 **Outcome:** the map starts quiet and beautiful; detail is added only on request, already in brand.
 
-- Default state: land, water, parks, major roads, place labels. Everything else off.
-- Toggle groups: POIs, transit, buildings, landuse, minor roads, boundaries, and label density (low, medium, high).
+- Default state: land, water, parks, major roads, place labels, and minor roads from about z14. Everything else off.
+- Toggle groups: POIs, transit, buildings, landuse, minor roads below z14 (low-zoom clutter only), boundaries, and label density (low, medium, high).
 - A group switched on appears already styled from the tokens, with no extra decisions.
 - No layer list in the main UI.
 
@@ -78,7 +79,7 @@ Everything else depends on this, so it is specified first.
 
 - Light is the default. Dark is derived automatically from the same tokens, not a separate style.
 - Data mode: one "recede for data" slider (0–100) scales fill and line chroma down to about 20%, pulls land and road lightness toward each other, hides POIs above 30 and thins minor labels above 60. Labels are thinned, never faded, so they keep passing the contrast check. In P0 data mode applies to the light palette only; dark with data recede is P1.
-- In data mode, a sample overlay (fictional points and a hex-grid choropleth) can be shown, and labels render above it. The overlay is generated on the fly with seeded values for whatever location and zoom is on screen, so it works anywhere. It is demo-only and is not part of any export.
+- The sample data overlay was dropped from the app (S2 scope reminder). A dev-only generator stays in the harness (`#overlay=1`), outside the app bundle and never exported. Data mode keeps the recede slider, the POI and label rules, and one line of explanation.
 - All three modes are exportable.
 
 ### F4. Zoom stops
@@ -96,7 +97,9 @@ Everything else depends on this, so it is specified first.
 
 **Outcome:** the user knows the map is readable and can fix it in one click.
 
-- Checks contrast for label primary and secondary against the colours they sit on (with and without halo) against WCAG AA 4.5:1, and key features (roads, water, boundaries against land) at 3:1.
+- Checks contrast for label primary (7:1) and secondary (4.5:1) against the colours they sit on, with and without halo.
+- Checks features against land: road major and boundary 3:1; road minor 1.5:1; water and park by OKLab colour distance, not a ratio (threshold to be set from the per-palette values in `docs/contrast-report.md`; proposed 0.05).
+- In data mode the road major / land threshold slides linearly from 3:1 at recede 0 to 1.5:1 at recede 100. Labels stay AA.
 - Shows a clear pass or fail summary, per mode and per zoom stop, with the failing token pairs named.
 - Colour-vision simulation toggle: protanopia, deuteranopia, tritanopia.
 - Auto-fix adjusts token lightness, keeping hue as close to the brand as possible, until checks pass. Shows what changed and allows undo.
@@ -109,6 +112,7 @@ Everything else depends on this, so it is specified first.
 - Provider switch: OpenFreeMap (default, no key) or MapTiler (user pastes their own key, stored in localStorage, never in the URL). The deployed app ships with no key and there is no demo key.
 - Switching provider keeps the token set and re-applies it to that provider's base style.
 - Exports: MapLibre style JSON per mode; the token set as JSON and as CSS variables; a copy-paste HTML/JS embed snippet.
+- The exported style includes a stable, documented anchor layer ID for "add your data above this, below the labels".
 - Required attribution is included automatically for the chosen provider.
 - The current state can be saved and reopened (decided: URL-encoded state in the hash plus local autosave; the MapTiler key is never put in the URL).
 - A persistent Export button opens the export panel at any time. There is no forced final step; the scripted demo ends in the export panel.
@@ -163,7 +167,7 @@ Everything else depends on this, so it is specified first.
 | Q1 | Base style per provider | OpenFreeMap **Liberty** + MapTiler **Streets v2**. We repaint every layer from tokens, so what matters is layer richness (POIs, transit, buildings for the F2 toggles). Revisit only if M1 finds a blocking mapping problem. |
 | Q2 | How the derived palette is generated | **OKLCH** rules (lightness and chroma targets per token, hue from the brand), tested on a 10-palette set. |
 | Q3 | Save and share | **URL-encoded state** (brand colours, overrides, toggles, mode, location) in the hash, plus local autosave. The MapTiler key is never put in the URL. The token JSON export already serves as a project file. |
-| Q4 | What the data-mode slider changes, and which overlay | 0→100 scales chroma down (to about 20%), compresses land/road lightness toward each other, hides POIs above 30 and minor labels above 60. Receding acts on fills and lines; labels are thinned, never faded. Overlay: fictional points and a hex-grid choropleth, generated on the fly with seeded values; demo only, not exported. In P0, data mode applies to the light palette only. |
+| Q4 | What the data-mode slider changes, and which overlay | 0→100 scales chroma down (to about 20%), compresses land/road lightness toward each other, hides POIs above 30 and minor labels above 60. Receding acts on fills and lines; labels are thinned, never faded. The sample overlay was later dropped from the app; see F3. In P0, data mode applies to the light palette only. |
 | Q5 | Default location and how to change it | **Zurich** by default; the user can pan anywhere or pick from 6 curated cities, Kyiv among them. The other four are still to be chosen for variety (proposal: Barcelona, New York, Tokyo, Nairobi). No place search in P0. |
 | Q6 | What "done" looks like | No forced final step; a persistent **Export** button; the scripted demo ends in the export panel. |
 
@@ -178,7 +182,7 @@ Everything else depends on this, so it is specified first.
 ## Open items for the PM (spec additions, defaults apply unless Artem objects)
 
 - **Auto-fix vs manual overrides.** Default: auto-fix does not change a token the user set by hand; it flags the failing override and asks.
-- **Contrast pair matrix.** "Labels against the colours they sit on" needs a fixed list of checked pairs per mode (place labels sit on land, water, parks and roads) and a rule for how the halo counts. Claude Code proposes the matrix; the PM reviews.
+- **Contrast pair matrix.** The feature thresholds are decided (see F5). Still open: the OKLab threshold for water and park, the fixed list of label pairs per mode, and how the halo counts.
 - **Measuring the success criteria.** "Under 5 minutes" needs a timed test with 2–3 first-time users; "renders identically" needs a scripted check (export → plain MapLibre page → visual diff).
 - **Hosting and public link.** Claude Code's call (GitHub Pages or Vercel); no secrets in the repo.
 - **Test palettes.** Use palettes inspired by well-known brands but shown under fictional brand names, to avoid trademark use in a public case study.
@@ -193,8 +197,8 @@ Owners: **CC** = Claude Code, **PM** = the PM chat, **A** = Artem, **DA** = desi
 | --- | --- | --- | --- |
 | S0 Setup | Repo and stack scaffold; public deploy; UI token pipeline (DTCG JSON → CSS variables, lint against hard-coded values) with placeholder tokens; short stack confirmation note | CC | None |
 | S1 Token model and palette engine (M1 + M2) | F0 mapping for Liberty and Streets v2, applyTokens, unmapped-layer report; OKLCH derivation, dark and data transforms, overrides; harness page and screenshots on 10 test palettes | CC | Checkpoint A: review screenshots (about 15 min) |
-| S2 App shell (F1–F4) | Brand input, live map, overrides and reset, detail toggles, light, dark and data modes, recede slider, generated overlay, zoom stops | CC | Checkpoint B: try the app (about 15 min) |
-| S3 Quality and shipping (F5–F6) | Contrast checks per mode and zoom stop, colour-vision simulation, auto-fix with undo, provider switch, exports, URL state, attribution | CC | Checkpoint C: try auto-fix and export (about 15 min) |
+| S2 App shell (F1–F4) | Brand input, live map, overrides and reset, detail toggles, light, dark and data modes, recede slider, zoom stops | CC | Checkpoint B: try the app (about 15 min) |
+| S3 Quality and shipping (F5–F6) | Contrast checks per mode and zoom stop, colour-vision simulation, auto-fix with undo, provider switch, exports with a data anchor layer, URL state, attribution | CC | Checkpoint C: try auto-fix and export (about 15 min) |
 | S4 Validation and demo | Export-fidelity check in a plain MapLibre page, run on 10 palettes, WCAG AA audit of the tool's own UI, 2-minute demo script, public URL; optional 2–3 timed first-time-user sessions | CC, PM, A | Final review (about 30 min) |
 | Phase 2: design pass (after P0) | App UX, UI and branding for the working prototype, in Figma; Figma Variables become the source of UI tokens; sync into the repo via the Figma MCP; restyle | DA, CC, A | Reviews |
 

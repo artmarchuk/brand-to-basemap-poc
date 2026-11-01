@@ -137,6 +137,15 @@
                 ? { url: `${url}${url.includes('?') ? '&' : '?'}key=${encodeURIComponent(key)}` }
                 : { url },
           });
+          // Dev-only: #overlay=1 draws the data-mode test overlay over a palette style.
+          if (state.overlay === '1' && usingPalette) {
+            map.once('load', async () => {
+              const runtime = await import('./vendor/b2b-runtime.mjs');
+              const b = map.getBounds();
+              const bounds = { west: b.getWest(), south: b.getSouth(), east: b.getEast(), north: b.getNorth() };
+              map.setStyle(runtime.addOverlay(style, bounds, window.resolvedTokens), { diff: true });
+            });
+          }
           map.once('idle', () => { window.mapIdle = true; });
         }
       }
