@@ -21,7 +21,7 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 - Default location Zurich; the user can pan anywhere or pick from 6 curated cities (Kyiv included). No place search in P0.
 - No forced final step: a persistent Export button.
 - Second colour: the lightest low-chroma brand colour seeds the land tint, within the chroma cap; the second most chromatic seeds `roadMinor`, `boundary` and the `building` tint.
-- F5 thresholds: `roadMajor` and `boundary` 3:1 against land; `roadMinor` 1.5:1; water and park by OKLab distance from land; labels 7:1 and 4.5:1. In data mode `roadMajor`/land slides linearly from 3:1 at recede 0 to 1.5:1 at 100, and labels stay AA.
+- F5 thresholds: `roadMajor` and `boundary` 3:1 against land; `roadMinor` 1.5:1; water and park by OKLab distance, with thresholds set per preset (`docs/preset-engine.md`); labels 7:1 and 4.5:1. In data mode `roadMajor`/land slides linearly from 3:1 at recede 0 to 1.5:1 at 100, and labels stay AA.
 - Minor roads are in the base map from z14; the toggle only adds them below that.
 - Buildings are always flat fills, so they show the exact `building` token. No 3D in P0.
 - Token layering: brand input, base tokens, per-mode transform, per-mode overrides, auto-fix adjustments.

@@ -98,7 +98,7 @@ Everything else depends on this, so it is specified first.
 **Outcome:** the user knows the map is readable and can fix it in one click.
 
 - Checks contrast for label primary (7:1) and secondary (4.5:1) against the colours they sit on, with and without halo.
-- Checks features against land: road major and boundary 3:1; road minor 1.5:1; water and park by OKLab colour distance, not a ratio (threshold to be set from the per-palette values in `docs/contrast-report.md`; proposed 0.05).
+- Checks features against land: road major and boundary 3:1; road minor 1.5:1; water and park by OKLab colour distance, not a ratio. The single 0.05 threshold proposed from the per-palette values in `docs/contrast-report.md` is superseded: each preset carries its own distance checks (see `docs/preset-engine.md`).
 - In data mode the road major / land threshold slides linearly from 3:1 at recede 0 to 1.5:1 at recede 100. Labels stay AA.
 - Shows a clear pass or fail summary, per mode and per zoom stop, with the failing token pairs named.
 - Colour-vision simulation toggle: protanopia, deuteranopia, tritanopia.
@@ -199,7 +199,7 @@ Presets replace the brand-colour list as the first decision. Spec: [presets-desi
 ## Open items for the PM (spec additions, defaults apply unless Artem objects)
 
 - **Auto-fix vs manual overrides.** Default: auto-fix does not change a token the user set by hand; it flags the failing override and asks.
-- **Contrast pair matrix.** The feature thresholds are decided (see F5). Still open: the OKLab threshold for water and park, the fixed list of label pairs per mode, and how the halo counts.
+- **Contrast pair matrix.** The feature thresholds are decided (see F5). The water and park distance threshold is closed: superseded by per-preset checks. Still open: the fixed list of label pairs per mode, and how the halo counts.
 - **Measuring the success criteria.** "Under 5 minutes" needs a timed test with 2–3 first-time users; "renders identically" needs a scripted check (export → plain MapLibre page → visual diff).
 - **Hosting and public link.** Claude Code's call (GitHub Pages or Vercel); no secrets in the repo.
 - **Test palettes.** Use palettes inspired by well-known brands but shown under fictional brand names, to avoid trademark use in a public case study.
