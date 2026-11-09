@@ -9,6 +9,8 @@ export interface SlotDefinition {
   /** What the slot colours on the map, for the UI. */
   role: string;
   primary?: boolean;
+  /** Shown up front in the app. Slots that are not exposed sit under a collapsed "Refine" group. The primary slot is always exposed. */
+  exposed: boolean;
   /** Expression over earlier slots. Required on every slot that is not primary. */
   default?: string;
 }

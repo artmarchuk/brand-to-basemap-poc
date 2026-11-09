@@ -35,6 +35,29 @@ export const libertyMapping: StyleMapping = {
   // Liberty's residential fill stops at z12, is translucent and has no commercial or industrial land.
   // Not suburb, quarter or neighbourhood: those are place polygons that blanket whole cities.
   additions: [
+    // Tonal patches: Liberty draws wood and grass but not farmland or rock, which cover much of the land at z8-z12.
+    {
+      after: 'landcover_grass',
+      layer: {
+        id: 'b2b_landcover_farmland',
+        type: 'fill',
+        source: 'openmaptiles',
+        'source-layer': 'landcover',
+        filter: ['==', ['get', 'class'], 'farmland'],
+        paint: { 'fill-color': '#000000' },
+      },
+    },
+    {
+      after: 'landcover_grass',
+      layer: {
+        id: 'b2b_landcover_rock',
+        type: 'fill',
+        source: 'openmaptiles',
+        'source-layer': 'landcover',
+        filter: ['==', ['get', 'class'], 'rock'],
+        paint: { 'fill-color': '#000000' },
+      },
+    },
     {
       after: 'landuse_residential',
       layer: {
@@ -55,6 +78,10 @@ export const libertyMapping: StyleMapping = {
       hidden: true,
       why: 'Shaded-relief imagery has baked colours that no token can reach.',
     },
+
+    // Farmland sits between the park tint and the land; rock is the park tint's other side. Both are tonal patches.
+    { match: { ids: ['b2b_landcover_farmland'] }, group: 'landcover', colors: { 'fill-color': tint('park', 'land', 0.4) }, why: 'Farmland has no token: 40% of the way from park to land, so patches read as a second tone.' },
+    { match: { ids: ['b2b_landcover_rock'] }, group: 'landcover', colors: { 'fill-color': tint('park', 'labelPrimary', 0.08) }, why: 'Rock has no token: the park tint with a little label colour, a darker patch.' },
 
     // Parks and green landcover
     { match: { sourceLayer: 'park', type: 'fill' }, group: 'core', colors: { 'fill-color': 'park', 'fill-outline-color': 'park' } },

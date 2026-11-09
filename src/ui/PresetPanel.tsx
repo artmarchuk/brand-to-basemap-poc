@@ -18,23 +18,25 @@ export function PresetPanel({ preset, slots, notices, onPreset, onSlot, onClear,
   const row = (definition: PresetDefinition['slots'][number]) => {
     const slot = slots.find((candidate) => candidate.id === definition.id)!;
     const fix = notices.find((notice) => notice.kind === 'slot' && notice.target === slot.id);
+    const auto = slot.source === 'default';
     return (
       <li key={slot.id} className="colour-row">
         <input className="colour-input" type="color" value={slot.input} onChange={(event) => onSlot(slot.id, event.target.value)} aria-label={definition.label} />
         <HexField value={slot.input} label={`${definition.label} hex`} onCommit={(hex) => onSlot(slot.id, hex)} />
         <span className="token-name">
-          {definition.label}
-          <span className="hint">{definition.primary ? 'Required' : slot.source === 'default' ? 'Derived default' : definition.role}</span>
+          {definition.label} {auto && <span className="tag">auto</span>}
+          <span className="hint">{definition.role}</span>
         </span>
-        {!definition.primary && slot.source === 'user' && (
-          <button type="button" className="button button-quiet" onClick={() => onClear(slot.id)} aria-label={`Use the derived default for ${definition.label}`}>
-            Default
+        {!definition.primary && !auto && (
+          <button type="button" className="button button-quiet" onClick={() => onClear(slot.id)} aria-label={`Set ${definition.label} back to auto`}>
+            Auto
           </button>
         )}
         {slot.used !== slot.input && <span className="hint" title={fix?.check}>used: {slot.used}</span>}
       </li>
     );
   };
+  const refine = preset.slots.filter((slot) => !slot.exposed);
   return (
     <section className="panel-section" aria-labelledby="preset-heading">
       <h2 id="preset-heading" className="panel-heading">Preset</h2>
@@ -48,11 +50,15 @@ export function PresetPanel({ preset, slots, notices, onPreset, onSlot, onClear,
         ))}
       </div>
       <p className="hint">{preset.description}</p>
-      <h3 className="panel-subheading">Key colour</h3>
-      <ul className="colour-list">{preset.slots.filter((slot) => slot.primary).map(row)}</ul>
-      <h3 className="panel-subheading">Refine</h3>
-      <p className="hint">Optional. Each starts as a colour derived from the key colour.</p>
-      <ul className="colour-list">{preset.slots.filter((slot) => !slot.primary).map(row)}</ul>
+      <h3 className="panel-subheading">Colours</h3>
+      <ul className="colour-list">{preset.slots.filter((slot) => slot.exposed).map(row)}</ul>
+      {refine.length > 0 && (
+        <details className="refine">
+          <summary>Refine ({refine.map((slot) => slot.label).join(', ')})</summary>
+          <p className="hint">Every colour here has an auto value, derived from the others, until you type one.</p>
+          <ul className="colour-list">{refine.map(row)}</ul>
+        </details>
+      )}
       <button type="button" className="button" onClick={onSample}>Use this preset&apos;s sample palette</button>
     </section>
   );

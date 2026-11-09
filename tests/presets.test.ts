@@ -107,6 +107,37 @@ describe('expressions', () => {
   });
 });
 
+describe('exposed slots', () => {
+  const exposed = (id: string) => getPreset(id).slots.filter((slot) => slot.exposed).map((slot) => slot.id);
+  const refine = (id: string) => getPreset(id).slots.filter((slot) => !slot.exposed).map((slot) => slot.id);
+
+  it('puts the agreed slots up front and the rest under Refine', () => {
+    expect([exposed('single-ink'), refine('single-ink')]).toEqual([['ink'], ['paper']]);
+    expect([exposed('colour-field'), refine('colour-field')]).toEqual([['field', 'deep'], ['ink', 'spark']]);
+    expect([exposed('figure-ground'), refine('figure-ground')]).toEqual([['fabric', 'paper', 'water'], ['green']]);
+  });
+
+  it('exposes every primary slot, and requires the flag on every slot', () => {
+    for (const preset of PRESETS) expect(preset.slots.find((slot) => slot.primary)!.exposed).toBe(true);
+    const broken = structuredClone(getPreset('single-ink')) as unknown as { slots: { exposed?: boolean }[] };
+    delete broken.slots[1].exposed;
+    expect(() => validatePreset(broken)).toThrow(/exposed/);
+    const hidden = structuredClone(getPreset('single-ink')) as unknown as { slots: { exposed?: boolean }[] };
+    hidden.slots[0].exposed = false;
+    expect(() => validatePreset(hidden)).toThrow(/primary slot must be exposed/);
+  });
+
+  it('every slot always has a value: refine slots show their derived default until typed', () => {
+    for (const preset of PRESETS) {
+      const result = resolvePreset(createPresetState(preset.id, preset.sample[preset.slots.find((slot) => slot.primary)!.id]));
+      for (const slot of result.slots) {
+        expect(slot.input).toMatch(HEX);
+        if (!preset.slots.find((definition) => definition.id === slot.id)!.primary) expect(slot.source).toBe('default');
+      }
+    }
+  });
+});
+
 describe('preset files', () => {
   it('loads the three presets', () => {
     expect(PRESETS.map((preset) => preset.id)).toEqual(['single-ink', 'figure-ground', 'colour-field']);

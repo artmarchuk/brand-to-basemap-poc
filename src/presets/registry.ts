@@ -29,6 +29,8 @@ export function validatePreset(raw: unknown): PresetDefinition {
   if (!Array.isArray(preset.slots) || preset.slots.length === 0) fail('needs slots');
   const primaries = preset.slots.filter((slot) => slot.primary);
   if (primaries.length !== 1) fail(`needs exactly one primary slot, has ${primaries.length}`);
+  for (const slot of preset.slots) if (typeof slot.exposed !== 'boolean') fail(`slot "${slot.id}" needs exposed: true or false`);
+  if (!primaries[0].exposed) fail('the primary slot must be exposed');
 
   const known: string[] = [];
   for (const slot of preset.slots) {

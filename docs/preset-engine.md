@@ -29,14 +29,16 @@ primary + optional slots -> slot defaults -> token expressions -> auto-fix (chec
 | Primary slot | Ink | Fabric | Field |
 | Primary lands on | water | built-up land and buildings | land |
 | Optional slots (default) | Paper (`light(ink)`) | Paper (`light(fabric)`), Water (`waterFor(fabric)`), Green (`paper`) | Deep (`dark(field)`), Ink (`dark(field)`), Spark (`complement(field)`) |
+| Up front in the app | Ink | Fabric, Water, Paper | Field, Deep |
+| Under Refine | Paper | Green | Ink, Spark |
 | Roads | Ink; medium major, hairline minor, no casings | Paper; Liberty widths, hairline casing on major | Tints of the field (65% and 45% towards near-white), no casings; motorways and trunk roads in Spark |
-| Detail | all off | buildings and built-up land, locked on | tonal buildings on (switchable) |
+| Detail | all off | buildings and built-up land, locked on | tonal buildings on (switchable), tonal landcover on |
 
 ## Preset format
 
 One JSON file per preset, validated at load by `validatePreset`, which names the file and the problem.
 
-- **`slots`**: exactly one with `primary: true`. Every other slot needs a `default` expression, which may read earlier slots only.
+- **`slots`**: exactly one with `primary: true`. Every other slot needs a `default` expression, which may read earlier slots only. Every slot has `exposed`: true shows it up front in the app, false puts it under a collapsed Refine group. The primary is always exposed. Every slot always has a value; a derived one carries an "auto" tag until the user types one.
 - **`sample`**: the spec's sample palette, by slot.
 - **`tokens`**: an expression for each of the 13 tokens.
 - **`treatment`**: what is not a colour. Road `weight` (`base`, or a weight named in config) and `casing` (`base`, `none`, `hairline`) for major and minor roads; `boundaryDash`; `waterLabel` text and halo tokens; `accentOutline`; `urbanLanduseFade` zooms; and `hide`, layer roles not drawn (one-way arrows, pedestrian areas); `labelHaloWidth` for place labels.
@@ -118,7 +120,7 @@ The two new tokens recede like the others: `urbanLanduse` as a surface (lighter 
 ## Compiler extensions
 
 - **Tokens:** schema 0.4.0 has 14 tokens. 0.3.0 added `urbanLanduse` and `roadMajorCasing`; 0.4.0 adds `roadHighway` (motorway and trunk lines; Liberty splits trunk out of its trunk/primary layers). The brand-colour engine derives all three the way those layers were drawn before, so its output is unchanged. In Single Ink and Figure-Ground `roadHighway` is the major-road colour; in Colour Field it is Spark.
-- **Additions:** a mapping can add layers. Liberty adds `b2b_urban_landuse` (landuse classes residential, commercial, industrial and retail) after `landuse_residential`, in the new `urbanLanduse` group.
+- **Additions:** a mapping can add layers. Liberty adds `b2b_urban_landuse` (landuse classes residential, commercial, industrial and retail) after `landuse_residential`, in the `urbanLanduse` group; and `b2b_landcover_farmland` and `b2b_landcover_rock` after `landcover_grass`, in the `landcover` group. Liberty draws neither farmland nor rock, though they cover much of the land at z8-z12 (26% of the Kyiv z8 tile). Both groups are switched by the preset, not by a user toggle. Farmland is 40% of the way from the park tint to the land; rock is the park tint plus 8% label colour.
 - **Roles:** rules carry a `role`, written to `b2b:role` metadata, and treatments act on roles: `roadMajor`, `roadHighway`, `roadMajorCasing`, `roadMinor`, `roadMinorCasing`, `boundary`, `waterLabel`, `poi`, `urbanLanduse`, `roadArea`, `oneWay`, `placeLabel`.
 - **Hairline casing:** a casing is its road's final width ramp plus `casingHairlinePx`, found by the mapping's `casingSuffix`.
 
@@ -130,7 +132,7 @@ In [config.ts](../src/presets/config.ts): the function constants, the `hairline`
 
 - **Liberty only.** Streets v2 has no roles or additions yet.
 - **Single Ink is sparse at z12.** Minor roads below z14 are off by default, so the dense hairline street look of the reference only appears from z14.
-- **Colour Field is flatter than its reference.** Frame 3 gets its depth from tonal farmland and landcover patches, which the preset does not draw.
+- **Colour Field's landcover is two tones.** Frame 3 has more variety than park, farmland and rock give. The park tint is now 24% of Deep (was 10%) so the patches show, which also moves some key colours: darker Deep tints pull the label checks, so a mid-tone field such as terracotta is lightened a little and its labels may flip to near-white.
 - **Tonal buildings can read muddy** when Deep and Field are far apart (terracotta with a navy Deep).
 - **Thumbnails are static.** `scripts/make-thumbs.mjs` crops them from the M3 captures (macOS); rerun it when a preset's look changes.
 - **Auto-fix can move a key colour a long way.** A mid-tone or dark primary in Colour Field, or a pastel fabric, is moved to reach label contrast. The UI shows the used colour, but the map may stop feeling on brand. See the report for the worst cases.
