@@ -1,4 +1,4 @@
-export const SCHEMA_VERSION = '0.2.0';
+export const SCHEMA_VERSION = '0.3.0';
 
 export const TOKEN_NAMES = [
   'land',
@@ -12,11 +12,14 @@ export const TOKEN_NAMES = [
   'labelSecondary',
   'halo',
   'accent',
+  // 0.3.0: built-up land as one fill (Figure-Ground's fabric below z13) and the casing of major roads.
+  'urbanLanduse',
+  'roadMajorCasing',
 ] as const;
 
 export type TokenName = (typeof TOKEN_NAMES)[number];
 
-/** The 11 semantic colours as hex. This is the only thing applyTokens reads. */
+/** The 13 semantic colours as hex. This is the only thing applyTokens reads. */
 export type ResolvedTokens = Record<TokenName, string>;
 
 export type Mode = 'light' | 'dark' | 'data';

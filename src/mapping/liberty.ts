@@ -5,10 +5,12 @@ const transport = { sourceLayer: 'transportation', type: 'line' };
 const ROAD_WHY = 'Casings and tunnels have no token; they follow their road so hierarchy holds.';
 
 function roadRules(idPattern: RegExp, road: 'roadMajor' | 'roadMinor', group: 'core' | 'minorRoads'): MappingRule[] {
+  const casingRef = road === 'roadMajor' ? 'roadMajorCasing' : casing(road);
+  const casingRole = road === 'roadMajor' ? 'roadMajorCasing' : 'roadMinorCasing';
   return [
-    { match: { ...transport, idPattern: new RegExp(`${idPattern.source}.*_casing$`) }, group, colors: { 'line-color': casing(road) }, why: ROAD_WHY },
-    { match: { ...transport, idPattern: new RegExp(`^tunnel_.*${idPattern.source}`) }, group, colors: { 'line-color': tunnel(road) }, why: ROAD_WHY },
-    { match: { ...transport, idPattern }, group, colors: { 'line-color': road } },
+    { match: { ...transport, idPattern: new RegExp(`${idPattern.source}.*_casing$`) }, group, role: casingRole, colors: { 'line-color': casingRef }, ...(road === 'roadMinor' && { why: ROAD_WHY }) },
+    { match: { ...transport, idPattern: new RegExp(`^tunnel_.*${idPattern.source}`) }, group, role: road, colors: { 'line-color': tunnel(road) }, why: ROAD_WHY },
+    { match: { ...transport, idPattern }, group, role: road, colors: { 'line-color': road } },
   ];
 }
 
@@ -25,6 +27,22 @@ export const libertyMapping: StyleMapping = {
     { layerId: 'bridge_secondary_tertiary_casing', newId: 'bridge_tertiary_casing', classes: ['tertiary'] },
     { layerId: 'bridge_secondary_tertiary', newId: 'bridge_tertiary', classes: ['tertiary'] },
   ],
+  // Liberty's residential fill stops at z12, is translucent and has no commercial or industrial land.
+  // Not suburb, quarter or neighbourhood: those are place polygons that blanket whole cities.
+  additions: [
+    {
+      after: 'landuse_residential',
+      layer: {
+        id: 'b2b_urban_landuse',
+        type: 'fill',
+        source: 'openmaptiles',
+        'source-layer': 'landuse',
+        filter: ['match', ['get', 'class'], ['residential', 'commercial', 'industrial', 'retail'], true, false],
+        paint: { 'fill-color': '#000000' },
+      },
+    },
+  ],
+  casingSuffix: '_casing',
   rules: [
     { match: { type: 'background' }, group: 'core', colors: { 'background-color': 'land' } },
     {
@@ -48,6 +66,7 @@ export const libertyMapping: StyleMapping = {
     { match: { sourceLayer: 'landcover', classes: ['sand'] }, group: 'core', colors: { 'fill-color': tint('land', 'labelSecondary', 0.08) }, why: 'No sand token; a faint land tint.' },
 
     // Land use
+    { match: { ids: ['b2b_urban_landuse'] }, group: 'urbanLanduse', role: 'urbanLanduse', colors: { 'fill-color': 'urbanLanduse' } },
     { match: { sourceLayer: 'landuse', classes: ['residential'] }, group: 'landuse', colors: { 'fill-color': tint('land', 'labelSecondary', 0.05) }, why: 'Built-up land is the canvas with a faint tint.' },
     { match: { sourceLayer: 'landuse', classes: ['pitch', 'track', 'cemetery'] }, group: 'landuse', colors: { 'fill-color': 'park', 'fill-outline-color': 'park' } },
     { match: { sourceLayer: 'landuse', classes: ['hospital', 'school'] }, group: 'landuse', colors: { 'fill-color': tint('land', 'labelSecondary', 0.08) }, why: 'Institutional land has no token; a faint land tint.' },
@@ -69,23 +88,24 @@ export const libertyMapping: StyleMapping = {
     {
       match: { sourceLayer: 'transportation', type: 'fill' },
       group: 'minorRoads',
+      role: 'roadArea',
       replacePattern: true,
       colors: { 'fill-color': tint('roadMinor', 'land', 0.5) },
       why: 'The base draws pedestrian areas with a sprite pattern; it becomes a quiet minor-road tint.',
     },
-    { match: { sourceLayer: 'transportation', type: 'symbol' }, group: 'minorRoads', bakedSprite: true },
+    { match: { sourceLayer: 'transportation', type: 'symbol' }, group: 'minorRoads', role: 'oneWay', bakedSprite: true },
 
     // Buildings and boundaries
     { match: { sourceLayer: 'building' }, group: 'buildings', flatten: true, colors: buildingColors, why: BUILDING_WHY },
-    { match: { sourceLayer: 'boundary' }, group: 'boundaries', colors: { 'line-color': 'boundary' } },
+    { match: { sourceLayer: 'boundary' }, group: 'boundaries', role: 'boundary', colors: { 'line-color': 'boundary' } },
 
     // Water names
-    { match: { sourceLayer: 'water_name' }, group: 'labels', density: 'low', colors: text(waterLabel), why: 'Water names sit on water, so they derive from it.' },
-    { match: { sourceLayer: 'waterway', type: 'symbol' }, group: 'labels', density: 'medium', colors: text(waterLabel), why: 'Water names sit on water, so they derive from it.' },
+    { match: { sourceLayer: 'water_name' }, group: 'labels', density: 'low', role: 'waterLabel', colors: text(waterLabel), why: 'Water names sit on water, so they derive from it.' },
+    { match: { sourceLayer: 'waterway', type: 'symbol' }, group: 'labels', density: 'medium', role: 'waterLabel', colors: text(waterLabel), why: 'Water names sit on water, so they derive from it.' },
 
     // POIs and transit stops: the accent reaches text only, Liberty's icons are baked
-    { match: { ids: ['poi_transit', 'airport'] }, group: 'transit', colors: text('accent'), bakedSprite: true },
-    { match: { sourceLayer: 'poi' }, group: 'pois', colors: text('accent'), bakedSprite: true },
+    { match: { ids: ['poi_transit', 'airport'] }, group: 'transit', role: 'poi', colors: text('accent'), bakedSprite: true },
+    { match: { sourceLayer: 'poi' }, group: 'pois', role: 'poi', colors: text('accent'), bakedSprite: true },
 
     // Road names and shields
     { match: { ids: ['highway-name-major'] }, group: 'labels', density: 'medium', colors: text('labelPrimary') },

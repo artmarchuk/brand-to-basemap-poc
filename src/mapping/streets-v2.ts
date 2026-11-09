@@ -55,7 +55,7 @@ export const streetsV2Mapping: StyleMapping = {
     { match: { sourceLayer: 'landcover', classes: ['sand'] }, group: 'core', colors: { 'fill-color': tint('land', 'labelSecondary', 0.08) }, why: 'No sand token; a faint land tint.' },
 
     // Land use
-    { match: { ids: ['Residential'] }, group: 'landuse', colors: { 'fill-color': tint('land', 'labelSecondary', 0.05) }, why: 'Built-up land is the canvas with a faint tint.' },
+    { match: { ids: ['Residential'] }, group: 'landuse', colors: { 'fill-color': 'urbanLanduse' } },
     { match: { ids: ['Cemetery', 'Stadium'] }, group: 'landuse', colors: { 'fill-color': 'park' } },
     { match: { ids: ['Industrial', 'Hospital', 'School'] }, group: 'landuse', colors: { 'fill-color': tint('land', 'labelSecondary', 0.08) }, why: 'Institutional and industrial land have no token; a faint land tint.' },
 
@@ -74,9 +74,9 @@ export const streetsV2Mapping: StyleMapping = {
     { match: { idPattern: /rail|Railway|Cablecar/i, type: 'line' }, group: 'transit', colors: { 'line-color': rail }, why: 'No rail token; a neutral between land and secondary label.' },
 
     // Roads
-    { match: { ids: ['Highway outline', 'Major road outline', 'Bridge outline', 'Minor road outline (secondary)'] }, group: 'core', colors: { 'line-color': casing('roadMajor') }, why: ROAD_WHY },
+    { match: { ids: ['Highway outline', 'Major road outline', 'Bridge outline', 'Minor road outline (secondary)'] }, group: 'core', colors: { 'line-color': 'roadMajorCasing' } },
     { match: { ids: ['Highway', 'Major road', 'Minor road (secondary)'] }, group: 'core', colors: { 'line-color': 'roadMajor' } },
-    { match: { ids: ['Tunnel outline (major)'] }, group: 'core', colors: { 'line-color': allBranches(casing('roadMajor')) }, why: ROAD_WHY },
+    { match: { ids: ['Tunnel outline (major)'] }, group: 'core', colors: { 'line-color': allBranches('roadMajorCasing') } },
     { match: { ids: ['Tunnel (major)'] }, group: 'core', colors: { 'line-color': allBranches(tunnel('roadMajor')) }, why: ROAD_WHY },
     { match: { ids: ['Tunnel outline'] }, group: 'minorRoads', colors: { 'line-color': allBranches(casing('roadMinor')) }, why: ROAD_WHY },
     { match: { ids: ['Tunnel'] }, group: 'minorRoads', colors: { 'line-color': allBranches(tunnel('roadMinor')) }, why: ROAD_WHY },

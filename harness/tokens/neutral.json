@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2.0",
+  "schemaVersion": "0.3.0",
   "metadata": {
     "name": "Neutral"
   },
@@ -14,6 +14,8 @@
     "labelPrimary": "#26272b",
     "labelSecondary": "#5b5d65",
     "halo": "#ffffff",
-    "accent": "#3b5bdb"
+    "accent": "#3b5bdb",
+    "urbanLanduse": "#ebe9e6",
+    "roadMajorCasing": "#c4c3c4"
   }
 }

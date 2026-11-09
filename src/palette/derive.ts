@@ -3,6 +3,7 @@ import type { ResolvedTokens } from '../tokens/types';
 import { readBrand, type Brand, type BrandInput } from './brand';
 import { PALETTE_CONFIG, type PaletteConfig } from './config';
 import { ensureContrast } from './contrast';
+import { withDerivedExtras } from './extras';
 import { enforceRoadGap } from './roadGap';
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
@@ -97,7 +98,7 @@ export function deriveTokens(input: BrandInput, config: PaletteConfig = PALETTE_
   });
   const accentHex = accentCandidates.reduce((best, candidate) => (candidate.score > best.score ? candidate : best)).hex;
 
-  const tokens: ResolvedTokens = {
+  const tokens: ResolvedTokens = withDerivedExtras({
     land,
     water: waterHex,
     park: parkHex,
@@ -109,6 +110,6 @@ export function deriveTokens(input: BrandInput, config: PaletteConfig = PALETTE_
     labelSecondary: label(L.labelSecondary),
     halo: makeColor(landColor.l + L.halo.lOffsetFromLand, landColor.c, landColor.h),
     accent: accentHex,
-  };
+  });
   return enforceRoadGap(config.minRoadLightnessGap)(tokens);
 }

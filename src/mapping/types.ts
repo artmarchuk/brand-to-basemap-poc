@@ -1,3 +1,4 @@
+import type { LayerSpecification } from 'maplibre-gl';
 import type { TokenName } from '../tokens/types';
 
 export type ToggleGroup =
@@ -8,9 +9,29 @@ export type ToggleGroup =
   | 'landuse'
   | 'minorRoads'
   | 'boundaries'
-  | 'labels';
+  | 'labels'
+  /** Built-up land as one fill. Not a user toggle: a preset switches it on (Figure-Ground). */
+  | 'urbanLanduse';
 
-export const ALL_GROUPS: ToggleGroup[] = ['core', 'pois', 'transit', 'buildings', 'landuse', 'minorRoads', 'boundaries', 'labels'];
+export const ALL_GROUPS: ToggleGroup[] = ['core', 'pois', 'transit', 'buildings', 'landuse', 'minorRoads', 'boundaries', 'labels', 'urbanLanduse'];
+
+/**
+ * What a layer does on the map, for treatments that change more than colour (widths, casings, dashes).
+ * Set on the rule, written to the output layer's `b2b:role` metadata.
+ */
+export type LayerRole =
+  | 'roadMajor'
+  | 'roadMajorCasing'
+  | 'roadMinor'
+  | 'roadMinorCasing'
+  | 'boundary'
+  | 'waterLabel'
+  | 'poi'
+  | 'urbanLanduse'
+  /** Pedestrian squares and similar paved polygons. */
+  | 'roadArea'
+  /** One-way arrows: baked sprites. */
+  | 'oneWay';
 
 export type LabelDensity = 'low' | 'medium' | 'high';
 
@@ -54,6 +75,13 @@ export interface MappingRule {
   fallback?: boolean;
   /** Required on derived and hidden layers; goes into the report. */
   why?: string;
+  role?: LayerRole;
+}
+
+/** A layer the base style lacks, inserted directly above `after`. Rules then match it like any other. */
+export interface LayerAddition {
+  after: string;
+  layer: LayerSpecification;
 }
 
 /** Divides a base layer whose features belong to different tokens or groups. */
@@ -76,6 +104,9 @@ export interface StyleMapping {
   };
   /** Run before the rules, which then see the new layers like any others. */
   splits?: LayerSplit[];
+  additions?: LayerAddition[];
+  /** A casing layer's ID is its road's ID plus this, so a hairline casing can follow its road's width. */
+  casingSuffix?: string;
   /** First matching rule wins. Every layer in the base style must match one. */
   rules: MappingRule[];
 }
