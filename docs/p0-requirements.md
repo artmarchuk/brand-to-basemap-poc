@@ -79,7 +79,7 @@ Everything else depends on this, so it is specified first.
 
 - Light is the default. Dark is derived automatically from the same tokens, not a separate style.
 - Data mode: one "recede for data" slider (0–100) scales fill and line chroma down to about 20%, pulls land and road lightness toward each other, hides POIs above 30 and thins minor labels above 60. Labels are thinned, never faded, so they keep passing the contrast check. In P0 data mode applies to the light palette only; dark with data recede is P1.
-- The sample data overlay was dropped from the app (S2 scope reminder). A dev-only generator stays in the harness (`#overlay=1`), outside the app bundle and never exported. Data mode keeps the recede slider, the POI and label rules, and one line of explanation.
+- The sample data overlay was dropped from the app and, with M3, from the repo. Data mode keeps the recede slider, the POI and label rules, and one line of explanation.
 - All three modes are exportable.
 
 ### F4. Zoom stops
@@ -178,6 +178,22 @@ Everything else depends on this, so it is specified first.
 - UI tokens: Figma Variables are the source of truth, exported as DTCG JSON into the repo and built into CSS variables; components use only those variables. Until the design agency delivers, P0 runs on placeholder UI tokens.
 - Design agency: delivers app UX, UI and branding after the working prototype exists (Phase 2).
 - Token layering (F0): brand input → base tokens → per-mode transform → per-mode overrides → auto-fix adjustments. Adopted as the default.
+
+### Decisions: presets (M3, Nov 9, 2026)
+
+Presets replace the brand-colour list as the first decision. Spec: [presets-design-spec.md](presets-design-spec.md); brief: [briefs/m3-presets.md](briefs/m3-presets.md), which wins where they differ; engine: [preset-engine.md](preset-engine.md).
+
+- **Three test presets:** Single Ink, Figure-Ground, Colour Field. Each puts the primary colour on an area token (water, built-up land, land), never on roads alone.
+- **Only the primary colour is required.** Every other slot has a derived default, so one colour gives a full map.
+- **Liberty only for presets in P0**, on OpenFreeMap tiles (OpenMapTiles schema; no terrain, contours or hillshade). Streets v2 and the provider switch wait. The [spike](spikes/presets-feasibility.md) found Liberty reaches all three looks with one added layer.
+- **Dark is hidden while presets are on.** The modes are Light and Data. The dark code stays in the repo.
+- **Contrast thresholds are per preset**, and each check names its ground. Auto-fix never overwrites a typed colour; it reports the colour it used.
+- **Data mode needs no preset code.** It keeps labels AA by holding back a surface where a label would fail, and keeps land-coloured tokens (Figure-Ground's paper roads) with the land.
+- **Overrides belong to the active preset** and clear on a preset change. The primary colour carries over; other slots reset to the new preset's defaults.
+- **No live preset thumbnails** in P0; static ones from sample palettes come with the app step.
+- Tokens: schema 0.4.0 has 14 tokens (adds `urbanLanduse`, `roadMajorCasing`, `roadHighway`).
+- **A label sits on its halo** is a general check rule. Single Ink tries a dark water label on a paper halo before darkening the ink. Colour Field gives Spark the motorway and trunk roads, raises road minimums to 2:1 and 1.5:1, and draws tonal buildings by default.
+- **App step (Nov 9):** the preset picker with static thumbnails replaces the brand-colour list; named slots (one required, the rest "Refine" with the derived default shown); one undo after a preset switch.
 
 ## Open items for the PM (spec additions, defaults apply unless Artem objects)
 

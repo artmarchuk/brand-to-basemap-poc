@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand-to-Basemap preset harness</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./vendor/maplibre-gl.css" />
+    <style>html, body, #map { height: 100%; margin: 0; }</style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="module">
+      // Dev page for preset captures. The hash holds a PresetState as JSON plus the view:
+      // #state=<json>&center=<lon,lat>&zoom=<z>[&details=<json>]
+      import { Map, setWorkerUrl } from './vendor/maplibre-gl.mjs';
+      import * as runtime from './vendor/b2b-runtime.mjs';
+      setWorkerUrl(new URL('./vendor/maplibre-gl-worker.mjs', import.meta.url).href);
+      const params = new URLSearchParams(location.hash.slice(1));
+      const state = JSON.parse(params.get('state'));
+      const details = JSON.parse(params.get('details') ?? '{}');
+      const base = await (await fetch('./base/liberty.json')).json();
+      const { style, resolved } = runtime.buildPresetStyle(base, state, details);
+      window.resolved = { slots: resolved.slots, checks: resolved.checks, finalChecks: resolved.finalChecks, notices: resolved.notices, tokens: resolved.tokens };
+      const map = new Map({ container: 'map', style, center: params.get('center').split(',').map(Number), zoom: Number(params.get('zoom')), attributionControl: { compact: true } });
+      map.once('idle', () => { window.mapIdle = true; });
+    </script>
+  </body>
+</html>

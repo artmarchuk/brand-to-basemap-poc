@@ -1,0 +1,49 @@
+{
+  "id": "single-ink",
+  "name": "Single Ink",
+  "description": "One ink on paper. The ink draws water, roads and labels.",
+  "slots": [
+    { "id": "ink", "label": "Ink", "role": "Water, roads and labels", "primary": true },
+    { "id": "paper", "label": "Paper", "role": "Land and halo", "default": "light(ink)" }
+  ],
+  "sample": { "ink": "#6B2C91" },
+  "tokens": {
+    "land": "paper",
+    "water": "ink",
+    "park": "mix(ink, paper, 12)",
+    "building": "mix(ink, paper, 20)",
+    "urbanLanduse": "mix(ink, paper, 20)",
+    "roadMajor": "ink",
+    "roadHighway": "ink",
+    "roadMajorCasing": "ink",
+    "roadMinor": "ink",
+    "boundary": "mix(ink, paper, 50)",
+    "labelPrimary": "dark(ink)",
+    "labelSecondary": "mix(ink, paper, 75)",
+    "halo": "paper",
+    "accent": "ink"
+  },
+  "treatment": {
+    "roadMajor": { "weight": "medium", "casing": "none" },
+    "roadMinor": { "weight": "hairline", "casing": "none" },
+    "boundaryDash": [3, 2],
+    "waterLabel": { "text": "land", "halo": "water" },
+    "accentOutline": "land",
+    "hide": ["roadArea", "oneWay"]
+  },
+  "detailDefaults": {
+    "buildings": false, "urbanLanduse": false, "landuse": false, "pois": false, "transit": false,
+    "boundaries": false, "minorRoads": false, "labelDensity": "low"
+  },
+  "lockedDetails": [],
+  "checks": [
+    { "id": "Water apart from paper", "kind": "distance", "subject": "water", "against": ["land"], "min": 0.12, "fix": [{ "slot": "ink" }] },
+    { "id": "Water labels on water", "kind": "contrast", "subject": "waterLabel", "against": ["water"], "min": 4.5, "fix": [{ "pick": ["land/water", "labelPrimary/halo"] }, { "slot": "ink" }] },
+    { "id": "Major roads on paper", "kind": "contrast", "subject": "roadMajor", "against": ["land"], "min": 3, "fix": [{ "token": "roadMajor", "direction": "darker" }] },
+    { "id": "Highways on paper", "kind": "contrast", "subject": "roadHighway", "against": ["land"], "min": 3, "fix": [{ "token": "roadHighway", "direction": "darker" }] },
+    { "id": "Minor roads on paper", "kind": "contrast", "subject": "roadMinor", "against": ["land"], "min": 1.5, "fix": [{ "token": "roadMinor", "direction": "darker" }] },
+    { "id": "Primary labels on land", "kind": "contrast", "subject": "labelPrimary", "against": ["land", "park"], "min": 4.5, "fix": [{ "token": "labelPrimary" }] },
+    { "id": "Secondary labels on land", "kind": "contrast", "subject": "labelSecondary", "against": ["land", "park"], "min": 4.5, "fix": [{ "token": "labelSecondary" }] },
+    { "id": "Accent on paper", "kind": "contrast", "subject": "accent", "against": ["land"], "min": 3, "fix": [{ "fallback": "labelPrimary" }] }
+  ]
+}

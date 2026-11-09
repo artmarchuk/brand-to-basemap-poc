@@ -27,6 +27,7 @@ const SENTINEL: ResolvedTokens = {
   land: '#202122', water: '#303132', park: '#404142',
   roadMajor: '#505152', roadMinor: '#606162', building: '#707172', boundary: '#808182',
   labelPrimary: '#909192', labelSecondary: '#a0a1a2', halo: '#b0b1b2', accent: '#c0c1c2',
+  urbanLanduse: '#d0d1d2', roadMajorCasing: '#e0e1e2', roadHighway: '#f0f1f2',
 };
 
 function layerColors(style: StyleSpecification): Map<string, string> {
@@ -56,7 +57,7 @@ describe.each(CASES)('$id', ({ base, mapping }) => {
 
   it('accounts for every layer exactly once', () => {
     const rows = buildReport(base, mapping);
-    expect(rows).toHaveLength(base.layers.length + (mapping.splits?.length ?? 0));
+    expect(rows).toHaveLength(base.layers.length + (mapping.splits?.length ?? 0) + (mapping.additions?.length ?? 0));
     expect(rows.map((row) => row.id)).toEqual(expect.arrayContaining(base.layers.map((layer) => layer.id)));
     expect(new Set(rows.map((row) => row.status)).size).toBeGreaterThan(1);
   });

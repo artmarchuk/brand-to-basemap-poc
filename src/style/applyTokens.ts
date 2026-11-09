@@ -5,6 +5,7 @@ import { fallbackRef, fallbackRule, warnToConsole, type WarningHandler } from '.
 import { colorProperties, findRule } from './match';
 import { rewriteColors } from './rewrite';
 import { expandLayers } from './split';
+import { applyTreatment, type Treatment } from './treatment';
 
 /** F2 default: land, water, parks, major roads (all `core`) and place labels. */
 export const DEFAULT_GROUPS: ToggleGroup[] = ['core', 'labels'];
@@ -24,6 +25,8 @@ export interface ApplyOptions {
   labelDensity?: LabelDensity;
   /** Called for each layer or colour the mapping does not cover. Defaults to console.warn. */
   onWarning?: WarningHandler;
+  /** Widths, casings, dashes and label colours a preset sets. Absent leaves the base style's. */
+  treatment?: Treatment;
 }
 
 function isVisible(rule: MappingRule, groups: ToggleGroup[], density: LabelDensity): boolean {
@@ -84,6 +87,7 @@ function restyleLayer(
       ...(layer.metadata as object | undefined),
       'b2b:group': rule.group,
       ...(rule.density && { 'b2b:density': rule.density }),
+      ...(rule.role && { 'b2b:role': rule.role }),
     },
   } as LayerSpecification;
 
@@ -106,7 +110,7 @@ function flatPaint(paint: Record<string, unknown>, rule: MappingRule, tokens: Re
 export function applyTokens(
   baseStyle: StyleSpecification,
   tokens: ResolvedTokens,
-  { mapping, groups = DEFAULT_GROUPS, labelDensity = DEFAULT_LABEL_DENSITY, onWarning = warnToConsole }: ApplyOptions,
+  { mapping, groups = DEFAULT_GROUPS, labelDensity = DEFAULT_LABEL_DENSITY, onWarning = warnToConsole, treatment }: ApplyOptions,
 ): StyleSpecification {
   const layers = expandLayers(baseStyle.layers, mapping, onWarning).flatMap((layer) => {
     let rule = findRule(mapping, layer);
@@ -121,5 +125,5 @@ export function applyTokens(
     const styled = restyleLayer(layer, rule, tokens, fromBaseZoom || isVisible(rule, groups, labelDensity), onWarning);
     return [fromBaseZoom ? { ...styled, minzoom: Math.max(styled.minzoom ?? 0, MINOR_ROADS_BASE_ZOOM) } : styled];
   });
-  return { ...baseStyle, layers };
+  return { ...baseStyle, layers: treatment ? applyTreatment(layers, treatment, tokens, mapping) : layers };
 }

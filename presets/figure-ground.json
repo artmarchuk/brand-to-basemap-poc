@@ -1,0 +1,53 @@
+{
+  "id": "figure-ground",
+  "name": "Figure-Ground",
+  "description": "The built-up city is the hero. Water is a second colour. The rest is paper.",
+  "slots": [
+    { "id": "fabric", "label": "Fabric", "role": "Buildings and built-up land", "primary": true },
+    { "id": "paper", "label": "Paper", "role": "Land, roads and halo", "default": "light(fabric)" },
+    { "id": "water", "label": "Water", "role": "Water and accent", "default": "waterFor(fabric)" },
+    { "id": "green", "label": "Green", "role": "Parks", "default": "paper" }
+  ],
+  "sample": { "fabric": "#E0623F", "water": "#7FBDB0", "paper": "#FBEFE0" },
+  "tokens": {
+    "land": "paper",
+    "water": "water",
+    "park": "green",
+    "building": "fabric",
+    "urbanLanduse": "fabric",
+    "roadMajor": "paper",
+    "roadHighway": "paper",
+    "roadMajorCasing": "mix(fabric, paper, 35)",
+    "roadMinor": "paper",
+    "boundary": "mix(water, paper, 60)",
+    "labelPrimary": "dark(fabric)",
+    "labelSecondary": "mix(dark(water), paper, 75)",
+    "halo": "paper",
+    "accent": "water"
+  },
+  "treatment": {
+    "roadMajor": { "weight": "base", "casing": "hairline" },
+    "roadMinor": { "weight": "base", "casing": "none" },
+    "boundaryDash": [3, 2],
+    "waterLabel": { "text": "labelSecondary", "halo": "water" },
+    "accentOutline": "land",
+    "hide": ["oneWay"],
+    "labelHaloWidth": 2.5,
+    "urbanLanduseFade": [13, 14.5]
+  },
+  "detailDefaults": {
+    "buildings": true, "urbanLanduse": true, "landuse": false, "pois": false, "transit": false,
+    "boundaries": false, "minorRoads": false, "labelDensity": "low"
+  },
+  "lockedDetails": ["buildings", "urbanLanduse"],
+  "checks": [
+    { "id": "Fabric apart from water", "kind": "distance", "subject": "urbanLanduse", "against": ["water"], "min": 0.12, "fix": [{ "slot": "water" }] },
+    { "id": "Major roads in the fabric", "kind": "contrast", "subject": "roadMajor", "against": ["urbanLanduse"], "min": 2, "fix": [{ "token": "roadMajor", "direction": "lighter" }, { "slot": "fabric", "direction": "darker" }] },
+    { "id": "Minor roads in the fabric", "kind": "contrast", "subject": "roadMinor", "against": ["urbanLanduse"], "min": 1.5, "fix": [{ "token": "roadMinor", "direction": "lighter" }, { "slot": "fabric", "direction": "darker" }] },
+    { "id": "Major road casing on paper", "kind": "contrast", "subject": "roadMajorCasing", "against": ["land"], "min": 1.8, "fix": [{ "token": "roadMajorCasing" }] },
+    { "id": "Primary labels on paper and their halo", "kind": "contrast", "subject": "labelPrimary", "against": ["land", "halo"], "min": 4.5, "fix": [{ "token": "labelPrimary", "direction": "darker" }] },
+    { "id": "Secondary labels on paper and their halo", "kind": "contrast", "subject": "labelSecondary", "against": ["land", "halo"], "min": 4.5, "fix": [{ "token": "labelSecondary", "direction": "darker" }] },
+    { "id": "Water labels on water", "kind": "contrast", "subject": "waterLabel", "against": ["water"], "min": 4.5, "fix": [{ "pick": ["labelSecondary", "labelPrimary", "land"] }, { "token": "waterLabel", "direction": "darker" }, { "slot": "water" }] },
+    { "id": "Accent on paper", "kind": "contrast", "subject": "accent", "against": ["land"], "min": 3, "fix": [{ "token": "accent" }] }
+  ]
+}

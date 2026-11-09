@@ -18,6 +18,7 @@ mkdirSync(`${OUT}/tokens`);
 mkdirSync(`${OUT}/base`);
 
 copyFileSync('harness/index.html', `${OUT}/index.html`);
+copyFileSync('harness/presets.html', `${OUT}/presets.html`);
 for (const file of ['maplibre-gl.mjs', 'maplibre-gl-worker.mjs', 'maplibre-gl.css']) {
   copyFileSync(`${MAPLIBRE}/${file}`, `${OUT}/vendor/${file}`);
 }

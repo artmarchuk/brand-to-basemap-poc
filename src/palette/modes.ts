@@ -3,6 +3,7 @@ import { makeColor, parseColor } from '../tokens/color';
 import type { Mode, ResolvedTokens, TokenName } from '../tokens/types';
 import { PALETTE_CONFIG, type PaletteConfig } from './config';
 import { ensureContrast } from './contrast';
+import { withDerivedExtras } from './extras';
 import { enforceRoadGap } from './roadGap';
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
@@ -55,7 +56,7 @@ export function transformDark(light: ResolvedTokens, config: PaletteConfig = PAL
   const accentHex = makeColor(Math.max(D.accent.lMin, accent.l), Math.max(floor('accent', D.accent.cMin), accent.c), accent.h);
   const landColor = parseColor(land)!;
 
-  return enforceRoadGap(config.minRoadLightnessGap)({
+  return enforceRoadGap(config.minRoadLightnessGap)(withDerivedExtras({
     land,
     water,
     park,
@@ -67,11 +68,14 @@ export function transformDark(light: ResolvedTokens, config: PaletteConfig = PAL
     labelSecondary: label('labelSecondary'),
     halo: makeColor(landColor.l + D.halo.lOffsetFromLand, landColor.c, landColor.h),
     accent: ensureContrast(accentHex, [land], D.accent.contrast, 'lighter'),
-  });
+  }));
 }
 
 const SURFACES: TokenName[] = ['land', 'water', 'park', 'building'];
-const RECEDING_FILLS: TokenName[] = [...SURFACES, 'roadMajor', 'roadMinor'];
+// Built-up land recedes like a surface but does not move the mean: it is often hidden, and when it shows
+// (Figure-Ground) the building token already carries the same colour into the mean.
+const RECEDING_SURFACES: TokenName[] = [...SURFACES, 'urbanLanduse'];
+const RECEDING_FILLS: TokenName[] = [...RECEDING_SURFACES, 'roadMajor', 'roadMinor', 'roadMajorCasing', 'roadHighway'];
 
 /**
  * Recede scales chroma on fills and lines, and pulls their lightness towards the mean of the
@@ -93,11 +97,14 @@ export function transformData(light: ResolvedTokens, recede: number, config: Pal
   RECEDING_FILLS.forEach((token, index) => {
     const color = fills[index];
     const pulled = color.l + (meanLightness - color.l) * lightnessPull * t;
-    const lightness = SURFACES.includes(token) ? Math.max(color.l, pulled) : pulled;
+    const lightness = RECEDING_SURFACES.includes(token) ? Math.max(color.l, pulled) : pulled;
     output[token] = makeColor(lightness, color.c * chromaFactor, color.h);
   });
   const boundary = parseColor(light.boundary)!;
   output.boundary = makeColor(boundary.l, boundary.c * chromaFactor, boundary.h);
+  // A token drawn in the land colour is a gap, not a line (Figure-Ground's paper roads, its paper parks).
+  // Pulling it towards the mean would turn gaps into grey lines, so it follows the land instead.
+  for (const token of RECEDING_FILLS) if (token !== 'land' && light[token] === light.land) output[token] = output.land;
   return output;
 }
 

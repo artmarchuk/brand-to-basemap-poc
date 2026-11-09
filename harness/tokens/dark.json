@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2.0",
+  "schemaVersion": "0.4.0",
   "metadata": {
     "name": "Dark-looking"
   },
@@ -14,6 +14,9 @@
     "labelPrimary": "#eef1f6",
     "labelSecondary": "#aab3c2",
     "halo": "#0e1016",
-    "accent": "#ffb454"
+    "accent": "#ffb454",
+    "urbanLanduse": "#1a1d26",
+    "roadMajorCasing": "#798293",
+    "roadHighway": "#566074"
   }
 }

@@ -17,3 +17,7 @@ base-styles/streets-v2.json
 
 # Raw M2 captures. The sheets built from them are committed; `npm run screens:m2` recreates these.
 docs/screens/m2/p[0-9]*-*.png
+public/spike/
+docs/screens/m3/raw/
+docs/screens/m3/reference/
+docs/screens/m3/reference-*.png

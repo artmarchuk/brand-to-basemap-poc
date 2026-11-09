@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { initialState, reducer, type Action } from '../src/app/appState';
+import { getPreset, presetDetails } from '../src/presets';
 
-const start = initialState({ colors: ['#c65d3b', '#e9d8c4'], primary: 0 });
+const start = initialState('figure-ground');
 
 describe('app state', () => {
   it('marks a stop viewed when the map is near it, once', () => {
@@ -12,11 +13,12 @@ describe('app state', () => {
   });
 
   it.each<[string, Action]>([
-    ['brand', { type: 'brand', brand: { colors: ['#112233', '#ffeedd'], primary: 1 } }],
-    ['mode', { type: 'mode', mode: 'dark' }],
+    ['preset', { type: 'preset', presetId: 'single-ink' }],
+    ['slot', { type: 'slot', slot: 'water', hex: '#112233' }],
+    ['mode', { type: 'mode', mode: 'data' }],
     ['recede', { type: 'recede', recede: 10 }],
     ['override', { type: 'override', token: 'water', hex: '#00aaff' }],
-    ['toggle', { type: 'toggleGroup', group: 'pois' }],
+    ['toggle', { type: 'toggleGroup', group: 'pois', on: true }],
     ['density', { type: 'density', density: 'high' }],
   ])('resets the review dots on a %s change', (_name, action) => {
     const viewed = reducer(start, { type: 'viewed', zoom: 4 });
@@ -29,11 +31,35 @@ describe('app state', () => {
     expect(reducer(viewed, { type: 'city', cityId: 'kyiv' }).reviewed).toEqual([4]);
   });
 
-  it('overrides apply to the active mode and survive a brand change until reset', () => {
+  it('switching preset keeps the primary colour and toggles the user changed, and clears overrides', () => {
     let state = reducer(start, { type: 'override', token: 'water', hex: '#00aaff' });
-    state = reducer(state, { type: 'brand', brand: { colors: ['#112233', '#ffeedd'], primary: 0 } });
-    expect(state.palette.overrides.light.water).toBe('#00aaff');
-    expect(reducer(state, { type: 'resetOverride', token: 'water' }).palette.overrides.light.water).toBeUndefined();
-    expect(reducer(state, { type: 'resetOverrides' }).palette.overrides.light).toEqual({});
+    state = reducer(state, { type: 'toggleGroup', group: 'pois', on: true });
+    state = reducer(state, { type: 'preset', presetId: 'colour-field' });
+    expect(state.palette.slots).toEqual({ field: start.palette.slots.fabric });
+    expect(state.palette.overrides.light).toEqual({});
+    expect(presetDetails(getPreset('colour-field'), state.detailChoices).groups).toContain('pois');
+  });
+
+  it('a locked group stays on whatever the user chose', () => {
+    const state = reducer(start, { type: 'toggleGroup', group: 'buildings', on: false });
+    expect(presetDetails(getPreset('figure-ground'), state.detailChoices).groups).toContain('buildings');
+  });
+
+  it('offers one undo after a preset switch, restoring slots and overrides, and drops it on the next edit', () => {
+    let state = reducer(start, { type: 'slot', slot: 'water', hex: '#123456' });
+    state = reducer(state, { type: 'override', token: 'land', hex: '#fafafa' });
+    const before = state.palette;
+    state = reducer(state, { type: 'preset', presetId: 'single-ink' });
+    expect(state.palette.overrides.light).toEqual({});
+    expect(state.undo).toMatchObject({ fromName: 'Figure-Ground', hadOverrides: true });
+    expect(reducer(state, { type: 'city', cityId: 'kyiv' }).undo).toBeDefined();
+    const restored = reducer(state, { type: 'undoPreset' });
+    expect(restored.palette).toEqual(before);
+    expect(restored.undo).toBeUndefined();
+    expect(reducer(state, { type: 'slot', slot: 'paper', hex: '#ffffff' }).undo).toBeUndefined();
+  });
+
+  it('switching to the same preset changes nothing and offers no undo', () => {
+    expect(reducer(start, { type: 'preset', presetId: 'figure-ground' })).toBe(start);
   });
 });

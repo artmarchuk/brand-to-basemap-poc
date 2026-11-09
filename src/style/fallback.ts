@@ -5,7 +5,7 @@ import { colorProperties } from './match';
 
 /** Why a style needed a fallback. M4 turns these into a UI notice. */
 export interface StyleWarning {
-  code: 'unmapped-layer' | 'unmapped-color' | 'unsupported-color' | 'missing-split';
+  code: 'unmapped-layer' | 'unmapped-color' | 'unsupported-color' | 'missing-split' | 'missing-addition';
   layerId: string;
   message: string;
 }

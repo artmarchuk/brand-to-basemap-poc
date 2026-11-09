@@ -6,7 +6,6 @@ import { applyVisibility, createState, resolve, type BrandInput } from '../src/p
 import { applyTokens } from '../src/style/applyTokens';
 import { loadBaseStyle } from '../src/style/provider';
 import type { Mode, ResolvedTokens } from '../src/tokens/types';
-import { buildOverlay, withOverlay, type Bounds } from './overlay';
 
 export { loadBaseStyle, MAPPINGS };
 
@@ -42,10 +41,6 @@ export function buildPaletteStyle(base: StyleSpecification, styleId: string, vie
   return { style, tokens };
 }
 
-/** Dev-only test overlay for trying data mode against real-looking data. */
-export const addOverlay = (style: StyleSpecification, bounds: Bounds, tokens: ResolvedTokens) =>
-  withOverlay(style, buildOverlay(bounds), tokens);
-
 /** Median and 95th percentile of resolve + applyTokens, in milliseconds. */
 export function benchmark(base: StyleSpecification, styleId: string, view: PaletteView, runs = 40) {
   const times: number[] = [];
@@ -56,4 +51,16 @@ export function benchmark(base: StyleSpecification, styleId: string, view: Palet
   }
   times.sort((a, b) => a - b);
   return { median: times[Math.floor(times.length / 2)], p95: times[Math.floor(times.length * 0.95)], runs };
+}
+
+// Presets (M3): the whole path from preset state to a finished style, as the app runs it.
+import { presetDetails, resolvePreset, type PresetState } from '../src/presets';
+import type { DetailGroup } from '../src/presets/types';
+
+export function buildPresetStyle(base: StyleSpecification, state: PresetState, choices: Partial<Record<DetailGroup, boolean>> = {}) {
+  const resolved = resolvePreset(state);
+  const details = presetDetails(resolved.preset, choices);
+  const { groups, labelDensity } = applyVisibility(details.groups, details.labelDensity, resolved.visibility);
+  const style = applyTokens(base, resolved.tokens, { mapping: MAPPINGS.liberty, groups, labelDensity, treatment: resolved.treatment });
+  return { style, resolved };
 }

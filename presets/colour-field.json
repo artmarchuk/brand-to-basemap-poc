@@ -1,0 +1,51 @@
+{
+  "id": "colour-field",
+  "name": "Colour Field",
+  "description": "The land itself is the key colour, with a deeper water colour and one spark colour.",
+  "slots": [
+    { "id": "field", "label": "Field", "role": "Land", "primary": true },
+    { "id": "deep", "label": "Deep", "role": "Water, buildings and park tint", "default": "dark(field)" },
+    { "id": "ink", "label": "Ink", "role": "Labels and boundaries", "default": "dark(field)" },
+    { "id": "spark", "label": "Spark", "role": "Accent: pins, selection, highlights", "default": "complement(field)" }
+  ],
+  "sample": { "field": "#F59AAE", "deep": "#EA4A3C", "ink": "#3F1A8C", "spark": "#FFE600" },
+  "tokens": {
+    "land": "field",
+    "water": "deep",
+    "park": "mix(deep, field, 10)",
+    "building": "mix(deep, field, 20)",
+    "urbanLanduse": "mix(deep, field, 20)",
+    "roadMajor": "mix(light(field), field, 65)",
+    "roadHighway": "spark",
+    "roadMajorCasing": "field",
+    "roadMinor": "mix(light(field), field, 45)",
+    "boundary": "mix(ink, field, 35)",
+    "labelPrimary": "ink",
+    "labelSecondary": "mix(ink, field, 75)",
+    "halo": "field",
+    "accent": "spark"
+  },
+  "treatment": {
+    "roadMajor": { "weight": "base", "casing": "none" },
+    "roadMinor": { "weight": "base", "casing": "none" },
+    "boundaryDash": [3, 2],
+    "waterLabel": { "text": "land", "halo": "water" },
+    "accentOutline": "land",
+    "hide": ["oneWay"]
+  },
+  "detailDefaults": {
+    "buildings": true, "urbanLanduse": false, "landuse": false, "pois": false, "transit": false,
+    "boundaries": false, "minorRoads": false, "labelDensity": "low"
+  },
+  "lockedDetails": [],
+  "checks": [
+    { "id": "Field apart from deep", "kind": "distance", "subject": "land", "against": ["water"], "min": 0.12, "fix": [{ "slot": "deep", "direction": "darker" }, { "slot": "deep" }] },
+    { "id": "Major roads on the field", "kind": "contrast", "subject": "roadMajor", "against": ["land"], "min": 2, "fix": [{ "token": "roadMajor" }] },
+    { "id": "Minor roads on the field", "kind": "contrast", "subject": "roadMinor", "against": ["land"], "min": 1.5, "fix": [{ "token": "roadMinor", "direction": { "sideOf": "roadMajor" } }] },
+    { "id": "Spark highways stand out", "kind": "distance", "subject": "roadHighway", "against": ["land"], "min": 0.12, "fix": [{ "token": "roadHighway" }] },
+    { "id": "Primary labels on the field", "kind": "contrast", "subject": "labelPrimary", "against": ["land", "park"], "min": 4.5, "fix": [{ "token": "labelPrimary" }, { "slot": "field" }] },
+    { "id": "Secondary labels on the field", "kind": "contrast", "subject": "labelSecondary", "against": ["land", "park"], "min": 4.5, "fix": [{ "token": "labelSecondary" }] },
+    { "id": "Water labels on deep", "kind": "contrast", "subject": "waterLabel", "against": ["water"], "min": 4.5, "fix": [{ "pick": ["land", "labelPrimary", "labelPrimary/halo"] }, { "token": "waterLabel" }, { "slot": "deep" }] },
+    { "id": "Spark on the field", "kind": "contrast", "subject": "accent", "against": ["land"], "min": 3, "fix": [{ "fallback": "labelPrimary" }] }
+  ]
+}

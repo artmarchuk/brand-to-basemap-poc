@@ -14,7 +14,7 @@ function splitLayer(layer: LayerSpecification, filter: unknown[], { newId, class
   return [narrowed(false), { ...narrowed(true), id: newId }] as unknown as LayerSpecification[];
 }
 
-/** The base layers with the mapping's splits applied. A split that cannot run is skipped with a warning. */
+/** The base layers with the mapping's splits and additions applied. A split that cannot run is skipped with a warning. */
 export function expandLayers(
   layers: LayerSpecification[],
   mapping: StyleMapping,
@@ -26,12 +26,21 @@ export function expandLayers(
       warn({ code: 'missing-split', layerId, message: `${mapping.id}: no layer "${layerId}" to split` });
     }
   }
-  return layers.flatMap((layer) => {
+  for (const { after, layer } of mapping.additions ?? []) {
+    if (!layers.some((candidate) => candidate.id === after)) {
+      warn({ code: 'missing-addition', layerId: layer.id, message: `${mapping.id}: no layer "${after}" to add "${layer.id}" after` });
+    }
+  }
+  const added = (layer: LayerSpecification) =>
+    (mapping.additions ?? []).filter((addition) => addition.after === layer.id).map((addition) => addition.layer);
+  return layers.flatMap((layer) => [...withSplits(layer), ...added(layer)]);
+
+  function withSplits(layer: LayerSpecification): LayerSpecification[] {
     const split = splits.find((candidate) => candidate.layerId === layer.id);
     const { filter } = layer as { filter?: unknown };
     if (!split) return [layer];
     if (Array.isArray(filter)) return splitLayer(layer, filter, split);
     warn({ code: 'missing-split', layerId: layer.id, message: `${mapping.id}: "${layer.id}" has no filter to split` });
     return [layer];
-  });
+  }
 }
