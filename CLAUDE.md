@@ -16,7 +16,7 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 - Base styles: OpenFreeMap **Liberty** and MapTiler **Streets v2**. Liberty is pinned in the repo. Streets is gitignored because of its licence: `npm run fetch-styles` gets it for local tests, and the deployed app fetches it at runtime with the user's key.
 - Palette derivation: **OKLCH** rules, tested on a set of 10 palettes.
 - Save/share: URL-encoded state in the hash plus local autosave. The MapTiler key is never put in the URL.
-- Data mode: a 0-100 "recede" slider on the light palette only (dark + data is P1). The sample data overlay is dropped from the app; a dev-only generator stays in the harness (`#overlay=1`), outside the app bundle.
+- Data mode: a 0-100 "recede" slider on the light palette only (dark + data is P1). The sample data overlay is gone (app and harness).
 - Zoom: no multi-map strip. One main map with zoom stops (about z4, z8, z12, z16), a sweep, and a review dot per stop.
 - Default location Zurich; the user can pan anywhere or pick from 6 curated cities (Kyiv included). No place search in P0.
 - No forced final step: a persistent Export button.
@@ -29,7 +29,7 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 - UI tokens: Figma Variables will be the source of truth for the tool's own UI, exported as DTCG JSON into the repo and built into CSS variables. Until then, placeholder tokens.
 
 ## Presets (M3, Nov 9, 2026)
-The app is organised around **presets**: Single Ink, Figure-Ground, Colour Field. A preset is a JSON file in `presets/` that maps key-colour slots to the map tokens, with a treatment (widths, casings, dashes), detail defaults and its own checks. Only the primary colour is required. Liberty only; Dark hidden (code kept); modes are Light and Data. Schema 0.3.0 has 13 tokens (adds `urbanLanduse`, `roadMajorCasing`). Read `docs/preset-engine.md`; decisions are in `docs/p0-requirements.md`. The brand-colour engine in `src/palette` stays, unwired except for the data transform.
+The app is organised around **presets**: Single Ink, Figure-Ground, Colour Field. A preset is a JSON file in `presets/` that maps key-colour slots to the map tokens, with a treatment (widths, casings, dashes), detail defaults and its own checks. Only the primary colour is required. Liberty only; Dark hidden (code kept); modes are Light and Data. Schema 0.4.0 has 14 tokens (adds `urbanLanduse`, `roadMajorCasing`, `roadHighway`). Read `docs/preset-engine.md`; decisions are in `docs/p0-requirements.md`. The brand-colour engine in `src/palette` stays, unwired except for the data transform.
 
 ## Working rules
 - **Lean and fast.** The target is a working, presentable P0 in 1-2 days. No scope creep; anything not in the P0 requirements is out. Decide small things yourself and note them in your report.

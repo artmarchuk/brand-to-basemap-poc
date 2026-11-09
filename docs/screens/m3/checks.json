@@ -16,6 +16,20 @@
   ],
   "checks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.559
+     }
+    ],
+    "value": 0.559,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f7f3fb",
@@ -31,6 +45,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 8.006
+     }
+    ],
+    "value": 8.006,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#6b2c91",
     "against": [
@@ -69,6 +97,10 @@
      {
       "token": "park",
       "value": 11.011
+     },
+     {
+      "token": "halo",
+      "value": 13.406
      }
     ],
     "value": 11.011,
@@ -87,6 +119,10 @@
      {
       "token": "park",
       "value": 4.536
+     },
+     {
+      "token": "halo",
+      "value": 5.523
      }
     ],
     "value": 4.536,
@@ -110,6 +146,20 @@
   ],
   "finalChecks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.559
+     }
+    ],
+    "value": 0.559,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f7f3fb",
@@ -125,6 +175,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 8.006
+     }
+    ],
+    "value": 8.006,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#6b2c91",
     "against": [
@@ -163,6 +227,10 @@
      {
       "token": "park",
       "value": 11.011
+     },
+     {
+      "token": "halo",
+      "value": 13.406
      }
     ],
     "value": 11.011,
@@ -181,6 +249,10 @@
      {
       "token": "park",
       "value": 4.536
+     },
+     {
+      "token": "halo",
+      "value": 5.523
      }
     ],
     "value": 4.536,
@@ -224,7 +296,8 @@
    "halo": "#f7f3fb",
    "accent": "#6b2c91",
    "urbanLanduse": "#dacbe7",
-   "roadMajorCasing": "#6b2c91"
+   "roadMajorCasing": "#6b2c91",
+   "roadHighway": "#6b2c91"
   }
  },
  "single-ink-terracotta-zurich-z12": {
@@ -232,7 +305,7 @@
    {
     "id": "ink",
     "input": "#c65d3b",
-    "used": "#a43e1b",
+    "used": "#c65d3b",
     "source": "user"
    },
    {
@@ -244,44 +317,72 @@
   ],
   "checks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#e9d8c4",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#c65d3b",
     "against": [
      {
-      "token": "water",
-      "value": 4.594
+      "token": "land",
+      "value": 0.312
      }
     ],
-    "value": 4.594,
+    "value": 0.312,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#541500",
+    "against": [
+     {
+      "token": "halo",
+      "value": 10.163
+     }
+    ],
+    "value": 10.163,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#a43e1b",
+    "subject": "#c45b39",
     "against": [
      {
       "token": "land",
-      "value": 4.594
+      "value": 3.077
      }
     ],
-    "value": 4.594,
+    "value": 3.077,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#c45b39",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.077
+     }
+    ],
+    "value": 3.077,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#a43e1b",
+    "subject": "#c65d3b",
     "against": [
      {
       "token": "land",
-      "value": 4.594
+      "value": 2.999
      }
     ],
-    "value": 4.594,
+    "value": 2.999,
     "min": 1.5,
     "pass": true
    },
@@ -296,86 +397,122 @@
      },
      {
       "token": "park",
-      "value": 8.736
+      "value": 9.096
+     },
+     {
+      "token": "halo",
+      "value": 10.163
      }
     ],
-    "value": 8.736,
+    "value": 9.096,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#8b4015",
+    "subject": "#8e4418",
     "against": [
      {
       "token": "land",
-      "value": 5.308
+      "value": 5.045
      },
      {
       "token": "park",
-      "value": 4.563
+      "value": 4.515
+     },
+     {
+      "token": "halo",
+      "value": 5.045
      }
     ],
-    "value": 4.563,
+    "value": 4.515,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#a43e1b",
+    "subject": "#541500",
     "against": [
      {
       "token": "land",
-      "value": 4.594
+      "value": 10.163
      }
     ],
-    "value": 4.594,
+    "value": 10.163,
     "min": 3,
     "pass": true
    }
   ],
   "finalChecks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#e9d8c4",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#c65d3b",
     "against": [
      {
-      "token": "water",
-      "value": 4.594
+      "token": "land",
+      "value": 0.312
      }
     ],
-    "value": 4.594,
+    "value": 0.312,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#541500",
+    "against": [
+     {
+      "token": "halo",
+      "value": 10.163
+     }
+    ],
+    "value": 10.163,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#a43e1b",
+    "subject": "#c45b39",
     "against": [
      {
       "token": "land",
-      "value": 4.594
+      "value": 3.077
      }
     ],
-    "value": 4.594,
+    "value": 3.077,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#c45b39",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.077
+     }
+    ],
+    "value": 3.077,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#a43e1b",
+    "subject": "#c65d3b",
     "against": [
      {
       "token": "land",
-      "value": 4.594
+      "value": 2.999
      }
     ],
-    "value": 4.594,
+    "value": 2.999,
     "min": 1.5,
     "pass": true
    },
@@ -390,42 +527,50 @@
      },
      {
       "token": "park",
-      "value": 8.736
+      "value": 9.096
+     },
+     {
+      "token": "halo",
+      "value": 10.163
      }
     ],
-    "value": 8.736,
+    "value": 9.096,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#8b4015",
+    "subject": "#8e4418",
     "against": [
      {
       "token": "land",
-      "value": 5.308
+      "value": 5.045
      },
      {
       "token": "park",
-      "value": 4.563
+      "value": 4.515
+     },
+     {
+      "token": "halo",
+      "value": 5.045
      }
     ],
-    "value": 4.563,
+    "value": 4.515,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#a43e1b",
+    "subject": "#541500",
     "against": [
      {
       "token": "land",
-      "value": 4.594
+      "value": 10.163
      }
     ],
-    "value": 4.594,
+    "value": 10.163,
     "min": 3,
     "pass": true
    }
@@ -433,33 +578,55 @@
   "notices": [
    {
     "check": "Water labels on water",
-    "kind": "slot",
-    "target": "ink",
+    "kind": "pick",
+    "target": "waterLabel",
+    "from": "land on water",
+    "to": "labelPrimary on halo"
+   },
+   {
+    "check": "Major roads on paper",
+    "kind": "token",
+    "target": "roadMajor",
     "from": "#c65d3b",
-    "to": "#a43e1b"
+    "to": "#c45b39"
+   },
+   {
+    "check": "Highways on paper",
+    "kind": "token",
+    "target": "roadHighway",
+    "from": "#c65d3b",
+    "to": "#c45b39"
    },
    {
     "check": "Secondary labels on land",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#b76840",
-    "to": "#8b4015"
+    "from": "#d07f56",
+    "to": "#8e4418"
+   },
+   {
+    "check": "Accent on paper",
+    "kind": "fallback",
+    "target": "accent",
+    "from": "#c65d3b",
+    "to": "#541500"
    }
   ],
   "tokens": {
    "land": "#e9d8c4",
-   "water": "#a43e1b",
-   "park": "#e1c7ac",
-   "roadMajor": "#a43e1b",
-   "roadMinor": "#a43e1b",
-   "building": "#dbbb9d",
-   "boundary": "#c88f67",
+   "water": "#c65d3b",
+   "park": "#e5cbb0",
+   "roadMajor": "#c45b39",
+   "roadMinor": "#c65d3b",
+   "building": "#e2c2a3",
+   "boundary": "#d89e77",
    "labelPrimary": "#541500",
-   "labelSecondary": "#8b4015",
+   "labelSecondary": "#8e4418",
    "halo": "#e9d8c4",
-   "accent": "#a43e1b",
-   "urbanLanduse": "#dbbb9d",
-   "roadMajorCasing": "#a43e1b"
+   "accent": "#541500",
+   "urbanLanduse": "#e2c2a3",
+   "roadMajorCasing": "#c65d3b",
+   "roadHighway": "#c45b39"
   }
  },
  "single-ink-cyan-magenta-zurich-z12": {
@@ -467,7 +634,7 @@
    {
     "id": "ink",
     "input": "#00f0ff",
-    "used": "#007c84",
+    "used": "#00f0ff",
     "source": "user"
    },
    {
@@ -479,44 +646,72 @@
   ],
   "checks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#ecf8f9",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#00f0ff",
     "against": [
      {
-      "token": "water",
-      "value": 4.592
+      "token": "land",
+      "value": 0.169
      }
     ],
-    "value": 4.592,
+    "value": 0.169,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#003539",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.345
+     }
+    ],
+    "value": 12.345,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#009da7",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 3.034
      }
     ],
-    "value": 4.592,
+    "value": 3.034,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#009da7",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.034
+     }
+    ],
+    "value": 3.034,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#00e0ee",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 1.501
      }
     ],
-    "value": 4.592,
+    "value": 1.501,
     "min": 1.5,
     "pass": true
    },
@@ -531,86 +726,122 @@
      },
      {
       "token": "park",
-      "value": 10.612
+      "value": 12.02
+     },
+     {
+      "token": "halo",
+      "value": 12.345
      }
     ],
-    "value": 10.612,
+    "value": 12.02,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#277076",
+    "subject": "#007b83",
     "against": [
      {
       "token": "land",
-      "value": 5.282
+      "value": 4.653
      },
      {
       "token": "park",
-      "value": 4.54
+      "value": 4.53
+     },
+     {
+      "token": "halo",
+      "value": 4.653
      }
     ],
-    "value": 4.54,
+    "value": 4.53,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#003539",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 12.345
      }
     ],
-    "value": 4.592,
+    "value": 12.345,
     "min": 3,
     "pass": true
    }
   ],
   "finalChecks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#ecf8f9",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#00f0ff",
     "against": [
      {
-      "token": "water",
-      "value": 4.592
+      "token": "land",
+      "value": 0.169
      }
     ],
-    "value": 4.592,
+    "value": 0.169,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#003539",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.345
+     }
+    ],
+    "value": 12.345,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#009da7",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 3.034
      }
     ],
-    "value": 4.592,
+    "value": 3.034,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#009da7",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.034
+     }
+    ],
+    "value": 3.034,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#00e0ee",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 1.501
      }
     ],
-    "value": 4.592,
+    "value": 1.501,
     "min": 1.5,
     "pass": true
    },
@@ -625,42 +856,50 @@
      },
      {
       "token": "park",
-      "value": 10.612
+      "value": 12.02
+     },
+     {
+      "token": "halo",
+      "value": 12.345
      }
     ],
-    "value": 10.612,
+    "value": 12.02,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#277076",
+    "subject": "#007b83",
     "against": [
      {
       "token": "land",
-      "value": 5.282
+      "value": 4.653
      },
      {
       "token": "park",
-      "value": 4.54
+      "value": 4.53
+     },
+     {
+      "token": "halo",
+      "value": 4.653
      }
     ],
-    "value": 4.54,
+    "value": 4.53,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#003539",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 12.345
      }
     ],
-    "value": 4.592,
+    "value": 12.345,
     "min": 3,
     "pass": true
    }
@@ -668,33 +907,62 @@
   "notices": [
    {
     "check": "Water labels on water",
-    "kind": "slot",
-    "target": "ink",
+    "kind": "pick",
+    "target": "waterLabel",
+    "from": "land on water",
+    "to": "labelPrimary on halo"
+   },
+   {
+    "check": "Major roads on paper",
+    "kind": "token",
+    "target": "roadMajor",
     "from": "#00f0ff",
-    "to": "#007c84"
+    "to": "#009da7"
+   },
+   {
+    "check": "Highways on paper",
+    "kind": "token",
+    "target": "roadHighway",
+    "from": "#00f0ff",
+    "to": "#009da7"
+   },
+   {
+    "check": "Minor roads on paper",
+    "kind": "token",
+    "target": "roadMinor",
+    "from": "#00f0ff",
+    "to": "#00e0ee"
    },
    {
     "check": "Secondary labels on land",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#549aa0",
-    "to": "#277076"
+    "from": "#72f3fe",
+    "to": "#007b83"
+   },
+   {
+    "check": "Accent on paper",
+    "kind": "fallback",
+    "target": "accent",
+    "from": "#00f0ff",
+    "to": "#003539"
    }
   ],
   "tokens": {
    "land": "#ecf8f9",
-   "water": "#007c84",
-   "park": "#d4e9ea",
-   "roadMajor": "#007c84",
-   "roadMinor": "#007c84",
-   "building": "#c4dee1",
-   "boundary": "#88b9bd",
+   "water": "#00f0ff",
+   "park": "#dcf8fa",
+   "roadMajor": "#009da7",
+   "roadMinor": "#00e0ee",
+   "building": "#d1f7fa",
+   "boundary": "#a3f5fc",
    "labelPrimary": "#003539",
-   "labelSecondary": "#277076",
+   "labelSecondary": "#007b83",
    "halo": "#ecf8f9",
-   "accent": "#007c84",
-   "urbanLanduse": "#c4dee1",
-   "roadMajorCasing": "#007c84"
+   "accent": "#003539",
+   "urbanLanduse": "#d1f7fa",
+   "roadMajorCasing": "#00f0ff",
+   "roadHighway": "#009da7"
   }
  },
  "single-ink-fixture1-zurich-z12": {
@@ -714,6 +982,20 @@
   ],
   "checks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#0b3c5d",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.63
+     }
+    ],
+    "value": 0.63,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#eff6fd",
@@ -729,6 +1011,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#0b3c5d",
+    "against": [
+     {
+      "token": "land",
+      "value": 10.596
+     }
+    ],
+    "value": 10.596,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#0b3c5d",
     "against": [
@@ -767,6 +1063,10 @@
      {
       "token": "park",
       "value": 9.88
+     },
+     {
+      "token": "halo",
+      "value": 12.392
      }
     ],
     "value": 9.88,
@@ -785,6 +1085,10 @@
      {
       "token": "park",
       "value": 4.565
+     },
+     {
+      "token": "halo",
+      "value": 5.725
      }
     ],
     "value": 4.565,
@@ -808,6 +1112,20 @@
   ],
   "finalChecks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#0b3c5d",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.63
+     }
+    ],
+    "value": 0.63,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#eff6fd",
@@ -823,6 +1141,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#0b3c5d",
+    "against": [
+     {
+      "token": "land",
+      "value": 10.596
+     }
+    ],
+    "value": 10.596,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#0b3c5d",
     "against": [
@@ -861,6 +1193,10 @@
      {
       "token": "park",
       "value": 9.88
+     },
+     {
+      "token": "halo",
+      "value": 12.392
      }
     ],
     "value": 9.88,
@@ -879,6 +1215,10 @@
      {
       "token": "park",
       "value": 4.565
+     },
+     {
+      "token": "halo",
+      "value": 5.725
      }
     ],
     "value": 4.565,
@@ -922,7 +1262,8 @@
    "halo": "#eff6fd",
    "accent": "#0b3c5d",
    "urbanLanduse": "#bfcedb",
-   "roadMajorCasing": "#0b3c5d"
+   "roadMajorCasing": "#0b3c5d",
+   "roadHighway": "#0b3c5d"
   }
  },
  "single-ink-fixture2-zurich-z12": {
@@ -942,6 +1283,20 @@
   ],
   "checks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#1f7a4d",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.466
+     }
+    ],
+    "value": 0.466,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#eff8f2",
@@ -957,6 +1312,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#1f7a4d",
+    "against": [
+     {
+      "token": "land",
+      "value": 4.907
+     }
+    ],
+    "value": 4.907,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#1f7a4d",
     "against": [
@@ -995,6 +1364,10 @@
      {
       "token": "park",
       "value": 10.399
+     },
+     {
+      "token": "halo",
+      "value": 12.231
      }
     ],
     "value": 10.399,
@@ -1013,6 +1386,10 @@
      {
       "token": "park",
       "value": 4.624
+     },
+     {
+      "token": "halo",
+      "value": 5.439
      }
     ],
     "value": 4.624,
@@ -1036,6 +1413,20 @@
   ],
   "finalChecks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#1f7a4d",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.466
+     }
+    ],
+    "value": 0.466,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#eff8f2",
@@ -1051,6 +1442,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#1f7a4d",
+    "against": [
+     {
+      "token": "land",
+      "value": 4.907
+     }
+    ],
+    "value": 4.907,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#1f7a4d",
     "against": [
@@ -1089,6 +1494,10 @@
      {
       "token": "park",
       "value": 10.399
+     },
+     {
+      "token": "halo",
+      "value": 12.231
      }
     ],
     "value": 10.399,
@@ -1107,6 +1516,10 @@
      {
       "token": "park",
       "value": 4.624
+     },
+     {
+      "token": "halo",
+      "value": 5.439
      }
     ],
     "value": 4.624,
@@ -1150,7 +1563,8 @@
    "halo": "#eff8f2",
    "accent": "#1f7a4d",
    "urbanLanduse": "#c7decf",
-   "roadMajorCasing": "#1f7a4d"
+   "roadMajorCasing": "#1f7a4d",
+   "roadHighway": "#1f7a4d"
   }
  },
  "single-ink-fixture3-zurich-z12": {
@@ -1158,7 +1572,7 @@
    {
     "id": "ink",
     "input": "#e8442e",
-    "used": "#d42e19",
+    "used": "#e8442e",
     "source": "user"
    },
    {
@@ -1170,44 +1584,72 @@
   ],
   "checks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#fdf2f0",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#e8442e",
     "against": [
      {
-      "token": "water",
-      "value": 4.552
+      "token": "land",
+      "value": 0.396
      }
     ],
-    "value": 4.552,
+    "value": 0.396,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#5b0600",
+    "against": [
+     {
+      "token": "halo",
+      "value": 13.01
+     }
+    ],
+    "value": 13.01,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#d42e19",
+    "subject": "#e8442e",
     "against": [
      {
       "token": "land",
-      "value": 4.552
+      "value": 3.612
      }
     ],
-    "value": 4.552,
+    "value": 3.612,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#e8442e",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.612
+     }
+    ],
+    "value": 3.612,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#d42e19",
+    "subject": "#e8442e",
     "against": [
      {
       "token": "land",
-      "value": 4.552
+      "value": 3.612
      }
     ],
-    "value": 4.552,
+    "value": 3.612,
     "min": 1.5,
     "pass": true
    },
@@ -1222,86 +1664,122 @@
      },
      {
       "token": "park",
-      "value": 11.193
+      "value": 11.402
+     },
+     {
+      "token": "halo",
+      "value": 13.01
      }
     ],
-    "value": 11.193,
+    "value": 11.402,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#b33e2c",
+    "subject": "#b43e2e",
     "against": [
      {
       "token": "land",
-      "value": 5.254
+      "value": 5.215
      },
      {
       "token": "park",
-      "value": 4.52
+      "value": 4.571
+     },
+     {
+      "token": "halo",
+      "value": 5.215
      }
     ],
-    "value": 4.52,
+    "value": 4.571,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#d42e19",
+    "subject": "#e8442e",
     "against": [
      {
       "token": "land",
-      "value": 4.552
+      "value": 3.612
      }
     ],
-    "value": 4.552,
+    "value": 3.612,
     "min": 3,
     "pass": true
    }
   ],
   "finalChecks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#fdf2f0",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#e8442e",
     "against": [
      {
-      "token": "water",
-      "value": 4.552
+      "token": "land",
+      "value": 0.396
      }
     ],
-    "value": 4.552,
+    "value": 0.396,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#5b0600",
+    "against": [
+     {
+      "token": "halo",
+      "value": 13.01
+     }
+    ],
+    "value": 13.01,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#d42e19",
+    "subject": "#e8442e",
     "against": [
      {
       "token": "land",
-      "value": 4.552
+      "value": 3.612
      }
     ],
-    "value": 4.552,
+    "value": 3.612,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#e8442e",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.612
+     }
+    ],
+    "value": 3.612,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#d42e19",
+    "subject": "#e8442e",
     "against": [
      {
       "token": "land",
-      "value": 4.552
+      "value": 3.612
      }
     ],
-    "value": 4.552,
+    "value": 3.612,
     "min": 1.5,
     "pass": true
    },
@@ -1316,42 +1794,50 @@
      },
      {
       "token": "park",
-      "value": 11.193
+      "value": 11.402
+     },
+     {
+      "token": "halo",
+      "value": 13.01
      }
     ],
-    "value": 11.193,
+    "value": 11.402,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#b33e2c",
+    "subject": "#b43e2e",
     "against": [
      {
       "token": "land",
-      "value": 5.254
+      "value": 5.215
      },
      {
       "token": "park",
-      "value": 4.52
+      "value": 4.571
+     },
+     {
+      "token": "halo",
+      "value": 5.215
      }
     ],
-    "value": 4.52,
+    "value": 4.571,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#d42e19",
+    "subject": "#e8442e",
     "against": [
      {
       "token": "land",
-      "value": 4.552
+      "value": 3.612
      }
     ],
-    "value": 4.552,
+    "value": 3.612,
     "min": 3,
     "pass": true
    }
@@ -1359,33 +1845,34 @@
   "notices": [
    {
     "check": "Water labels on water",
-    "kind": "slot",
-    "target": "ink",
-    "from": "#e8442e",
-    "to": "#d42e19"
+    "kind": "pick",
+    "target": "waterLabel",
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    },
    {
     "check": "Secondary labels on land",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#e46a56",
-    "to": "#b33e2c"
+    "from": "#f37763",
+    "to": "#b43e2e"
    }
   ],
   "tokens": {
    "land": "#fdf2f0",
-   "water": "#d42e19",
-   "park": "#fcddd7",
-   "roadMajor": "#d42e19",
-   "roadMinor": "#d42e19",
-   "building": "#facfc6",
-   "boundary": "#f19989",
+   "water": "#e8442e",
+   "park": "#fedfd9",
+   "roadMajor": "#e8442e",
+   "roadMinor": "#e8442e",
+   "building": "#fed2ca",
+   "boundary": "#faa292",
    "labelPrimary": "#5b0600",
-   "labelSecondary": "#b33e2c",
+   "labelSecondary": "#b43e2e",
    "halo": "#fdf2f0",
-   "accent": "#d42e19",
-   "urbanLanduse": "#facfc6",
-   "roadMajorCasing": "#d42e19"
+   "accent": "#e8442e",
+   "urbanLanduse": "#fed2ca",
+   "roadMajorCasing": "#e8442e",
+   "roadHighway": "#e8442e"
   }
  },
  "single-ink-fixture4-zurich-z12": {
@@ -1393,7 +1880,7 @@
    {
     "id": "ink",
     "input": "#f5b700",
-    "used": "#906a00",
+    "used": "#f5b700",
     "source": "user"
    },
    {
@@ -1405,188 +1892,260 @@
   ],
   "checks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#f9f5ec",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#f5b700",
     "against": [
      {
-      "token": "water",
-      "value": 4.544
+      "token": "land",
+      "value": 0.22
      }
     ],
-    "value": 4.544,
+    "value": 0.22,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#3c2b00",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.551
+     }
+    ],
+    "value": 12.551,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#906a00",
+    "subject": "#b58600",
     "against": [
      {
       "token": "land",
-      "value": 4.544
+      "value": 3.028
      }
     ],
-    "value": 4.544,
+    "value": 3.028,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#b58600",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.028
+     }
+    ],
+    "value": 3.028,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#906a00",
+    "subject": "#f5b700",
     "against": [
      {
       "token": "land",
-      "value": 4.544
+      "value": 1.656
      }
     ],
-    "value": 4.544,
+    "value": 1.656,
     "min": 1.5,
     "pass": true
    },
    {
     "id": "Primary labels on land",
     "kind": "contrast",
-    "subject": "#3c2a00",
+    "subject": "#3c2b00",
     "against": [
      {
       "token": "land",
-      "value": 12.67
+      "value": 12.551
      },
      {
       "token": "park",
-      "value": 10.9
+      "value": 11.868
+     },
+     {
+      "token": "halo",
+      "value": 12.551
      }
     ],
-    "value": 10.9,
+    "value": 11.868,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#7e6122",
+    "subject": "#8b6600",
     "against": [
      {
       "token": "land",
-      "value": 5.331
+      "value": 4.827
      },
      {
       "token": "park",
-      "value": 4.587
+      "value": 4.564
+     },
+     {
+      "token": "halo",
+      "value": 4.827
      }
     ],
-    "value": 4.587,
+    "value": 4.564,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#906a00",
+    "subject": "#3c2b00",
     "against": [
      {
       "token": "land",
-      "value": 4.544
+      "value": 12.551
      }
     ],
-    "value": 4.544,
+    "value": 12.551,
     "min": 3,
     "pass": true
    }
   ],
   "finalChecks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#f9f5ec",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#f5b700",
     "against": [
      {
-      "token": "water",
-      "value": 4.544
+      "token": "land",
+      "value": 0.22
      }
     ],
-    "value": 4.544,
+    "value": 0.22,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#3c2b00",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.551
+     }
+    ],
+    "value": 12.551,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#906a00",
+    "subject": "#b58600",
     "against": [
      {
       "token": "land",
-      "value": 4.544
+      "value": 3.028
      }
     ],
-    "value": 4.544,
+    "value": 3.028,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#b58600",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.028
+     }
+    ],
+    "value": 3.028,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#906a00",
+    "subject": "#f5b700",
     "against": [
      {
       "token": "land",
-      "value": 4.544
+      "value": 1.656
      }
     ],
-    "value": 4.544,
+    "value": 1.656,
     "min": 1.5,
     "pass": true
    },
    {
     "id": "Primary labels on land",
     "kind": "contrast",
-    "subject": "#3c2a00",
+    "subject": "#3c2b00",
     "against": [
      {
       "token": "land",
-      "value": 12.67
+      "value": 12.551
      },
      {
       "token": "park",
-      "value": 10.9
+      "value": 11.868
+     },
+     {
+      "token": "halo",
+      "value": 12.551
      }
     ],
-    "value": 10.9,
+    "value": 11.868,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#7e6122",
+    "subject": "#8b6600",
     "against": [
      {
       "token": "land",
-      "value": 5.331
+      "value": 4.827
      },
      {
       "token": "park",
-      "value": 4.587
+      "value": 4.564
+     },
+     {
+      "token": "halo",
+      "value": 4.827
      }
     ],
-    "value": 4.587,
+    "value": 4.564,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#906a00",
+    "subject": "#3c2b00",
     "against": [
      {
       "token": "land",
-      "value": 4.544
+      "value": 12.551
      }
     ],
-    "value": 4.544,
+    "value": 12.551,
     "min": 3,
     "pass": true
    }
@@ -1594,33 +2153,55 @@
   "notices": [
    {
     "check": "Water labels on water",
-    "kind": "slot",
-    "target": "ink",
+    "kind": "pick",
+    "target": "waterLabel",
+    "from": "land on water",
+    "to": "labelPrimary on halo"
+   },
+   {
+    "check": "Major roads on paper",
+    "kind": "token",
+    "target": "roadMajor",
     "from": "#f5b700",
-    "to": "#906a00"
+    "to": "#b58600"
+   },
+   {
+    "check": "Highways on paper",
+    "kind": "token",
+    "target": "roadHighway",
+    "from": "#f5b700",
+    "to": "#b58600"
    },
    {
     "check": "Secondary labels on land",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#aa8c4f",
-    "to": "#7e6122"
+    "from": "#f7c764",
+    "to": "#8b6600"
+   },
+   {
+    "check": "Accent on paper",
+    "kind": "fallback",
+    "target": "accent",
+    "from": "#f5b700",
+    "to": "#3c2b00"
    }
   ],
   "tokens": {
    "land": "#f9f5ec",
-   "water": "#906a00",
-   "park": "#ece4d3",
-   "roadMajor": "#906a00",
-   "roadMinor": "#906a00",
-   "building": "#e4d8c2",
-   "boundary": "#c4ae84",
-   "labelPrimary": "#3c2a00",
-   "labelSecondary": "#7e6122",
+   "water": "#f5b700",
+   "park": "#f9eed8",
+   "roadMajor": "#b58600",
+   "roadMinor": "#f5b700",
+   "building": "#f9e9cb",
+   "boundary": "#f8d796",
+   "labelPrimary": "#3c2b00",
+   "labelSecondary": "#8b6600",
    "halo": "#f9f5ec",
-   "accent": "#906a00",
-   "urbanLanduse": "#e4d8c2",
-   "roadMajorCasing": "#906a00"
+   "accent": "#3c2b00",
+   "urbanLanduse": "#f9e9cb",
+   "roadMajorCasing": "#f5b700",
+   "roadHighway": "#b58600"
   }
  },
  "single-ink-fixture5-zurich-z12": {
@@ -1640,6 +2221,20 @@
   ],
   "checks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#6c3fc5",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.508
+     }
+    ],
+    "value": 0.508,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f5f4fd",
@@ -1655,6 +2250,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#6c3fc5",
+    "against": [
+     {
+      "token": "land",
+      "value": 6.099
+     }
+    ],
+    "value": 6.099,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#6c3fc5",
     "against": [
@@ -1693,6 +2302,10 @@
      {
       "token": "park",
       "value": 11.322
+     },
+     {
+      "token": "halo",
+      "value": 13.466
      }
     ],
     "value": 11.322,
@@ -1711,6 +2324,10 @@
      {
       "token": "park",
       "value": 4.508
+     },
+     {
+      "token": "halo",
+      "value": 5.362
      }
     ],
     "value": 4.508,
@@ -1734,6 +2351,20 @@
   ],
   "finalChecks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#6c3fc5",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.508
+     }
+    ],
+    "value": 0.508,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f5f4fd",
@@ -1749,6 +2380,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#6c3fc5",
+    "against": [
+     {
+      "token": "land",
+      "value": 6.099
+     }
+    ],
+    "value": 6.099,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#6c3fc5",
     "against": [
@@ -1787,6 +2432,10 @@
      {
       "token": "park",
       "value": 11.322
+     },
+     {
+      "token": "halo",
+      "value": 13.466
      }
     ],
     "value": 11.322,
@@ -1805,6 +2454,10 @@
      {
       "token": "park",
       "value": 4.508
+     },
+     {
+      "token": "halo",
+      "value": 5.362
      }
     ],
     "value": 4.508,
@@ -1848,7 +2501,8 @@
    "halo": "#f5f4fd",
    "accent": "#6c3fc5",
    "urbanLanduse": "#d7d1f4",
-   "roadMajorCasing": "#6c3fc5"
+   "roadMajorCasing": "#6c3fc5",
+   "roadHighway": "#6c3fc5"
   }
  },
  "single-ink-fixture6-zurich-z12": {
@@ -1868,6 +2522,20 @@
   ],
   "checks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#222222",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.718
+     }
+    ],
+    "value": 0.718,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f5f5f5",
@@ -1883,6 +2551,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#222222",
+    "against": [
+     {
+      "token": "land",
+      "value": 14.593
+     }
+    ],
+    "value": 14.593,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#222222",
     "against": [
@@ -1921,6 +2603,10 @@
      {
       "token": "park",
       "value": 9.621
+     },
+     {
+      "token": "halo",
+      "value": 12.456
      }
     ],
     "value": 9.621,
@@ -1939,6 +2625,10 @@
      {
       "token": "park",
       "value": 5.712
+     },
+     {
+      "token": "halo",
+      "value": 7.396
      }
     ],
     "value": 5.712,
@@ -1962,6 +2652,20 @@
   ],
   "finalChecks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#222222",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.718
+     }
+    ],
+    "value": 0.718,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f5f5f5",
@@ -1977,6 +2681,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#222222",
+    "against": [
+     {
+      "token": "land",
+      "value": 14.593
+     }
+    ],
+    "value": 14.593,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#222222",
     "against": [
@@ -2015,6 +2733,10 @@
      {
       "token": "park",
       "value": 9.621
+     },
+     {
+      "token": "halo",
+      "value": 12.456
      }
     ],
     "value": 9.621,
@@ -2033,6 +2755,10 @@
      {
       "token": "park",
       "value": 5.712
+     },
+     {
+      "token": "halo",
+      "value": 7.396
      }
     ],
     "value": 5.712,
@@ -2068,7 +2794,8 @@
    "halo": "#f5f5f5",
    "accent": "#222222",
    "urbanLanduse": "#c6c6c6",
-   "roadMajorCasing": "#222222"
+   "roadMajorCasing": "#222222",
+   "roadHighway": "#222222"
   }
  },
  "single-ink-fixture7-zurich-z12": {
@@ -2076,7 +2803,7 @@
    {
     "id": "ink",
     "input": "#00f0ff",
-    "used": "#007c84",
+    "used": "#00f0ff",
     "source": "user"
    },
    {
@@ -2088,44 +2815,72 @@
   ],
   "checks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#ecf8f9",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#00f0ff",
     "against": [
      {
-      "token": "water",
-      "value": 4.592
+      "token": "land",
+      "value": 0.169
      }
     ],
-    "value": 4.592,
+    "value": 0.169,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#003539",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.345
+     }
+    ],
+    "value": 12.345,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#009da7",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 3.034
      }
     ],
-    "value": 4.592,
+    "value": 3.034,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#009da7",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.034
+     }
+    ],
+    "value": 3.034,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#00e0ee",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 1.501
      }
     ],
-    "value": 4.592,
+    "value": 1.501,
     "min": 1.5,
     "pass": true
    },
@@ -2140,86 +2895,122 @@
      },
      {
       "token": "park",
-      "value": 10.612
+      "value": 12.02
+     },
+     {
+      "token": "halo",
+      "value": 12.345
      }
     ],
-    "value": 10.612,
+    "value": 12.02,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#277076",
+    "subject": "#007b83",
     "against": [
      {
       "token": "land",
-      "value": 5.282
+      "value": 4.653
      },
      {
       "token": "park",
-      "value": 4.54
+      "value": 4.53
+     },
+     {
+      "token": "halo",
+      "value": 4.653
      }
     ],
-    "value": 4.54,
+    "value": 4.53,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#003539",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 12.345
      }
     ],
-    "value": 4.592,
+    "value": 12.345,
     "min": 3,
     "pass": true
    }
   ],
   "finalChecks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#ecf8f9",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#00f0ff",
     "against": [
      {
-      "token": "water",
-      "value": 4.592
+      "token": "land",
+      "value": 0.169
      }
     ],
-    "value": 4.592,
+    "value": 0.169,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#003539",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.345
+     }
+    ],
+    "value": 12.345,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#009da7",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 3.034
      }
     ],
-    "value": 4.592,
+    "value": 3.034,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#009da7",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.034
+     }
+    ],
+    "value": 3.034,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#00e0ee",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 1.501
      }
     ],
-    "value": 4.592,
+    "value": 1.501,
     "min": 1.5,
     "pass": true
    },
@@ -2234,42 +3025,50 @@
      },
      {
       "token": "park",
-      "value": 10.612
+      "value": 12.02
+     },
+     {
+      "token": "halo",
+      "value": 12.345
      }
     ],
-    "value": 10.612,
+    "value": 12.02,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#277076",
+    "subject": "#007b83",
     "against": [
      {
       "token": "land",
-      "value": 5.282
+      "value": 4.653
      },
      {
       "token": "park",
-      "value": 4.54
+      "value": 4.53
+     },
+     {
+      "token": "halo",
+      "value": 4.653
      }
     ],
-    "value": 4.54,
+    "value": 4.53,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#007c84",
+    "subject": "#003539",
     "against": [
      {
       "token": "land",
-      "value": 4.592
+      "value": 12.345
      }
     ],
-    "value": 4.592,
+    "value": 12.345,
     "min": 3,
     "pass": true
    }
@@ -2277,33 +3076,62 @@
   "notices": [
    {
     "check": "Water labels on water",
-    "kind": "slot",
-    "target": "ink",
+    "kind": "pick",
+    "target": "waterLabel",
+    "from": "land on water",
+    "to": "labelPrimary on halo"
+   },
+   {
+    "check": "Major roads on paper",
+    "kind": "token",
+    "target": "roadMajor",
     "from": "#00f0ff",
-    "to": "#007c84"
+    "to": "#009da7"
+   },
+   {
+    "check": "Highways on paper",
+    "kind": "token",
+    "target": "roadHighway",
+    "from": "#00f0ff",
+    "to": "#009da7"
+   },
+   {
+    "check": "Minor roads on paper",
+    "kind": "token",
+    "target": "roadMinor",
+    "from": "#00f0ff",
+    "to": "#00e0ee"
    },
    {
     "check": "Secondary labels on land",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#549aa0",
-    "to": "#277076"
+    "from": "#72f3fe",
+    "to": "#007b83"
+   },
+   {
+    "check": "Accent on paper",
+    "kind": "fallback",
+    "target": "accent",
+    "from": "#00f0ff",
+    "to": "#003539"
    }
   ],
   "tokens": {
    "land": "#ecf8f9",
-   "water": "#007c84",
-   "park": "#d4e9ea",
-   "roadMajor": "#007c84",
-   "roadMinor": "#007c84",
-   "building": "#c4dee1",
-   "boundary": "#88b9bd",
+   "water": "#00f0ff",
+   "park": "#dcf8fa",
+   "roadMajor": "#009da7",
+   "roadMinor": "#00e0ee",
+   "building": "#d1f7fa",
+   "boundary": "#a3f5fc",
    "labelPrimary": "#003539",
-   "labelSecondary": "#277076",
+   "labelSecondary": "#007b83",
    "halo": "#ecf8f9",
-   "accent": "#007c84",
-   "urbanLanduse": "#c4dee1",
-   "roadMajorCasing": "#007c84"
+   "accent": "#003539",
+   "urbanLanduse": "#d1f7fa",
+   "roadMajorCasing": "#00f0ff",
+   "roadHighway": "#009da7"
   }
  },
  "single-ink-fixture8-zurich-z12": {
@@ -2311,7 +3139,7 @@
    {
     "id": "ink",
     "input": "#f7c6d9",
-    "used": "#8e6374",
+    "used": "#f2c1d4",
     "source": "user"
    },
    {
@@ -2323,44 +3151,72 @@
   ],
   "checks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#fcf2f6",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#f2c1d4",
     "against": [
      {
-      "token": "water",
-      "value": 4.579
+      "token": "land",
+      "value": 0.121
      }
     ],
-    "value": 4.579,
+    "value": 0.121,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#452030",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.761
+     }
+    ],
+    "value": 12.761,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#8e6374",
+    "subject": "#af8194",
     "against": [
      {
       "token": "land",
-      "value": 4.579
+      "value": 3
      }
     ],
-    "value": 4.579,
+    "value": 3,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#af8194",
+    "against": [
+     {
+      "token": "land",
+      "value": 3
+     }
+    ],
+    "value": 3,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#8e6374",
+    "subject": "#edbccf",
     "against": [
      {
       "token": "land",
-      "value": 4.579
+      "value": 1.51
      }
     ],
-    "value": 4.579,
+    "value": 1.51,
     "min": 1.5,
     "pass": true
    },
@@ -2375,86 +3231,122 @@
      },
      {
       "token": "park",
-      "value": 10.959
+      "value": 12.236
+     },
+     {
+      "token": "halo",
+      "value": 12.761
      }
     ],
-    "value": 10.959,
+    "value": 12.236,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#7e5c6a",
+    "subject": "#856270",
     "against": [
      {
       "token": "land",
-      "value": 5.287
+      "value": 4.819
      },
      {
       "token": "park",
-      "value": 4.54
+      "value": 4.621
+     },
+     {
+      "token": "halo",
+      "value": 4.819
      }
     ],
-    "value": 4.54,
+    "value": 4.621,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#8e6374",
+    "subject": "#452030",
     "against": [
      {
       "token": "land",
-      "value": 4.579
+      "value": 12.761
      }
     ],
-    "value": 4.579,
+    "value": 12.761,
     "min": 3,
     "pass": true
    }
   ],
   "finalChecks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#fcf2f6",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#f2c1d4",
     "against": [
      {
-      "token": "water",
-      "value": 4.579
+      "token": "land",
+      "value": 0.121
      }
     ],
-    "value": 4.579,
+    "value": 0.121,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#452030",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.761
+     }
+    ],
+    "value": 12.761,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#8e6374",
+    "subject": "#af8194",
     "against": [
      {
       "token": "land",
-      "value": 4.579
+      "value": 3
      }
     ],
-    "value": 4.579,
+    "value": 3,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#af8194",
+    "against": [
+     {
+      "token": "land",
+      "value": 3
+     }
+    ],
+    "value": 3,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#8e6374",
+    "subject": "#edbccf",
     "against": [
      {
       "token": "land",
-      "value": 4.579
+      "value": 1.51
      }
     ],
-    "value": 4.579,
+    "value": 1.51,
     "min": 1.5,
     "pass": true
    },
@@ -2469,76 +3361,120 @@
      },
      {
       "token": "park",
-      "value": 10.959
+      "value": 12.236
+     },
+     {
+      "token": "halo",
+      "value": 12.761
      }
     ],
-    "value": 10.959,
+    "value": 12.236,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#7e5c6a",
+    "subject": "#856270",
     "against": [
      {
       "token": "land",
-      "value": 5.287
+      "value": 4.819
      },
      {
       "token": "park",
-      "value": 4.54
+      "value": 4.621
+     },
+     {
+      "token": "halo",
+      "value": 4.819
      }
     ],
-    "value": 4.54,
+    "value": 4.621,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#8e6374",
+    "subject": "#452030",
     "against": [
      {
       "token": "land",
-      "value": 4.579
+      "value": 12.761
      }
     ],
-    "value": 4.579,
+    "value": 12.761,
     "min": 3,
     "pass": true
    }
   ],
   "notices": [
    {
-    "check": "Water labels on water",
+    "check": "Water apart from paper",
     "kind": "slot",
     "target": "ink",
     "from": "#f7c6d9",
-    "to": "#8e6374"
+    "to": "#f2c1d4"
+   },
+   {
+    "check": "Water labels on water",
+    "kind": "pick",
+    "target": "waterLabel",
+    "from": "land on water",
+    "to": "labelPrimary on halo"
+   },
+   {
+    "check": "Major roads on paper",
+    "kind": "token",
+    "target": "roadMajor",
+    "from": "#f2c1d4",
+    "to": "#af8194"
+   },
+   {
+    "check": "Highways on paper",
+    "kind": "token",
+    "target": "roadHighway",
+    "from": "#f2c1d4",
+    "to": "#af8194"
+   },
+   {
+    "check": "Minor roads on paper",
+    "kind": "token",
+    "target": "roadMinor",
+    "from": "#f2c1d4",
+    "to": "#edbccf"
    },
    {
     "check": "Secondary labels on land",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#a98593",
-    "to": "#7e5c6a"
+    "from": "#f5cddc",
+    "to": "#856270"
+   },
+   {
+    "check": "Accent on paper",
+    "kind": "fallback",
+    "target": "accent",
+    "from": "#f2c1d4",
+    "to": "#452030"
    }
   ],
   "tokens": {
    "land": "#fcf2f6",
-   "water": "#8e6374",
-   "park": "#efe0e5",
-   "roadMajor": "#8e6374",
-   "roadMinor": "#8e6374",
-   "building": "#e6d4da",
-   "boundary": "#c5a8b3",
+   "water": "#f2c1d4",
+   "park": "#fbecf2",
+   "roadMajor": "#af8194",
+   "roadMinor": "#edbccf",
+   "building": "#fae8ef",
+   "boundary": "#f8d9e5",
    "labelPrimary": "#452030",
-   "labelSecondary": "#7e5c6a",
+   "labelSecondary": "#856270",
    "halo": "#fcf2f6",
-   "accent": "#8e6374",
-   "urbanLanduse": "#e6d4da",
-   "roadMajorCasing": "#8e6374"
+   "accent": "#452030",
+   "urbanLanduse": "#fae8ef",
+   "roadMajorCasing": "#f2c1d4",
+   "roadHighway": "#af8194"
   }
  },
  "single-ink-fixture9-zurich-z12": {
@@ -2546,7 +3482,7 @@
    {
     "id": "ink",
     "input": "#c65d3b",
-    "used": "#b8512f",
+    "used": "#c65d3b",
     "source": "user"
    },
    {
@@ -2558,44 +3494,72 @@
   ],
   "checks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#fdf3ef",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#c65d3b",
     "against": [
      {
-      "token": "water",
-      "value": 4.521
+      "token": "land",
+      "value": 0.392
      }
     ],
-    "value": 4.521,
+    "value": 0.392,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#541500",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.965
+     }
+    ],
+    "value": 12.965,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#b8512f",
+    "subject": "#c65d3b",
     "against": [
      {
       "token": "land",
-      "value": 4.521
+      "value": 3.826
      }
     ],
-    "value": 4.521,
+    "value": 3.826,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#c65d3b",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.826
+     }
+    ],
+    "value": 3.826,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#b8512f",
+    "subject": "#c65d3b",
     "against": [
      {
       "token": "land",
-      "value": 4.521
+      "value": 3.826
      }
     ],
-    "value": 4.521,
+    "value": 3.826,
     "min": 1.5,
     "pass": true
    },
@@ -2610,86 +3574,122 @@
      },
      {
       "token": "park",
-      "value": 11.118
+      "value": 11.301
+     },
+     {
+      "token": "halo",
+      "value": 12.965
      }
     ],
-    "value": 11.118,
+    "value": 11.301,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#9e5038",
+    "subject": "#9f5038",
     "against": [
      {
       "token": "land",
-      "value": 5.26
+      "value": 5.231
      },
      {
       "token": "park",
-      "value": 4.511
+      "value": 4.56
+     },
+     {
+      "token": "halo",
+      "value": 5.231
      }
     ],
-    "value": 4.511,
+    "value": 4.56,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#b8512f",
+    "subject": "#c65d3b",
     "against": [
      {
       "token": "land",
-      "value": 4.521
+      "value": 3.826
      }
     ],
-    "value": 4.521,
+    "value": 3.826,
     "min": 3,
     "pass": true
    }
   ],
   "finalChecks": [
    {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#fdf3ef",
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#c65d3b",
     "against": [
      {
-      "token": "water",
-      "value": 4.521
+      "token": "land",
+      "value": 0.392
      }
     ],
-    "value": 4.521,
+    "value": 0.392,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#541500",
+    "against": [
+     {
+      "token": "halo",
+      "value": 12.965
+     }
+    ],
+    "value": 12.965,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Major roads on paper",
     "kind": "contrast",
-    "subject": "#b8512f",
+    "subject": "#c65d3b",
     "against": [
      {
       "token": "land",
-      "value": 4.521
+      "value": 3.826
      }
     ],
-    "value": 4.521,
+    "value": 3.826,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
+    "kind": "contrast",
+    "subject": "#c65d3b",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.826
+     }
+    ],
+    "value": 3.826,
     "min": 3,
     "pass": true
    },
    {
     "id": "Minor roads on paper",
     "kind": "contrast",
-    "subject": "#b8512f",
+    "subject": "#c65d3b",
     "against": [
      {
       "token": "land",
-      "value": 4.521
+      "value": 3.826
      }
     ],
-    "value": 4.521,
+    "value": 3.826,
     "min": 1.5,
     "pass": true
    },
@@ -2704,42 +3704,50 @@
      },
      {
       "token": "park",
-      "value": 11.118
+      "value": 11.301
+     },
+     {
+      "token": "halo",
+      "value": 12.965
      }
     ],
-    "value": 11.118,
+    "value": 11.301,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on land",
     "kind": "contrast",
-    "subject": "#9e5038",
+    "subject": "#9f5038",
     "against": [
      {
       "token": "land",
-      "value": 5.26
+      "value": 5.231
      },
      {
       "token": "park",
-      "value": 4.511
+      "value": 4.56
+     },
+     {
+      "token": "halo",
+      "value": 5.231
      }
     ],
-    "value": 4.511,
+    "value": 4.56,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Accent on paper",
     "kind": "contrast",
-    "subject": "#b8512f",
+    "subject": "#c65d3b",
     "against": [
      {
       "token": "land",
-      "value": 4.521
+      "value": 3.826
      }
     ],
-    "value": 4.521,
+    "value": 3.826,
     "min": 3,
     "pass": true
    }
@@ -2747,33 +3755,34 @@
   "notices": [
    {
     "check": "Water labels on water",
-    "kind": "slot",
-    "target": "ink",
-    "from": "#c65d3b",
-    "to": "#b8512f"
+    "kind": "pick",
+    "target": "waterLabel",
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    },
    {
     "check": "Secondary labels on land",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#cc7a60",
-    "to": "#9e5038"
+    "from": "#d78369",
+    "to": "#9f5038"
    }
   ],
   "tokens": {
    "land": "#fdf3ef",
-   "water": "#b8512f",
-   "park": "#f7dfd8",
-   "roadMajor": "#b8512f",
-   "roadMinor": "#b8512f",
-   "building": "#f2d2c8",
-   "boundary": "#dfa28f",
+   "water": "#c65d3b",
+   "park": "#f8e1da",
+   "roadMajor": "#c65d3b",
+   "roadMinor": "#c65d3b",
+   "building": "#f5d5cb",
+   "boundary": "#e6a995",
    "labelPrimary": "#541500",
-   "labelSecondary": "#9e5038",
+   "labelSecondary": "#9f5038",
    "halo": "#fdf3ef",
-   "accent": "#b8512f",
-   "urbanLanduse": "#f2d2c8",
-   "roadMajorCasing": "#b8512f"
+   "accent": "#c65d3b",
+   "urbanLanduse": "#f5d5cb",
+   "roadMajorCasing": "#c65d3b",
+   "roadHighway": "#c65d3b"
   }
  },
  "single-ink-fixture10-zurich-z12": {
@@ -2793,6 +3802,20 @@
   ],
   "checks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#d62828",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.447
+     }
+    ],
+    "value": 0.447,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#fdf2f1",
@@ -2808,6 +3831,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#d62828",
+    "against": [
+     {
+      "token": "land",
+      "value": 4.566
+     }
+    ],
+    "value": 4.566,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#d62828",
     "against": [
@@ -2846,6 +3883,10 @@
      {
       "token": "park",
       "value": 11.228
+     },
+     {
+      "token": "halo",
+      "value": 13.051
      }
     ],
     "value": 11.228,
@@ -2864,6 +3905,10 @@
      {
       "token": "park",
       "value": 4.526
+     },
+     {
+      "token": "halo",
+      "value": 5.26
      }
     ],
     "value": 4.526,
@@ -2887,6 +3932,20 @@
   ],
   "finalChecks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#d62828",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.447
+     }
+    ],
+    "value": 0.447,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#fdf2f1",
@@ -2902,6 +3961,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#d62828",
+    "against": [
+     {
+      "token": "land",
+      "value": 4.566
+     }
+    ],
+    "value": 4.566,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#d62828",
     "against": [
@@ -2940,6 +4013,10 @@
      {
       "token": "park",
       "value": 11.228
+     },
+     {
+      "token": "halo",
+      "value": 13.051
      }
     ],
     "value": 11.228,
@@ -2958,6 +4035,10 @@
      {
       "token": "park",
       "value": 4.526
+     },
+     {
+      "token": "halo",
+      "value": 5.26
      }
     ],
     "value": 4.526,
@@ -3001,7 +4082,8 @@
    "halo": "#fdf2f1",
    "accent": "#d62828",
    "urbanLanduse": "#fbcec8",
-   "roadMajorCasing": "#d62828"
+   "roadMajorCasing": "#d62828",
+   "roadHighway": "#d62828"
   }
  },
  "single-ink-sample-light-zurich-z12": {
@@ -3021,6 +4103,20 @@
   ],
   "checks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.559
+     }
+    ],
+    "value": 0.559,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f7f3fb",
@@ -3036,6 +4132,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 8.006
+     }
+    ],
+    "value": 8.006,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#6b2c91",
     "against": [
@@ -3074,6 +4184,10 @@
      {
       "token": "park",
       "value": 11.011
+     },
+     {
+      "token": "halo",
+      "value": 13.406
      }
     ],
     "value": 11.011,
@@ -3092,6 +4206,10 @@
      {
       "token": "park",
       "value": 4.536
+     },
+     {
+      "token": "halo",
+      "value": 5.523
      }
     ],
     "value": 4.536,
@@ -3115,6 +4233,20 @@
   ],
   "finalChecks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.559
+     }
+    ],
+    "value": 0.559,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f7f3fb",
@@ -3130,6 +4262,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 8.006
+     }
+    ],
+    "value": 8.006,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#6b2c91",
     "against": [
@@ -3168,6 +4314,10 @@
      {
       "token": "park",
       "value": 11.011
+     },
+     {
+      "token": "halo",
+      "value": 13.406
      }
     ],
     "value": 11.011,
@@ -3186,6 +4336,10 @@
      {
       "token": "park",
       "value": 4.536
+     },
+     {
+      "token": "halo",
+      "value": 5.523
      }
     ],
     "value": 4.536,
@@ -3229,7 +4383,8 @@
    "halo": "#f7f3fb",
    "accent": "#6b2c91",
    "urbanLanduse": "#dacbe7",
-   "roadMajorCasing": "#6b2c91"
+   "roadMajorCasing": "#6b2c91",
+   "roadHighway": "#6b2c91"
   }
  },
  "single-ink-sample-data60-zurich-z12": {
@@ -3249,6 +4404,20 @@
   ],
   "checks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.559
+     }
+    ],
+    "value": 0.559,
+    "min": 0.12,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f7f3fb",
@@ -3264,6 +4433,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#6b2c91",
+    "against": [
+     {
+      "token": "land",
+      "value": 8.006
+     }
+    ],
+    "value": 8.006,
+    "min": 3,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#6b2c91",
     "against": [
@@ -3302,6 +4485,10 @@
      {
       "token": "park",
       "value": 11.011
+     },
+     {
+      "token": "halo",
+      "value": 13.406
      }
     ],
     "value": 11.011,
@@ -3320,6 +4507,10 @@
      {
       "token": "park",
       "value": 4.536
+     },
+     {
+      "token": "halo",
+      "value": 5.523
      }
     ],
     "value": 4.536,
@@ -3343,6 +4534,20 @@
   ],
   "finalChecks": [
    {
+    "id": "Water apart from paper",
+    "kind": "distance",
+    "subject": "#83649a",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.423
+     }
+    ],
+    "value": 0.423,
+    "min": 0.084,
+    "pass": true
+   },
+   {
     "id": "Water labels on water",
     "kind": "contrast",
     "subject": "#f6f4f8",
@@ -3358,6 +4563,20 @@
    },
    {
     "id": "Major roads on paper",
+    "kind": "contrast",
+    "subject": "#84679a",
+    "against": [
+     {
+      "token": "land",
+      "value": 4.379
+     }
+    ],
+    "value": 4.379,
+    "min": 2.1,
+    "pass": true
+   },
+   {
+    "id": "Highways on paper",
     "kind": "contrast",
     "subject": "#84679a",
     "against": [
@@ -3396,6 +4615,10 @@
      {
       "token": "park",
       "value": 11.032
+     },
+     {
+      "token": "halo",
+      "value": 13.406
      }
     ],
     "value": 11.032,
@@ -3414,6 +4637,10 @@
      {
       "token": "park",
       "value": 4.545
+     },
+     {
+      "token": "halo",
+      "value": 5.523
      }
     ],
     "value": 4.545,
@@ -3457,7 +4684,8 @@
    "halo": "#f7f3fb",
    "accent": "#6b2c91",
    "urbanLanduse": "#d6cedd",
-   "roadMajorCasing": "#84679a"
+   "roadMajorCasing": "#84679a",
+   "roadHighway": "#84679a"
   }
  },
  "figure-ground-sample-zurich-z12": {
@@ -3743,8 +4971,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -3767,7 +4995,8 @@
    "halo": "#fbefe0",
    "accent": "#59968a",
    "urbanLanduse": "#e0623f",
-   "roadMajorCasing": "#e1a796"
+   "roadMajorCasing": "#e1a796",
+   "roadHighway": "#fbefe0"
   }
  },
  "figure-ground-terracotta-zurich-z12": {
@@ -4053,8 +5282,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "land"
+    "from": "labelSecondary on water",
+    "to": "land on water"
    }
   ],
   "tokens": {
@@ -4070,7 +5299,8 @@
    "halo": "#e9d8c4",
    "accent": "#2e3a59",
    "urbanLanduse": "#c65d3b",
-   "roadMajorCasing": "#c69a77"
+   "roadMajorCasing": "#c69a77",
+   "roadHighway": "#e9d8c4"
   }
  },
  "figure-ground-cyan-magenta-zurich-z12": {
@@ -4370,8 +5600,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Water labels on water",
@@ -4401,7 +5631,8 @@
    "halo": "#ecf8f9",
    "accent": "#fd28d4",
    "urbanLanduse": "#00c9d5",
-   "roadMajorCasing": "#8ec1c6"
+   "roadMajorCasing": "#8ec1c6",
+   "roadHighway": "#ecf8f9"
   }
  },
  "figure-ground-fixture1-zurich-z12": {
@@ -4680,8 +5911,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -4704,7 +5935,8 @@
    "halo": "#eff6fd",
    "accent": "#7a9481",
    "urbanLanduse": "#0b3c5d",
-   "roadMajorCasing": "#9cb1c3"
+   "roadMajorCasing": "#9cb1c3",
+   "roadHighway": "#eff6fd"
   }
  },
  "figure-ground-fixture2-zurich-z12": {
@@ -4990,8 +6222,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -5014,7 +6246,8 @@
    "halo": "#eff8f2",
    "accent": "#7392ae",
    "urbanLanduse": "#1f7a4d",
-   "roadMajorCasing": "#a1c1ac"
+   "roadMajorCasing": "#a1c1ac",
+   "roadHighway": "#eff8f2"
   }
  },
  "figure-ground-fixture3-zurich-z12": {
@@ -5300,8 +6533,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -5324,620 +6557,8 @@
    "halo": "#fdf2f0",
    "accent": "#4697b5",
    "urbanLanduse": "#e8442e",
-   "roadMajorCasing": "#e9a79b"
-  }
- },
- "figure-ground-fixture6-zurich-z12": {
-  "slots": [
-   {
-    "id": "fabric",
-    "input": "#222222",
-    "used": "#222222",
-    "source": "user"
-   },
-   {
-    "id": "paper",
-    "input": "#f5f5f5",
-    "used": "#f5f5f5",
-    "source": "default"
-   },
-   {
-    "id": "water",
-    "input": "#a3c4d1",
-    "used": "#a3c4d1",
-    "source": "default"
-   },
-   {
-    "id": "green",
-    "input": "#f5f5f5",
-    "used": "#f5f5f5",
-    "source": "default"
-   }
-  ],
-  "checks": [
-   {
-    "id": "Fabric apart from water",
-    "kind": "distance",
-    "subject": "#222222",
-    "against": [
-     {
-      "token": "water",
-      "value": 0.55
-     }
-    ],
-    "value": 0.55,
-    "min": 0.12,
-    "pass": true
-   },
-   {
-    "id": "Major roads in the fabric",
-    "kind": "contrast",
-    "subject": "#f5f5f5",
-    "against": [
-     {
-      "token": "urbanLanduse",
-      "value": 14.593
-     }
-    ],
-    "value": 14.593,
-    "min": 2,
-    "pass": true
-   },
-   {
-    "id": "Minor roads in the fabric",
-    "kind": "contrast",
-    "subject": "#f5f5f5",
-    "against": [
-     {
-      "token": "urbanLanduse",
-      "value": 14.593
-     }
-    ],
-    "value": 14.593,
-    "min": 1.5,
-    "pass": true
-   },
-   {
-    "id": "Major road casing on paper",
-    "kind": "contrast",
-    "subject": "#a4a4a4",
-    "against": [
-     {
-      "token": "land",
-      "value": 2.286
-     }
-    ],
-    "value": 2.286,
-    "min": 1.8,
-    "pass": true
-   },
-   {
-    "id": "Primary labels on paper and their halo",
-    "kind": "contrast",
-    "subject": "#2e2e2e",
-    "against": [
-     {
-      "token": "land",
-      "value": 12.456
-     },
-     {
-      "token": "halo",
-      "value": 12.456
-     }
-    ],
-    "value": 12.456,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Secondary labels on paper and their halo",
-    "kind": "contrast",
-    "subject": "#485e67",
-    "against": [
-     {
-      "token": "land",
-      "value": 6.269
-     },
-     {
-      "token": "halo",
-      "value": 6.269
-     }
-    ],
-    "value": 6.269,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#2e2e2e",
-    "against": [
-     {
-      "token": "water",
-      "value": 7.355
-     }
-    ],
-    "value": 7.355,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Accent on paper",
-    "kind": "contrast",
-    "subject": "#72929e",
-    "against": [
-     {
-      "token": "land",
-      "value": 3.047
-     }
-    ],
-    "value": 3.047,
-    "min": 3,
-    "pass": true
-   }
-  ],
-  "finalChecks": [
-   {
-    "id": "Fabric apart from water",
-    "kind": "distance",
-    "subject": "#222222",
-    "against": [
-     {
-      "token": "water",
-      "value": 0.55
-     }
-    ],
-    "value": 0.55,
-    "min": 0.12,
-    "pass": true
-   },
-   {
-    "id": "Major roads in the fabric",
-    "kind": "contrast",
-    "subject": "#f5f5f5",
-    "against": [
-     {
-      "token": "urbanLanduse",
-      "value": 14.593
-     }
-    ],
-    "value": 14.593,
-    "min": 2,
-    "pass": true
-   },
-   {
-    "id": "Minor roads in the fabric",
-    "kind": "contrast",
-    "subject": "#f5f5f5",
-    "against": [
-     {
-      "token": "urbanLanduse",
-      "value": 14.593
-     }
-    ],
-    "value": 14.593,
-    "min": 1.5,
-    "pass": true
-   },
-   {
-    "id": "Major road casing on paper",
-    "kind": "contrast",
-    "subject": "#a4a4a4",
-    "against": [
-     {
-      "token": "land",
-      "value": 2.286
-     }
-    ],
-    "value": 2.286,
-    "min": 1.8,
-    "pass": true
-   },
-   {
-    "id": "Primary labels on paper and their halo",
-    "kind": "contrast",
-    "subject": "#2e2e2e",
-    "against": [
-     {
-      "token": "land",
-      "value": 12.456
-     },
-     {
-      "token": "halo",
-      "value": 12.456
-     }
-    ],
-    "value": 12.456,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Secondary labels on paper and their halo",
-    "kind": "contrast",
-    "subject": "#485e67",
-    "against": [
-     {
-      "token": "land",
-      "value": 6.269
-     },
-     {
-      "token": "halo",
-      "value": 6.269
-     }
-    ],
-    "value": 6.269,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#2e2e2e",
-    "against": [
-     {
-      "token": "water",
-      "value": 7.355
-     }
-    ],
-    "value": 7.355,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Accent on paper",
-    "kind": "contrast",
-    "subject": "#72929e",
-    "against": [
-     {
-      "token": "land",
-      "value": 3.047
-     }
-    ],
-    "value": 3.047,
-    "min": 3,
-    "pass": true
-   }
-  ],
-  "notices": [
-   {
-    "check": "Water labels on water",
-    "kind": "pick",
-    "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
-   },
-   {
-    "check": "Accent on paper",
-    "kind": "token",
-    "target": "accent",
-    "from": "#a3c4d1",
-    "to": "#72929e"
-   }
-  ],
-  "tokens": {
-   "land": "#f5f5f5",
-   "water": "#a3c4d1",
-   "park": "#f5f5f5",
-   "roadMajor": "#f5f5f5",
-   "roadMinor": "#f5f5f5",
-   "building": "#222222",
-   "boundary": "#c4d7df",
-   "labelPrimary": "#2e2e2e",
-   "labelSecondary": "#485e67",
-   "halo": "#f5f5f5",
-   "accent": "#72929e",
-   "urbanLanduse": "#222222",
-   "roadMajorCasing": "#a4a4a4"
-  }
- },
- "figure-ground-fixture5-zurich-z12": {
-  "slots": [
-   {
-    "id": "fabric",
-    "input": "#6c3fc5",
-    "used": "#6c3fc5",
-    "source": "user"
-   },
-   {
-    "id": "paper",
-    "input": "#f5f4fd",
-    "used": "#f5f4fd",
-    "source": "default"
-   },
-   {
-    "id": "water",
-    "input": "#71cfd8",
-    "used": "#71cfd8",
-    "source": "default"
-   },
-   {
-    "id": "green",
-    "input": "#f5f4fd",
-    "used": "#f5f4fd",
-    "source": "default"
-   }
-  ],
-  "checks": [
-   {
-    "id": "Fabric apart from water",
-    "kind": "distance",
-    "subject": "#6c3fc5",
-    "against": [
-     {
-      "token": "water",
-      "value": 0.372
-     }
-    ],
-    "value": 0.372,
-    "min": 0.12,
-    "pass": true
-   },
-   {
-    "id": "Major roads in the fabric",
-    "kind": "contrast",
-    "subject": "#f5f4fd",
-    "against": [
-     {
-      "token": "urbanLanduse",
-      "value": 6.099
-     }
-    ],
-    "value": 6.099,
-    "min": 2,
-    "pass": true
-   },
-   {
-    "id": "Minor roads in the fabric",
-    "kind": "contrast",
-    "subject": "#f5f4fd",
-    "against": [
-     {
-      "token": "urbanLanduse",
-      "value": 6.099
-     }
-    ],
-    "value": 6.099,
-    "min": 1.5,
-    "pass": true
-   },
-   {
-    "id": "Major road casing on paper",
-    "kind": "contrast",
-    "subject": "#bcb2e8",
-    "against": [
-     {
-      "token": "land",
-      "value": 1.803
-     }
-    ],
-    "value": 1.803,
-    "min": 1.8,
-    "pass": true
-   },
-   {
-    "id": "Primary labels on paper and their halo",
-    "kind": "contrast",
-    "subject": "#370077",
-    "against": [
-     {
-      "token": "land",
-      "value": 13.466
-     },
-     {
-      "token": "halo",
-      "value": 13.466
-     }
-    ],
-    "value": 13.466,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Secondary labels on paper and their halo",
-    "kind": "contrast",
-    "subject": "#3d6164",
-    "against": [
-     {
-      "token": "land",
-      "value": 6.222
-     },
-     {
-      "token": "halo",
-      "value": 6.222
-     }
-    ],
-    "value": 6.222,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#370077",
-    "against": [
-     {
-      "token": "water",
-      "value": 8.132
-     }
-    ],
-    "value": 8.132,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Accent on paper",
-    "kind": "contrast",
-    "subject": "#389ba3",
-    "against": [
-     {
-      "token": "land",
-      "value": 3.013
-     }
-    ],
-    "value": 3.013,
-    "min": 3,
-    "pass": true
-   }
-  ],
-  "finalChecks": [
-   {
-    "id": "Fabric apart from water",
-    "kind": "distance",
-    "subject": "#6c3fc5",
-    "against": [
-     {
-      "token": "water",
-      "value": 0.372
-     }
-    ],
-    "value": 0.372,
-    "min": 0.12,
-    "pass": true
-   },
-   {
-    "id": "Major roads in the fabric",
-    "kind": "contrast",
-    "subject": "#f5f4fd",
-    "against": [
-     {
-      "token": "urbanLanduse",
-      "value": 6.099
-     }
-    ],
-    "value": 6.099,
-    "min": 2,
-    "pass": true
-   },
-   {
-    "id": "Minor roads in the fabric",
-    "kind": "contrast",
-    "subject": "#f5f4fd",
-    "against": [
-     {
-      "token": "urbanLanduse",
-      "value": 6.099
-     }
-    ],
-    "value": 6.099,
-    "min": 1.5,
-    "pass": true
-   },
-   {
-    "id": "Major road casing on paper",
-    "kind": "contrast",
-    "subject": "#bcb2e8",
-    "against": [
-     {
-      "token": "land",
-      "value": 1.803
-     }
-    ],
-    "value": 1.803,
-    "min": 1.8,
-    "pass": true
-   },
-   {
-    "id": "Primary labels on paper and their halo",
-    "kind": "contrast",
-    "subject": "#370077",
-    "against": [
-     {
-      "token": "land",
-      "value": 13.466
-     },
-     {
-      "token": "halo",
-      "value": 13.466
-     }
-    ],
-    "value": 13.466,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Secondary labels on paper and their halo",
-    "kind": "contrast",
-    "subject": "#3d6164",
-    "against": [
-     {
-      "token": "land",
-      "value": 6.222
-     },
-     {
-      "token": "halo",
-      "value": 6.222
-     }
-    ],
-    "value": 6.222,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Water labels on water",
-    "kind": "contrast",
-    "subject": "#370077",
-    "against": [
-     {
-      "token": "water",
-      "value": 8.132
-     }
-    ],
-    "value": 8.132,
-    "min": 4.5,
-    "pass": true
-   },
-   {
-    "id": "Accent on paper",
-    "kind": "contrast",
-    "subject": "#389ba3",
-    "against": [
-     {
-      "token": "land",
-      "value": 3.013
-     }
-    ],
-    "value": 3.013,
-    "min": 3,
-    "pass": true
-   }
-  ],
-  "notices": [
-   {
-    "check": "Major road casing on paper",
-    "kind": "token",
-    "target": "roadMajorCasing",
-    "from": "#c1b7ed",
-    "to": "#bcb2e8"
-   },
-   {
-    "check": "Water labels on water",
-    "kind": "pick",
-    "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
-   },
-   {
-    "check": "Accent on paper",
-    "kind": "token",
-    "target": "accent",
-    "from": "#71cfd8",
-    "to": "#389ba3"
-   }
-  ],
-  "tokens": {
-   "land": "#f5f4fd",
-   "water": "#71cfd8",
-   "park": "#f5f4fd",
-   "roadMajor": "#f5f4fd",
-   "roadMinor": "#f5f4fd",
-   "building": "#6c3fc5",
-   "boundary": "#a6e0e5",
-   "labelPrimary": "#370077",
-   "labelSecondary": "#3d6164",
-   "halo": "#f5f4fd",
-   "accent": "#389ba3",
-   "urbanLanduse": "#6c3fc5",
-   "roadMajorCasing": "#bcb2e8"
+   "roadMajorCasing": "#e9a79b",
+   "roadHighway": "#fdf2f0"
   }
  },
  "figure-ground-fixture4-zurich-z12": {
@@ -6237,8 +6858,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -6261,7 +6882,623 @@
    "halo": "#f9f5ec",
    "accent": "#5296b1",
    "urbanLanduse": "#e7ac00",
-   "roadMajorCasing": "#cdb58a"
+   "roadMajorCasing": "#cdb58a",
+   "roadHighway": "#f9f5ec"
+  }
+ },
+ "figure-ground-fixture5-zurich-z12": {
+  "slots": [
+   {
+    "id": "fabric",
+    "input": "#6c3fc5",
+    "used": "#6c3fc5",
+    "source": "user"
+   },
+   {
+    "id": "paper",
+    "input": "#f5f4fd",
+    "used": "#f5f4fd",
+    "source": "default"
+   },
+   {
+    "id": "water",
+    "input": "#71cfd8",
+    "used": "#71cfd8",
+    "source": "default"
+   },
+   {
+    "id": "green",
+    "input": "#f5f4fd",
+    "used": "#f5f4fd",
+    "source": "default"
+   }
+  ],
+  "checks": [
+   {
+    "id": "Fabric apart from water",
+    "kind": "distance",
+    "subject": "#6c3fc5",
+    "against": [
+     {
+      "token": "water",
+      "value": 0.372
+     }
+    ],
+    "value": 0.372,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Major roads in the fabric",
+    "kind": "contrast",
+    "subject": "#f5f4fd",
+    "against": [
+     {
+      "token": "urbanLanduse",
+      "value": 6.099
+     }
+    ],
+    "value": 6.099,
+    "min": 2,
+    "pass": true
+   },
+   {
+    "id": "Minor roads in the fabric",
+    "kind": "contrast",
+    "subject": "#f5f4fd",
+    "against": [
+     {
+      "token": "urbanLanduse",
+      "value": 6.099
+     }
+    ],
+    "value": 6.099,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Major road casing on paper",
+    "kind": "contrast",
+    "subject": "#bcb2e8",
+    "against": [
+     {
+      "token": "land",
+      "value": 1.803
+     }
+    ],
+    "value": 1.803,
+    "min": 1.8,
+    "pass": true
+   },
+   {
+    "id": "Primary labels on paper and their halo",
+    "kind": "contrast",
+    "subject": "#370077",
+    "against": [
+     {
+      "token": "land",
+      "value": 13.466
+     },
+     {
+      "token": "halo",
+      "value": 13.466
+     }
+    ],
+    "value": 13.466,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Secondary labels on paper and their halo",
+    "kind": "contrast",
+    "subject": "#3d6164",
+    "against": [
+     {
+      "token": "land",
+      "value": 6.222
+     },
+     {
+      "token": "halo",
+      "value": 6.222
+     }
+    ],
+    "value": 6.222,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#370077",
+    "against": [
+     {
+      "token": "water",
+      "value": 8.132
+     }
+    ],
+    "value": 8.132,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Accent on paper",
+    "kind": "contrast",
+    "subject": "#389ba3",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.013
+     }
+    ],
+    "value": 3.013,
+    "min": 3,
+    "pass": true
+   }
+  ],
+  "finalChecks": [
+   {
+    "id": "Fabric apart from water",
+    "kind": "distance",
+    "subject": "#6c3fc5",
+    "against": [
+     {
+      "token": "water",
+      "value": 0.372
+     }
+    ],
+    "value": 0.372,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Major roads in the fabric",
+    "kind": "contrast",
+    "subject": "#f5f4fd",
+    "against": [
+     {
+      "token": "urbanLanduse",
+      "value": 6.099
+     }
+    ],
+    "value": 6.099,
+    "min": 2,
+    "pass": true
+   },
+   {
+    "id": "Minor roads in the fabric",
+    "kind": "contrast",
+    "subject": "#f5f4fd",
+    "against": [
+     {
+      "token": "urbanLanduse",
+      "value": 6.099
+     }
+    ],
+    "value": 6.099,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Major road casing on paper",
+    "kind": "contrast",
+    "subject": "#bcb2e8",
+    "against": [
+     {
+      "token": "land",
+      "value": 1.803
+     }
+    ],
+    "value": 1.803,
+    "min": 1.8,
+    "pass": true
+   },
+   {
+    "id": "Primary labels on paper and their halo",
+    "kind": "contrast",
+    "subject": "#370077",
+    "against": [
+     {
+      "token": "land",
+      "value": 13.466
+     },
+     {
+      "token": "halo",
+      "value": 13.466
+     }
+    ],
+    "value": 13.466,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Secondary labels on paper and their halo",
+    "kind": "contrast",
+    "subject": "#3d6164",
+    "against": [
+     {
+      "token": "land",
+      "value": 6.222
+     },
+     {
+      "token": "halo",
+      "value": 6.222
+     }
+    ],
+    "value": 6.222,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#370077",
+    "against": [
+     {
+      "token": "water",
+      "value": 8.132
+     }
+    ],
+    "value": 8.132,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Accent on paper",
+    "kind": "contrast",
+    "subject": "#389ba3",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.013
+     }
+    ],
+    "value": 3.013,
+    "min": 3,
+    "pass": true
+   }
+  ],
+  "notices": [
+   {
+    "check": "Major road casing on paper",
+    "kind": "token",
+    "target": "roadMajorCasing",
+    "from": "#c1b7ed",
+    "to": "#bcb2e8"
+   },
+   {
+    "check": "Water labels on water",
+    "kind": "pick",
+    "target": "waterLabel",
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
+   },
+   {
+    "check": "Accent on paper",
+    "kind": "token",
+    "target": "accent",
+    "from": "#71cfd8",
+    "to": "#389ba3"
+   }
+  ],
+  "tokens": {
+   "land": "#f5f4fd",
+   "water": "#71cfd8",
+   "park": "#f5f4fd",
+   "roadMajor": "#f5f4fd",
+   "roadMinor": "#f5f4fd",
+   "building": "#6c3fc5",
+   "boundary": "#a6e0e5",
+   "labelPrimary": "#370077",
+   "labelSecondary": "#3d6164",
+   "halo": "#f5f4fd",
+   "accent": "#389ba3",
+   "urbanLanduse": "#6c3fc5",
+   "roadMajorCasing": "#bcb2e8",
+   "roadHighway": "#f5f4fd"
+  }
+ },
+ "figure-ground-fixture6-zurich-z12": {
+  "slots": [
+   {
+    "id": "fabric",
+    "input": "#222222",
+    "used": "#222222",
+    "source": "user"
+   },
+   {
+    "id": "paper",
+    "input": "#f5f5f5",
+    "used": "#f5f5f5",
+    "source": "default"
+   },
+   {
+    "id": "water",
+    "input": "#a3c4d1",
+    "used": "#a3c4d1",
+    "source": "default"
+   },
+   {
+    "id": "green",
+    "input": "#f5f5f5",
+    "used": "#f5f5f5",
+    "source": "default"
+   }
+  ],
+  "checks": [
+   {
+    "id": "Fabric apart from water",
+    "kind": "distance",
+    "subject": "#222222",
+    "against": [
+     {
+      "token": "water",
+      "value": 0.55
+     }
+    ],
+    "value": 0.55,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Major roads in the fabric",
+    "kind": "contrast",
+    "subject": "#f5f5f5",
+    "against": [
+     {
+      "token": "urbanLanduse",
+      "value": 14.593
+     }
+    ],
+    "value": 14.593,
+    "min": 2,
+    "pass": true
+   },
+   {
+    "id": "Minor roads in the fabric",
+    "kind": "contrast",
+    "subject": "#f5f5f5",
+    "against": [
+     {
+      "token": "urbanLanduse",
+      "value": 14.593
+     }
+    ],
+    "value": 14.593,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Major road casing on paper",
+    "kind": "contrast",
+    "subject": "#a4a4a4",
+    "against": [
+     {
+      "token": "land",
+      "value": 2.286
+     }
+    ],
+    "value": 2.286,
+    "min": 1.8,
+    "pass": true
+   },
+   {
+    "id": "Primary labels on paper and their halo",
+    "kind": "contrast",
+    "subject": "#2e2e2e",
+    "against": [
+     {
+      "token": "land",
+      "value": 12.456
+     },
+     {
+      "token": "halo",
+      "value": 12.456
+     }
+    ],
+    "value": 12.456,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Secondary labels on paper and their halo",
+    "kind": "contrast",
+    "subject": "#485e67",
+    "against": [
+     {
+      "token": "land",
+      "value": 6.269
+     },
+     {
+      "token": "halo",
+      "value": 6.269
+     }
+    ],
+    "value": 6.269,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#2e2e2e",
+    "against": [
+     {
+      "token": "water",
+      "value": 7.355
+     }
+    ],
+    "value": 7.355,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Accent on paper",
+    "kind": "contrast",
+    "subject": "#72929e",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.047
+     }
+    ],
+    "value": 3.047,
+    "min": 3,
+    "pass": true
+   }
+  ],
+  "finalChecks": [
+   {
+    "id": "Fabric apart from water",
+    "kind": "distance",
+    "subject": "#222222",
+    "against": [
+     {
+      "token": "water",
+      "value": 0.55
+     }
+    ],
+    "value": 0.55,
+    "min": 0.12,
+    "pass": true
+   },
+   {
+    "id": "Major roads in the fabric",
+    "kind": "contrast",
+    "subject": "#f5f5f5",
+    "against": [
+     {
+      "token": "urbanLanduse",
+      "value": 14.593
+     }
+    ],
+    "value": 14.593,
+    "min": 2,
+    "pass": true
+   },
+   {
+    "id": "Minor roads in the fabric",
+    "kind": "contrast",
+    "subject": "#f5f5f5",
+    "against": [
+     {
+      "token": "urbanLanduse",
+      "value": 14.593
+     }
+    ],
+    "value": 14.593,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Major road casing on paper",
+    "kind": "contrast",
+    "subject": "#a4a4a4",
+    "against": [
+     {
+      "token": "land",
+      "value": 2.286
+     }
+    ],
+    "value": 2.286,
+    "min": 1.8,
+    "pass": true
+   },
+   {
+    "id": "Primary labels on paper and their halo",
+    "kind": "contrast",
+    "subject": "#2e2e2e",
+    "against": [
+     {
+      "token": "land",
+      "value": 12.456
+     },
+     {
+      "token": "halo",
+      "value": 12.456
+     }
+    ],
+    "value": 12.456,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Secondary labels on paper and their halo",
+    "kind": "contrast",
+    "subject": "#485e67",
+    "against": [
+     {
+      "token": "land",
+      "value": 6.269
+     },
+     {
+      "token": "halo",
+      "value": 6.269
+     }
+    ],
+    "value": 6.269,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Water labels on water",
+    "kind": "contrast",
+    "subject": "#2e2e2e",
+    "against": [
+     {
+      "token": "water",
+      "value": 7.355
+     }
+    ],
+    "value": 7.355,
+    "min": 4.5,
+    "pass": true
+   },
+   {
+    "id": "Accent on paper",
+    "kind": "contrast",
+    "subject": "#72929e",
+    "against": [
+     {
+      "token": "land",
+      "value": 3.047
+     }
+    ],
+    "value": 3.047,
+    "min": 3,
+    "pass": true
+   }
+  ],
+  "notices": [
+   {
+    "check": "Water labels on water",
+    "kind": "pick",
+    "target": "waterLabel",
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
+   },
+   {
+    "check": "Accent on paper",
+    "kind": "token",
+    "target": "accent",
+    "from": "#a3c4d1",
+    "to": "#72929e"
+   }
+  ],
+  "tokens": {
+   "land": "#f5f5f5",
+   "water": "#a3c4d1",
+   "park": "#f5f5f5",
+   "roadMajor": "#f5f5f5",
+   "roadMinor": "#f5f5f5",
+   "building": "#222222",
+   "boundary": "#c4d7df",
+   "labelPrimary": "#2e2e2e",
+   "labelSecondary": "#485e67",
+   "halo": "#f5f5f5",
+   "accent": "#72929e",
+   "urbanLanduse": "#222222",
+   "roadMajorCasing": "#a4a4a4",
+   "roadHighway": "#f5f5f5"
   }
  },
  "figure-ground-fixture7-zurich-z12": {
@@ -6561,8 +7798,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -6585,7 +7822,8 @@
    "halo": "#ecf8f9",
    "accent": "#9089b4",
    "urbanLanduse": "#00c9d5",
-   "roadMajorCasing": "#8ec1c6"
+   "roadMajorCasing": "#8ec1c6",
+   "roadHighway": "#ecf8f9"
   }
  },
  "figure-ground-fixture8-zurich-z12": {
@@ -6885,8 +8123,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -6909,7 +8147,8 @@
    "halo": "#fcf2f6",
    "accent": "#72929e",
    "urbanLanduse": "#c294a6",
-   "roadMajorCasing": "#c9b2ba"
+   "roadMajorCasing": "#c9b2ba",
+   "roadHighway": "#fcf2f6"
   }
  },
  "figure-ground-fixture9-zurich-z12": {
@@ -7195,8 +8434,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -7219,7 +8458,8 @@
    "halo": "#fdf3ef",
    "accent": "#5a96ad",
    "urbanLanduse": "#c65d3b",
-   "roadMajorCasing": "#dcae9f"
+   "roadMajorCasing": "#dcae9f",
+   "roadHighway": "#fdf3ef"
   }
  },
  "figure-ground-fixture10-zurich-z12": {
@@ -7505,8 +8745,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -7529,7 +8769,8 @@
    "halo": "#fdf2f1",
    "accent": "#4697b5",
    "urbanLanduse": "#d62828",
-   "roadMajorCasing": "#e9a69f"
+   "roadMajorCasing": "#e9a69f",
+   "roadHighway": "#fdf2f1"
   }
  },
  "figure-ground-sample-light-zurich-z12": {
@@ -7815,8 +9056,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -7839,7 +9080,8 @@
    "halo": "#fbefe0",
    "accent": "#59968a",
    "urbanLanduse": "#e0623f",
-   "roadMajorCasing": "#e1a796"
+   "roadMajorCasing": "#e1a796",
+   "roadHighway": "#fbefe0"
   }
  },
  "figure-ground-sample-data60-zurich-z12": {
@@ -8125,8 +9367,8 @@
     "check": "Water labels on water",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "labelSecondary",
-    "to": "labelPrimary"
+    "from": "labelSecondary on water",
+    "to": "labelPrimary on water"
    },
    {
     "check": "Accent on paper",
@@ -8149,7 +9391,8 @@
    "halo": "#fbefe0",
    "accent": "#59968a",
    "urbanLanduse": "#d28f7d",
-   "roadMajorCasing": "#d4b5ac"
+   "roadMajorCasing": "#d4b5ac",
+   "roadHighway": "#f6f0e8"
   }
  },
  "colour-field-sample-zurich-z12": {
@@ -8197,46 +9440,64 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#ffd1d9",
+    "subject": "#fffafb",
     "against": [
      {
       "token": "land",
-      "value": 1.52
+      "value": 2.009
      }
     ],
-    "value": 1.52,
-    "min": 1.5,
+    "value": 2.009,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#fab9c6",
+    "subject": "#ffd1da",
     "against": [
      {
       "token": "land",
-      "value": 1.267
+      "value": 1.521
      }
     ],
-    "value": 1.267,
-    "min": 1.2,
+    "value": 1.521,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#ffe600",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.266
+     }
+    ],
+    "value": 0.266,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      },
      {
       "token": "park",
-      "value": 7.829
+      "value": 5.524
+     },
+     {
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 7.829,
+    "value": 5.524,
     "min": 4.5,
     "pass": true
    },
@@ -8252,6 +9513,10 @@
      {
       "token": "park",
       "value": 4.558
+     },
+     {
+      "token": "halo",
+      "value": 4.803
      }
     ],
     "value": 4.558,
@@ -8261,28 +9526,28 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
-      "token": "water",
-      "value": 4.521
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 4.521,
+    "value": 5.821,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      }
     ],
-    "value": 8.251,
+    "value": 5.821,
     "min": 3,
     "pass": true
    }
@@ -8305,46 +9570,64 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#ffd1d9",
+    "subject": "#fffafb",
     "against": [
      {
       "token": "land",
-      "value": 1.52
+      "value": 2.009
      }
     ],
-    "value": 1.52,
-    "min": 1.5,
+    "value": 2.009,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#fab9c6",
+    "subject": "#ffd1da",
     "against": [
      {
       "token": "land",
-      "value": 1.267
+      "value": 1.521
      }
     ],
-    "value": 1.267,
-    "min": 1.2,
+    "value": 1.521,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#ffe600",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.266
+     }
+    ],
+    "value": 0.266,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      },
      {
       "token": "park",
-      "value": 7.829
+      "value": 5.524
+     },
+     {
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 7.829,
+    "value": 5.524,
     "min": 4.5,
     "pass": true
    },
@@ -8360,6 +9643,10 @@
      {
       "token": "park",
       "value": 4.558
+     },
+     {
+      "token": "halo",
+      "value": 4.803
      }
     ],
     "value": 4.558,
@@ -8369,28 +9656,28 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
-      "token": "water",
-      "value": 4.521
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 4.521,
+    "value": 5.821,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      }
     ],
-    "value": 8.251,
+    "value": 5.821,
     "min": 3,
     "pass": true
    }
@@ -8400,8 +9687,15 @@
     "check": "Major roads on the field",
     "kind": "token",
     "target": "roadMajor",
-    "from": "#fccbd4",
-    "to": "#ffd1d9"
+    "from": "#fcd3db",
+    "to": "#fffafb"
+   },
+   {
+    "check": "Minor roads on the field",
+    "kind": "token",
+    "target": "roadMinor",
+    "from": "#fbc2cd",
+    "to": "#ffd1da"
    },
    {
     "check": "Secondary labels on the field",
@@ -8414,38 +9708,32 @@
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "labelPrimary"
-   },
-   {
-    "check": "Water labels on deep",
-    "kind": "token",
-    "target": "labelPrimary",
-    "from": "#3f1a8c",
-    "to": "#24005b"
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    },
    {
     "check": "Spark on the field",
     "kind": "fallback",
     "target": "accent",
     "from": "#ffe600",
-    "to": "#24005b"
+    "to": "#3f1a8c"
    }
   ],
   "tokens": {
    "land": "#f59aae",
    "water": "#ea4a3c",
    "park": "#f593a5",
-   "roadMajor": "#ffd1d9",
-   "roadMinor": "#fab9c6",
+   "roadMajor": "#fffafb",
+   "roadMinor": "#ffd1da",
    "building": "#f48b9c",
    "boundary": "#bd68a4",
-   "labelPrimary": "#24005b",
+   "labelPrimary": "#3f1a8c",
    "labelSecondary": "#602586",
    "halo": "#f59aae",
-   "accent": "#24005b",
+   "accent": "#3f1a8c",
    "urbanLanduse": "#f48b9c",
-   "roadMajorCasing": "#f59aae"
+   "roadMajorCasing": "#f59aae",
+   "roadHighway": "#ffe600"
   }
  },
  "colour-field-terracotta-zurich-z12": {
@@ -8459,7 +9747,7 @@
    {
     "id": "deep",
     "input": "#2e3a59",
-    "used": "#2e3a59",
+    "used": "#2f3b5a",
     "source": "user"
    },
    {
@@ -8483,102 +9771,124 @@
     "against": [
      {
       "token": "water",
-      "value": 0.31
+      "value": 0.307
      }
     ],
-    "value": 0.31,
+    "value": 0.307,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#e8b09e",
+    "subject": "#eebfb0",
     "against": [
      {
       "token": "land",
-      "value": 2.214
+      "value": 2.528
      }
     ],
-    "value": 2.214,
-    "min": 1.5,
+    "value": 2.528,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#dd927b",
+    "subject": "#e3a18c",
     "against": [
      {
       "token": "land",
-      "value": 1.684
+      "value": 1.937
      }
     ],
-    "value": 1.684,
-    "min": 1.2,
+    "value": 1.937,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#e9d8c4",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.312
+     }
+    ],
+    "value": 0.312,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#00000b",
+    "subject": "#000013",
     "against": [
      {
       "token": "land",
-      "value": 5.006
+      "value": 4.983
      },
      {
       "token": "park",
-      "value": 4.503
+      "value": 4.508
+     },
+     {
+      "token": "halo",
+      "value": 4.983
      }
     ],
-    "value": 4.503,
+    "value": 4.508,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#020007",
+    "subject": "#03000c",
     "against": [
      {
       "token": "land",
-      "value": 5.002
+      "value": 4.984
      },
      {
       "token": "park",
-      "value": 4.5
+      "value": 4.509
+     },
+     {
+      "token": "halo",
+      "value": 4.984
      }
     ],
-    "value": 4.5,
+    "value": 4.509,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#e8b09e",
+    "subject": "#000013",
     "against": [
      {
-      "token": "water",
-      "value": 5.968
+      "token": "halo",
+      "value": 4.983
      }
     ],
-    "value": 5.968,
+    "value": 4.983,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#00000b",
+    "subject": "#000013",
     "against": [
      {
       "token": "land",
-      "value": 5.006
+      "value": 4.983
      }
     ],
-    "value": 5.006,
+    "value": 4.983,
     "min": 3,
     "pass": true
    }
@@ -8591,150 +9901,180 @@
     "against": [
      {
       "token": "water",
-      "value": 0.31
+      "value": 0.307
      }
     ],
-    "value": 0.31,
+    "value": 0.307,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#e8b09e",
+    "subject": "#eebfb0",
     "against": [
      {
       "token": "land",
-      "value": 2.214
+      "value": 2.528
      }
     ],
-    "value": 2.214,
-    "min": 1.5,
+    "value": 2.528,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#dd927b",
+    "subject": "#e3a18c",
     "against": [
      {
       "token": "land",
-      "value": 1.684
+      "value": 1.937
      }
     ],
-    "value": 1.684,
-    "min": 1.2,
+    "value": 1.937,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#e9d8c4",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.312
+     }
+    ],
+    "value": 0.312,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#00000b",
+    "subject": "#000013",
     "against": [
      {
       "token": "land",
-      "value": 5.006
+      "value": 4.983
      },
      {
       "token": "park",
-      "value": 4.503
+      "value": 4.508
+     },
+     {
+      "token": "halo",
+      "value": 4.983
      }
     ],
-    "value": 4.503,
+    "value": 4.508,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#020007",
+    "subject": "#03000c",
     "against": [
      {
       "token": "land",
-      "value": 5.002
+      "value": 4.984
      },
      {
       "token": "park",
-      "value": 4.5
+      "value": 4.509
+     },
+     {
+      "token": "halo",
+      "value": 4.984
      }
     ],
-    "value": 4.5,
+    "value": 4.509,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#e8b09e",
+    "subject": "#000013",
     "against": [
      {
-      "token": "water",
-      "value": 5.968
+      "token": "halo",
+      "value": 4.983
      }
     ],
-    "value": 5.968,
+    "value": 4.983,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#00000b",
+    "subject": "#000013",
     "against": [
      {
       "token": "land",
-      "value": 5.006
+      "value": 4.983
      }
     ],
-    "value": 5.006,
+    "value": 4.983,
     "min": 3,
     "pass": true
    }
   ],
   "notices": [
    {
+    "check": "Water labels on deep",
+    "kind": "slot",
+    "target": "deep",
+    "from": "#2e3a59",
+    "to": "#2f3b5a"
+   },
+   {
     "check": "Primary labels on the field",
     "kind": "token",
     "target": "labelPrimary",
     "from": "#2e3a59",
-    "to": "#00000b"
+    "to": "#000013"
    },
    {
     "check": "Secondary labels on the field",
     "kind": "token",
     "target": "labelSecondary",
     "from": "#524170",
-    "to": "#020007"
+    "to": "#03000c"
    },
    {
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "roadMajor"
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    },
    {
     "check": "Spark on the field",
     "kind": "fallback",
     "target": "accent",
     "from": "#e9d8c4",
-    "to": "#00000b"
+    "to": "#000013"
    }
   ],
   "tokens": {
    "land": "#c65d3b",
-   "water": "#2e3a59",
-   "park": "#bb554f",
-   "roadMajor": "#e8b09e",
-   "roadMinor": "#dd927b",
-   "building": "#ae4f5e",
+   "water": "#2f3b5a",
+   "park": "#bc554f",
+   "roadMajor": "#eebfb0",
+   "roadMinor": "#e3a18c",
+   "building": "#af4f5e",
    "boundary": "#97496d",
-   "labelPrimary": "#00000b",
-   "labelSecondary": "#020007",
+   "labelPrimary": "#000013",
+   "labelSecondary": "#03000c",
    "halo": "#c65d3b",
-   "accent": "#00000b",
-   "urbanLanduse": "#ae4f5e",
-   "roadMajorCasing": "#c65d3b"
+   "accent": "#000013",
+   "urbanLanduse": "#af4f5e",
+   "roadMajorCasing": "#c65d3b",
+   "roadHighway": "#e9d8c4"
   }
  },
  "colour-field-cyan-magenta-zurich-z12": {
@@ -8782,46 +10122,64 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#74bec4",
+    "subject": "#69a2a7",
     "against": [
      {
       "token": "land",
-      "value": 1.505
+      "value": 2.035
      }
     ],
-    "value": 1.505,
-    "min": 1.5,
+    "value": 2.035,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#69d6df",
+    "subject": "#65c0c8",
     "against": [
      {
       "token": "land",
-      "value": 1.214
+      "value": 1.502
      }
     ],
-    "value": 1.214,
-    "min": 1.2,
+    "value": 1.502,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#a36d6a",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.354
+     }
+    ],
+    "value": 0.354,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#002f33",
+    "subject": "#003539",
     "against": [
      {
       "token": "land",
-      "value": 10.25
+      "value": 9.506
      },
      {
       "token": "park",
-      "value": 9.49
+      "value": 8.801
+     },
+     {
+      "token": "halo",
+      "value": 9.506
      }
     ],
-    "value": 9.49,
+    "value": 8.801,
     "min": 4.5,
     "pass": true
    },
@@ -8837,6 +10195,10 @@
      {
       "token": "park",
       "value": 4.886
+     },
+     {
+      "token": "halo",
+      "value": 5.278
      }
     ],
     "value": 4.886,
@@ -8846,14 +10208,14 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#002f33",
+    "subject": "#003539",
     "against": [
      {
-      "token": "water",
-      "value": 4.516
+      "token": "halo",
+      "value": 9.506
      }
     ],
-    "value": 4.516,
+    "value": 9.506,
     "min": 4.5,
     "pass": true
    },
@@ -8890,46 +10252,64 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#74bec4",
+    "subject": "#69a2a7",
     "against": [
      {
       "token": "land",
-      "value": 1.505
+      "value": 2.035
      }
     ],
-    "value": 1.505,
-    "min": 1.5,
+    "value": 2.035,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#69d6df",
+    "subject": "#65c0c8",
     "against": [
      {
       "token": "land",
-      "value": 1.214
+      "value": 1.502
      }
     ],
-    "value": 1.214,
-    "min": 1.2,
+    "value": 1.502,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#a36d6a",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.354
+     }
+    ],
+    "value": 0.354,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#002f33",
+    "subject": "#003539",
     "against": [
      {
       "token": "land",
-      "value": 10.25
+      "value": 9.506
      },
      {
       "token": "park",
-      "value": 9.49
+      "value": 8.801
+     },
+     {
+      "token": "halo",
+      "value": 9.506
      }
     ],
-    "value": 9.49,
+    "value": 8.801,
     "min": 4.5,
     "pass": true
    },
@@ -8945,6 +10325,10 @@
      {
       "token": "park",
       "value": 4.886
+     },
+     {
+      "token": "halo",
+      "value": 5.278
      }
     ],
     "value": 4.886,
@@ -8954,14 +10338,14 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#002f33",
+    "subject": "#003539",
     "against": [
      {
-      "token": "water",
-      "value": 4.516
+      "token": "halo",
+      "value": 9.506
      }
     ],
-    "value": 4.516,
+    "value": 9.506,
     "min": 4.5,
     "pass": true
    },
@@ -8985,45 +10369,39 @@
     "check": "Major roads on the field",
     "kind": "token",
     "target": "roadMajor",
-    "from": "#abf6fc",
-    "to": "#74bec4"
+    "from": "#bbf6fb",
+    "to": "#69a2a7"
    },
    {
     "check": "Minor roads on the field",
     "kind": "token",
     "target": "roadMinor",
-    "from": "#88f4fd",
-    "to": "#69d6df"
+    "from": "#9af5fd",
+    "to": "#65c0c8"
    },
    {
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "labelPrimary"
-   },
-   {
-    "check": "Water labels on deep",
-    "kind": "token",
-    "target": "labelPrimary",
-    "from": "#003539",
-    "to": "#002f33"
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    }
   ],
   "tokens": {
    "land": "#00f0ff",
    "water": "#ff2bd6",
    "park": "#68e1ff",
-   "roadMajor": "#74bec4",
-   "roadMinor": "#69d6df",
+   "roadMajor": "#69a2a7",
+   "roadMinor": "#65c0c8",
    "building": "#7dd6ff",
    "boundary": "#00a9b4",
-   "labelPrimary": "#002f33",
+   "labelPrimary": "#003539",
    "labelSecondary": "#005f65",
    "halo": "#00f0ff",
    "accent": "#a36d6a",
    "urbanLanduse": "#7dd6ff",
-   "roadMajorCasing": "#00f0ff"
+   "roadMajorCasing": "#00f0ff",
+   "roadHighway": "#a36d6a"
   }
  },
  "colour-field-fixture1-zurich-z12": {
@@ -9037,7 +10415,7 @@
    {
     "id": "deep",
     "input": "#003150",
-    "used": "#001d32",
+    "used": "#3d5c75",
     "source": "default"
    },
    {
@@ -9061,88 +10439,110 @@
     "against": [
      {
       "token": "water",
-      "value": 0.123
+      "value": 0.12
      }
     ],
-    "value": 0.123,
+    "value": 0.12,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#869eb3",
+    "subject": "#9cb1c3",
     "against": [
      {
       "token": "land",
-      "value": 4.154
+      "value": 5.218
      }
     ],
-    "value": 4.154,
-    "min": 1.5,
+    "value": 5.218,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#5a7993",
+    "subject": "#708ba3",
     "against": [
      {
       "token": "land",
-      "value": 2.524
+      "value": 3.25
      }
     ],
-    "value": 2.524,
-    "min": 1.2,
+    "value": 3.25,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#a47b53",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.31
+     }
+    ],
+    "value": 0.31,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#7aa8cd",
+    "subject": "#7dabd0",
     "against": [
      {
       "token": "land",
-      "value": 4.569
+      "value": 4.733
      },
      {
       "token": "park",
-      "value": 4.773
+      "value": 4.526
+     },
+     {
+      "token": "halo",
+      "value": 4.733
      }
     ],
-    "value": 4.569,
+    "value": 4.526,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#7aa8cd",
+    "subject": "#7dabd0",
     "against": [
      {
       "token": "land",
-      "value": 4.569
+      "value": 4.733
      },
      {
       "token": "park",
-      "value": 4.773
+      "value": 4.526
+     },
+     {
+      "token": "halo",
+      "value": 4.733
      }
     ],
-    "value": 4.569,
+    "value": 4.526,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#7aa8cd",
+    "subject": "#7dabd0",
     "against": [
      {
-      "token": "water",
-      "value": 6.802
+      "token": "halo",
+      "value": 4.733
      }
     ],
-    "value": 6.802,
+    "value": 4.733,
     "min": 4.5,
     "pass": true
    },
@@ -9169,88 +10569,110 @@
     "against": [
      {
       "token": "water",
-      "value": 0.123
+      "value": 0.12
      }
     ],
-    "value": 0.123,
+    "value": 0.12,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#869eb3",
+    "subject": "#9cb1c3",
     "against": [
      {
       "token": "land",
-      "value": 4.154
+      "value": 5.218
      }
     ],
-    "value": 4.154,
-    "min": 1.5,
+    "value": 5.218,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#5a7993",
+    "subject": "#708ba3",
     "against": [
      {
       "token": "land",
-      "value": 2.524
+      "value": 3.25
      }
     ],
-    "value": 2.524,
-    "min": 1.2,
+    "value": 3.25,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#a47b53",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.31
+     }
+    ],
+    "value": 0.31,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#7aa8cd",
+    "subject": "#7dabd0",
     "against": [
      {
       "token": "land",
-      "value": 4.569
+      "value": 4.733
      },
      {
       "token": "park",
-      "value": 4.773
+      "value": 4.526
+     },
+     {
+      "token": "halo",
+      "value": 4.733
      }
     ],
-    "value": 4.569,
+    "value": 4.526,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#7aa8cd",
+    "subject": "#7dabd0",
     "against": [
      {
       "token": "land",
-      "value": 4.569
+      "value": 4.733
      },
      {
       "token": "park",
-      "value": 4.773
+      "value": 4.526
+     },
+     {
+      "token": "halo",
+      "value": 4.733
      }
     ],
-    "value": 4.569,
+    "value": 4.526,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#7aa8cd",
+    "subject": "#7dabd0",
     "against": [
      {
-      "token": "water",
-      "value": 6.802
+      "token": "halo",
+      "value": 4.733
      }
     ],
-    "value": 6.802,
+    "value": 4.733,
     "min": 4.5,
     "pass": true
    },
@@ -9278,41 +10700,49 @@
     "to": "#001d32"
    },
    {
+    "check": "Water labels on deep",
+    "kind": "slot",
+    "target": "deep",
+    "from": "#001d32",
+    "to": "#3d5c75"
+   },
+   {
     "check": "Primary labels on the field",
     "kind": "token",
     "target": "labelPrimary",
     "from": "#003150",
-    "to": "#7aa8cd"
+    "to": "#7dabd0"
    },
    {
     "check": "Secondary labels on the field",
     "kind": "token",
     "target": "labelSecondary",
     "from": "#023453",
-    "to": "#7aa8cd"
+    "to": "#7dabd0"
    },
    {
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "labelPrimary"
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    }
   ],
   "tokens": {
    "land": "#0b3c5d",
-   "water": "#001d32",
-   "park": "#093959",
-   "roadMajor": "#869eb3",
-   "roadMinor": "#5a7993",
-   "building": "#083654",
+   "water": "#3d5c75",
+   "park": "#123f5f",
+   "roadMajor": "#9cb1c3",
+   "roadMinor": "#708ba3",
+   "building": "#174262",
    "boundary": "#073858",
-   "labelPrimary": "#7aa8cd",
-   "labelSecondary": "#7aa8cd",
+   "labelPrimary": "#7dabd0",
+   "labelSecondary": "#7dabd0",
    "halo": "#0b3c5d",
    "accent": "#a47b53",
-   "urbanLanduse": "#083654",
-   "roadMajorCasing": "#0b3c5d"
+   "urbanLanduse": "#174262",
+   "roadMajorCasing": "#0b3c5d",
+   "roadHighway": "#a47b53"
   }
  },
  "colour-field-fixture2-zurich-z12": {
@@ -9326,7 +10756,7 @@
    {
     "id": "deep",
     "input": "#00381e",
-    "used": "#00381e",
+    "used": "#01391f",
     "source": "default"
    },
    {
@@ -9350,39 +10780,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.219
+      "value": 0.215
      }
     ],
-    "value": 0.219,
+    "value": 0.215,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#96bea5",
+    "subject": "#aacbb5",
     "against": [
      {
       "token": "land",
-      "value": 2.584
+      "value": 3.018
      }
     ],
-    "value": 2.584,
-    "min": 1.5,
+    "value": 3.018,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#6fa584",
+    "subject": "#82b294",
     "against": [
      {
       "token": "land",
-      "value": 1.872
+      "value": 2.214
      }
     ],
-    "value": 1.872,
-    "min": 1.2,
+    "value": 2.214,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#420337",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.336
+     }
+    ],
+    "value": 0.336,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -9397,6 +10841,10 @@
      {
       "token": "park",
       "value": 4.963
+     },
+     {
+      "token": "halo",
+      "value": 4.518
      }
     ],
     "value": 4.518,
@@ -9415,6 +10863,10 @@
      {
       "token": "park",
       "value": 4.98
+     },
+     {
+      "token": "halo",
+      "value": 4.533
      }
     ],
     "value": 4.533,
@@ -9428,10 +10880,10 @@
     "against": [
      {
       "token": "water",
-      "value": 11.261
+      "value": 11.107
      }
     ],
-    "value": 11.261,
+    "value": 11.107,
     "min": 4.5,
     "pass": true
    },
@@ -9458,39 +10910,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.219
+      "value": 0.215
      }
     ],
-    "value": 0.219,
+    "value": 0.215,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#96bea5",
+    "subject": "#aacbb5",
     "against": [
      {
       "token": "land",
-      "value": 2.584
+      "value": 3.018
      }
     ],
-    "value": 2.584,
-    "min": 1.5,
+    "value": 3.018,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#6fa584",
+    "subject": "#82b294",
     "against": [
      {
       "token": "land",
-      "value": 1.872
+      "value": 2.214
      }
     ],
-    "value": 1.872,
-    "min": 1.2,
+    "value": 2.214,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#420337",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.336
+     }
+    ],
+    "value": 0.336,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -9505,6 +10971,10 @@
      {
       "token": "park",
       "value": 4.963
+     },
+     {
+      "token": "halo",
+      "value": 4.518
      }
     ],
     "value": 4.518,
@@ -9523,6 +10993,10 @@
      {
       "token": "park",
       "value": 4.98
+     },
+     {
+      "token": "halo",
+      "value": 4.533
      }
     ],
     "value": 4.533,
@@ -9536,10 +11010,10 @@
     "against": [
      {
       "token": "water",
-      "value": 11.261
+      "value": 11.107
      }
     ],
-    "value": 11.261,
+    "value": 11.107,
     "min": 4.5,
     "pass": true
    },
@@ -9560,6 +11034,13 @@
   ],
   "notices": [
    {
+    "check": "Water labels on deep",
+    "kind": "slot",
+    "target": "deep",
+    "from": "#00381e",
+    "to": "#01391f"
+   },
+   {
     "check": "Primary labels on the field",
     "kind": "token",
     "target": "labelPrimary",
@@ -9577,16 +11058,16 @@
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "labelPrimary"
+    "from": "land on water",
+    "to": "labelPrimary on water"
    }
   ],
   "tokens": {
    "land": "#1f7a4d",
-   "water": "#00381e",
+   "water": "#01391f",
    "park": "#1c7348",
-   "roadMajor": "#96bea5",
-   "roadMinor": "#6fa584",
+   "roadMajor": "#aacbb5",
+   "roadMinor": "#82b294",
    "building": "#186c43",
    "boundary": "#13623c",
    "labelPrimary": "#c3f9d6",
@@ -9594,7 +11075,8 @@
    "halo": "#1f7a4d",
    "accent": "#420337",
    "urbanLanduse": "#186c43",
-   "roadMajorCasing": "#1f7a4d"
+   "roadMajorCasing": "#1f7a4d",
+   "roadHighway": "#420337"
   }
  },
  "colour-field-fixture3-zurich-z12": {
@@ -9608,7 +11090,7 @@
    {
     "id": "deep",
     "input": "#5b0600",
-    "used": "#5b0600",
+    "used": "#5d0801",
     "source": "default"
    },
    {
@@ -9632,39 +11114,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.334
+      "value": 0.328
      }
     ],
-    "value": 0.334,
+    "value": 0.328,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#fbaa9b",
+    "subject": "#fdbaae",
     "against": [
      {
       "token": "land",
-      "value": 2.138
+      "value": 2.418
      }
     ],
-    "value": 2.138,
-    "min": 1.5,
+    "value": 2.418,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#f68976",
+    "subject": "#f99a88",
     "against": [
      {
       "token": "land",
-      "value": 1.653
+      "value": 1.889
      }
     ],
-    "value": 1.653,
-    "min": 1.2,
+    "value": 1.889,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#94eeff",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.403
+     }
+    ],
+    "value": 0.403,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -9679,6 +11175,10 @@
      {
       "token": "park",
       "value": 4.507
+     },
+     {
+      "token": "halo",
+      "value": 5.111
      }
     ],
     "value": 4.507,
@@ -9697,6 +11197,10 @@
      {
       "token": "park",
       "value": 4.507
+     },
+     {
+      "token": "halo",
+      "value": 5.111
      }
     ],
     "value": 4.507,
@@ -9706,14 +11210,14 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#fbaa9b",
+    "subject": "#170000",
     "against": [
      {
-      "token": "water",
-      "value": 7.7
+      "token": "halo",
+      "value": 5.111
      }
     ],
-    "value": 7.7,
+    "value": 5.111,
     "min": 4.5,
     "pass": true
    },
@@ -9740,39 +11244,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.334
+      "value": 0.328
      }
     ],
-    "value": 0.334,
+    "value": 0.328,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#fbaa9b",
+    "subject": "#fdbaae",
     "against": [
      {
       "token": "land",
-      "value": 2.138
+      "value": 2.418
      }
     ],
-    "value": 2.138,
-    "min": 1.5,
+    "value": 2.418,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#f68976",
+    "subject": "#f99a88",
     "against": [
      {
       "token": "land",
-      "value": 1.653
+      "value": 1.889
      }
     ],
-    "value": 1.653,
-    "min": 1.2,
+    "value": 1.889,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#94eeff",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.403
+     }
+    ],
+    "value": 0.403,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -9787,6 +11305,10 @@
      {
       "token": "park",
       "value": 4.507
+     },
+     {
+      "token": "halo",
+      "value": 5.111
      }
     ],
     "value": 4.507,
@@ -9805,6 +11327,10 @@
      {
       "token": "park",
       "value": 4.507
+     },
+     {
+      "token": "halo",
+      "value": 5.111
      }
     ],
     "value": 4.507,
@@ -9814,14 +11340,14 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#fbaa9b",
+    "subject": "#170000",
     "against": [
      {
-      "token": "water",
-      "value": 7.7
+      "token": "halo",
+      "value": 5.111
      }
     ],
-    "value": 7.7,
+    "value": 5.111,
     "min": 4.5,
     "pass": true
    },
@@ -9842,6 +11368,13 @@
   ],
   "notices": [
    {
+    "check": "Water labels on deep",
+    "kind": "slot",
+    "target": "deep",
+    "from": "#5b0600",
+    "to": "#5d0801"
+   },
+   {
     "check": "Primary labels on the field",
     "kind": "token",
     "target": "labelPrimary",
@@ -9859,24 +11392,25 @@
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "roadMajor"
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    }
   ],
   "tokens": {
    "land": "#e8442e",
-   "water": "#5b0600",
+   "water": "#5d0801",
    "park": "#d93e29",
-   "roadMajor": "#fbaa9b",
-   "roadMinor": "#f68976",
-   "building": "#ca3724",
+   "roadMajor": "#fdbaae",
+   "roadMinor": "#f99a88",
+   "building": "#ca3824",
    "boundary": "#b42e1c",
    "labelPrimary": "#170000",
    "labelSecondary": "#170000",
    "halo": "#e8442e",
    "accent": "#94eeff",
-   "urbanLanduse": "#ca3724",
-   "roadMajorCasing": "#e8442e"
+   "urbanLanduse": "#ca3824",
+   "roadMajorCasing": "#e8442e",
+   "roadHighway": "#94eeff"
   }
  },
  "colour-field-fixture4-zurich-z12": {
@@ -9924,29 +11458,43 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#ffe8bc",
+    "subject": "#9a8357",
     "against": [
      {
       "token": "land",
-      "value": 1.503
+      "value": 2.024
      }
     ],
-    "value": 1.503,
-    "min": 1.5,
+    "value": 2.024,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#f7ce7a",
+    "subject": "#ba9852",
     "against": [
      {
       "token": "land",
-      "value": 1.207
+      "value": 1.514
      }
     ],
-    "value": 1.207,
-    "min": 1.2,
+    "value": 1.514,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#4f69a0",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.389
+     }
+    ],
+    "value": 0.389,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -9961,6 +11509,10 @@
      {
       "token": "park",
       "value": 6.375
+     },
+     {
+      "token": "halo",
+      "value": 7.58
      }
     ],
     "value": 6.375,
@@ -9979,6 +11531,10 @@
      {
       "token": "park",
       "value": 4.584
+     },
+     {
+      "token": "halo",
+      "value": 5.45
      }
     ],
     "value": 4.584,
@@ -10032,29 +11588,43 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#ffe8bc",
+    "subject": "#9a8357",
     "against": [
      {
       "token": "land",
-      "value": 1.503
+      "value": 2.024
      }
     ],
-    "value": 1.503,
-    "min": 1.5,
+    "value": 2.024,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#f7ce7a",
+    "subject": "#ba9852",
     "against": [
      {
       "token": "land",
-      "value": 1.207
+      "value": 1.514
      }
     ],
-    "value": 1.207,
-    "min": 1.2,
+    "value": 1.514,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#4f69a0",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.389
+     }
+    ],
+    "value": 0.389,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -10069,6 +11639,10 @@
      {
       "token": "park",
       "value": 6.375
+     },
+     {
+      "token": "halo",
+      "value": 7.58
      }
     ],
     "value": 6.375,
@@ -10087,6 +11661,10 @@
      {
       "token": "park",
       "value": 4.584
+     },
+     {
+      "token": "halo",
+      "value": 5.45
      }
     ],
     "value": 4.584,
@@ -10127,8 +11705,15 @@
     "check": "Major roads on the field",
     "kind": "token",
     "target": "roadMajor",
-    "from": "#f8da9f",
-    "to": "#ffe8bc"
+    "from": "#f9e0b1",
+    "to": "#9a8357"
+   },
+   {
+    "check": "Minor roads on the field",
+    "kind": "token",
+    "target": "roadMinor",
+    "from": "#f8d48d",
+    "to": "#ba9852"
    },
    {
     "check": "Secondary labels on the field",
@@ -10142,8 +11727,8 @@
    "land": "#f5b700",
    "water": "#3c2b00",
    "park": "#e1a800",
-   "roadMajor": "#ffe8bc",
-   "roadMinor": "#f7ce7a",
+   "roadMajor": "#9a8357",
+   "roadMinor": "#ba9852",
    "building": "#cc9900",
    "boundary": "#af8200",
    "labelPrimary": "#3c2b00",
@@ -10151,7 +11736,8 @@
    "halo": "#f5b700",
    "accent": "#4f69a0",
    "urbanLanduse": "#cc9900",
-   "roadMajorCasing": "#f5b700"
+   "roadMajorCasing": "#f5b700",
+   "roadHighway": "#4f69a0"
   }
  },
  "colour-field-fixture5-zurich-z12": {
@@ -10165,7 +11751,7 @@
    {
     "id": "deep",
     "input": "#370077",
-    "used": "#370077",
+    "used": "#380279",
     "source": "default"
    },
    {
@@ -10189,39 +11775,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.199
+      "value": 0.194
      }
     ],
-    "value": 0.199,
+    "value": 0.194,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#b3a5e8",
+    "subject": "#c1b7ed",
     "against": [
      {
       "token": "land",
-      "value": 3
+      "value": 3.57
      }
     ],
-    "value": 3,
-    "min": 1.5,
+    "value": 3.57,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#9782dc",
+    "subject": "#a594e2",
     "against": [
      {
       "token": "land",
-      "value": 2.074
+      "value": 2.515
      }
     ],
-    "value": 2.074,
-    "min": 1.2,
+    "value": 2.515,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#adb55e",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.397
+     }
+    ],
+    "value": 0.397,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -10235,7 +11835,11 @@
      },
      {
       "token": "park",
-      "value": 4.997
+      "value": 4.963
+     },
+     {
+      "token": "halo",
+      "value": 4.57
      }
     ],
     "value": 4.57,
@@ -10253,7 +11857,11 @@
      },
      {
       "token": "park",
-      "value": 4.997
+      "value": 4.963
+     },
+     {
+      "token": "halo",
+      "value": 4.57
      }
     ],
     "value": 4.57,
@@ -10267,10 +11875,10 @@
     "against": [
      {
       "token": "water",
-      "value": 10.09
+      "value": 9.923
      }
     ],
-    "value": 10.09,
+    "value": 9.923,
     "min": 4.5,
     "pass": true
    },
@@ -10297,39 +11905,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.199
+      "value": 0.194
      }
     ],
-    "value": 0.199,
+    "value": 0.194,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#b3a5e8",
+    "subject": "#c1b7ed",
     "against": [
      {
       "token": "land",
-      "value": 3
+      "value": 3.57
      }
     ],
-    "value": 3,
-    "min": 1.5,
+    "value": 3.57,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#9782dc",
+    "subject": "#a594e2",
     "against": [
      {
       "token": "land",
-      "value": 2.074
+      "value": 2.515
      }
     ],
-    "value": 2.074,
-    "min": 1.2,
+    "value": 2.515,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#adb55e",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.397
+     }
+    ],
+    "value": 0.397,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -10343,7 +11965,11 @@
      },
      {
       "token": "park",
-      "value": 4.997
+      "value": 4.963
+     },
+     {
+      "token": "halo",
+      "value": 4.57
      }
     ],
     "value": 4.57,
@@ -10361,7 +11987,11 @@
      },
      {
       "token": "park",
-      "value": 4.997
+      "value": 4.963
+     },
+     {
+      "token": "halo",
+      "value": 4.57
      }
     ],
     "value": 4.57,
@@ -10375,10 +12005,10 @@
     "against": [
      {
       "token": "water",
-      "value": 10.09
+      "value": 9.923
      }
     ],
-    "value": 10.09,
+    "value": 9.923,
     "min": 4.5,
     "pass": true
    },
@@ -10399,6 +12029,13 @@
   ],
   "notices": [
    {
+    "check": "Water labels on deep",
+    "kind": "slot",
+    "target": "deep",
+    "from": "#370077",
+    "to": "#380279"
+   },
+   {
     "check": "Primary labels on the field",
     "kind": "token",
     "target": "labelPrimary",
@@ -10416,16 +12053,16 @@
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "labelPrimary"
+    "from": "land on water",
+    "to": "labelPrimary on water"
    }
   ],
   "tokens": {
    "land": "#6c3fc5",
-   "water": "#370077",
-   "park": "#6639bd",
-   "roadMajor": "#b3a5e8",
-   "roadMinor": "#9782dc",
+   "water": "#380279",
+   "park": "#663abd",
+   "roadMajor": "#c1b7ed",
+   "roadMinor": "#a594e2",
    "building": "#6134b5",
    "boundary": "#592ca9",
    "labelPrimary": "#d9d0ff",
@@ -10433,7 +12070,8 @@
    "halo": "#6c3fc5",
    "accent": "#adb55e",
    "urbanLanduse": "#6134b5",
-   "roadMajorCasing": "#6c3fc5"
+   "roadMajorCasing": "#6c3fc5",
+   "roadHighway": "#adb55e"
   }
  },
  "colour-field-fixture6-zurich-z12": {
@@ -10481,29 +12119,43 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#8e8e8e",
+    "subject": "#a4a4a4",
     "against": [
      {
       "token": "land",
-      "value": 4.856
+      "value": 6.383
      }
     ],
-    "value": 4.856,
-    "min": 1.5,
+    "value": 6.383,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#646464",
+    "subject": "#797979",
     "against": [
      {
       "token": "land",
-      "value": 2.689
+      "value": 3.655
      }
     ],
-    "value": 2.689,
-    "min": 1.2,
+    "value": 3.655,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#6c6c6c",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.279
+     }
+    ],
+    "value": 0.279,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -10518,6 +12170,10 @@
      {
       "token": "park",
       "value": 4.712
+     },
+     {
+      "token": "halo",
+      "value": 4.548
      }
     ],
     "value": 4.548,
@@ -10536,6 +12192,10 @@
      {
       "token": "park",
       "value": 4.712
+     },
+     {
+      "token": "halo",
+      "value": 4.548
      }
     ],
     "value": 4.548,
@@ -10589,29 +12249,43 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#8e8e8e",
+    "subject": "#a4a4a4",
     "against": [
      {
       "token": "land",
-      "value": 4.856
+      "value": 6.383
      }
     ],
-    "value": 4.856,
-    "min": 1.5,
+    "value": 6.383,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#646464",
+    "subject": "#797979",
     "against": [
      {
       "token": "land",
-      "value": 2.689
+      "value": 3.655
      }
     ],
-    "value": 2.689,
-    "min": 1.2,
+    "value": 3.655,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#6c6c6c",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.279
+     }
+    ],
+    "value": 0.279,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -10626,6 +12300,10 @@
      {
       "token": "park",
       "value": 4.712
+     },
+     {
+      "token": "halo",
+      "value": 4.548
      }
     ],
     "value": 4.548,
@@ -10644,6 +12322,10 @@
      {
       "token": "park",
       "value": 4.712
+     },
+     {
+      "token": "halo",
+      "value": 4.548
      }
     ],
     "value": 4.548,
@@ -10705,16 +12387,16 @@
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "labelPrimary"
+    "from": "land on water",
+    "to": "labelPrimary on water"
    }
   ],
   "tokens": {
    "land": "#222222",
    "water": "#070707",
    "park": "#1f1f1f",
-   "roadMajor": "#8e8e8e",
-   "roadMinor": "#646464",
+   "roadMajor": "#a4a4a4",
+   "roadMinor": "#797979",
    "building": "#1c1c1c",
    "boundary": "#262626",
    "labelPrimary": "#898989",
@@ -10722,7 +12404,8 @@
    "halo": "#222222",
    "accent": "#6c6c6c",
    "urbanLanduse": "#1c1c1c",
-   "roadMajorCasing": "#222222"
+   "roadMajorCasing": "#222222",
+   "roadHighway": "#6c6c6c"
   }
  },
  "colour-field-fixture7-zurich-z12": {
@@ -10770,29 +12453,43 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#74bec4",
+    "subject": "#69a2a7",
     "against": [
      {
       "token": "land",
-      "value": 1.505
+      "value": 2.035
      }
     ],
-    "value": 1.505,
-    "min": 1.5,
+    "value": 2.035,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#69d6df",
+    "subject": "#65c0c8",
     "against": [
      {
       "token": "land",
-      "value": 1.214
+      "value": 1.502
      }
     ],
-    "value": 1.214,
-    "min": 1.2,
+    "value": 1.502,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#a36d6a",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.354
+     }
+    ],
+    "value": 0.354,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -10807,6 +12504,10 @@
      {
       "token": "park",
       "value": 7.849
+     },
+     {
+      "token": "halo",
+      "value": 9.506
      }
     ],
     "value": 7.849,
@@ -10825,6 +12526,10 @@
      {
       "token": "park",
       "value": 4.547
+     },
+     {
+      "token": "halo",
+      "value": 5.507
      }
     ],
     "value": 4.547,
@@ -10878,29 +12583,43 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#74bec4",
+    "subject": "#69a2a7",
     "against": [
      {
       "token": "land",
-      "value": 1.505
+      "value": 2.035
      }
     ],
-    "value": 1.505,
-    "min": 1.5,
+    "value": 2.035,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#69d6df",
+    "subject": "#65c0c8",
     "against": [
      {
       "token": "land",
-      "value": 1.214
+      "value": 1.502
      }
     ],
-    "value": 1.214,
-    "min": 1.2,
+    "value": 1.502,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#a36d6a",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.354
+     }
+    ],
+    "value": 0.354,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -10915,6 +12634,10 @@
      {
       "token": "park",
       "value": 7.849
+     },
+     {
+      "token": "halo",
+      "value": 9.506
      }
     ],
     "value": 7.849,
@@ -10933,6 +12656,10 @@
      {
       "token": "park",
       "value": 4.547
+     },
+     {
+      "token": "halo",
+      "value": 5.507
      }
     ],
     "value": 4.547,
@@ -10973,15 +12700,15 @@
     "check": "Major roads on the field",
     "kind": "token",
     "target": "roadMajor",
-    "from": "#abf6fc",
-    "to": "#74bec4"
+    "from": "#bbf6fb",
+    "to": "#69a2a7"
    },
    {
     "check": "Minor roads on the field",
     "kind": "token",
     "target": "roadMinor",
-    "from": "#88f4fd",
-    "to": "#69d6df"
+    "from": "#9af5fd",
+    "to": "#65c0c8"
    },
    {
     "check": "Secondary labels on the field",
@@ -10995,8 +12722,8 @@
    "land": "#00f0ff",
    "water": "#003539",
    "park": "#00dbe9",
-   "roadMajor": "#74bec4",
-   "roadMinor": "#69d6df",
+   "roadMajor": "#69a2a7",
+   "roadMinor": "#65c0c8",
    "building": "#00c7d4",
    "boundary": "#00a9b4",
    "labelPrimary": "#003539",
@@ -11004,7 +12731,8 @@
    "halo": "#00f0ff",
    "accent": "#a36d6a",
    "urbanLanduse": "#00c7d4",
-   "roadMajorCasing": "#00f0ff"
+   "roadMajorCasing": "#00f0ff",
+   "roadHighway": "#a36d6a"
   }
  },
  "colour-field-fixture8-zurich-z12": {
@@ -11052,29 +12780,43 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#c1a6b1",
+    "subject": "#a58f98",
     "against": [
      {
       "token": "land",
-      "value": 1.5
+      "value": 2.01
      }
     ],
-    "value": 1.5,
-    "min": 1.5,
+    "value": 2.01,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#dbb8c6",
+    "subject": "#c2a4af",
     "against": [
      {
       "token": "land",
-      "value": 1.201
+      "value": 1.522
      }
     ],
-    "value": 1.201,
-    "min": 1.2,
+    "value": 1.522,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#4d8071",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.338
+     }
+    ],
+    "value": 0.338,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -11089,6 +12831,10 @@
      {
       "token": "park",
       "value": 7.75
+     },
+     {
+      "token": "halo",
+      "value": 9.342
      }
     ],
     "value": 7.75,
@@ -11107,6 +12853,10 @@
      {
       "token": "park",
       "value": 4.603
+     },
+     {
+      "token": "halo",
+      "value": 5.549
      }
     ],
     "value": 4.603,
@@ -11160,29 +12910,43 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#c1a6b1",
+    "subject": "#a58f98",
     "against": [
      {
       "token": "land",
-      "value": 1.5
+      "value": 2.01
      }
     ],
-    "value": 1.5,
-    "min": 1.5,
+    "value": 2.01,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#dbb8c6",
+    "subject": "#c2a4af",
     "against": [
      {
       "token": "land",
-      "value": 1.201
+      "value": 1.522
      }
     ],
-    "value": 1.201,
-    "min": 1.2,
+    "value": 1.522,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#4d8071",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.338
+     }
+    ],
+    "value": 0.338,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -11197,6 +12961,10 @@
      {
       "token": "park",
       "value": 7.75
+     },
+     {
+      "token": "halo",
+      "value": 9.342
      }
     ],
     "value": 7.75,
@@ -11215,6 +12983,10 @@
      {
       "token": "park",
       "value": 4.603
+     },
+     {
+      "token": "halo",
+      "value": 5.549
      }
     ],
     "value": 4.603,
@@ -11255,15 +13027,15 @@
     "check": "Major roads on the field",
     "kind": "token",
     "target": "roadMajor",
-    "from": "#fadee9",
-    "to": "#c1a6b1"
+    "from": "#fbe3ec",
+    "to": "#a58f98"
    },
    {
     "check": "Minor roads on the field",
     "kind": "token",
     "target": "roadMinor",
-    "from": "#f9d5e3",
-    "to": "#dbb8c6"
+    "from": "#fadae6",
+    "to": "#c2a4af"
    },
    {
     "check": "Secondary labels on the field",
@@ -11277,8 +13049,8 @@
    "land": "#f7c6d9",
    "water": "#452030",
    "park": "#e4b4c6",
-   "roadMajor": "#c1a6b1",
-   "roadMinor": "#dbb8c6",
+   "roadMajor": "#a58f98",
+   "roadMinor": "#c2a4af",
    "building": "#d1a2b4",
    "boundary": "#b58799",
    "labelPrimary": "#452030",
@@ -11286,7 +13058,8 @@
    "halo": "#f7c6d9",
    "accent": "#4d8071",
    "urbanLanduse": "#d1a2b4",
-   "roadMajorCasing": "#f7c6d9"
+   "roadMajorCasing": "#f7c6d9",
+   "roadHighway": "#4d8071"
   }
  },
  "colour-field-fixture9-zurich-z12": {
@@ -11300,7 +13073,7 @@
    {
     "id": "deep",
     "input": "#541500",
-    "used": "#541500",
+    "used": "#561601",
     "source": "default"
    },
    {
@@ -11324,39 +13097,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.311
+      "value": 0.305
      }
     ],
-    "value": 0.311,
+    "value": 0.305,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#e9b19f",
+    "subject": "#eec0b1",
     "against": [
      {
       "token": "land",
-      "value": 2.181
+      "value": 2.483
      }
     ],
-    "value": 2.181,
-    "min": 1.5,
+    "value": 2.483,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#de947c",
+    "subject": "#e4a28d",
     "against": [
      {
       "token": "land",
-      "value": 1.673
+      "value": 1.909
      }
     ],
-    "value": 1.673,
-    "min": 1.2,
+    "value": 1.909,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#003a47",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.349
+     }
+    ],
+    "value": 0.349,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -11371,6 +13158,10 @@
      {
       "token": "park",
       "value": 4.522
+     },
+     {
+      "token": "halo",
+      "value": 5.12
      }
     ],
     "value": 4.522,
@@ -11389,6 +13180,10 @@
      {
       "token": "park",
       "value": 4.502
+     },
+     {
+      "token": "halo",
+      "value": 5.099
      }
     ],
     "value": 4.502,
@@ -11398,14 +13193,14 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#e9b19f",
+    "subject": "#060000",
     "against": [
      {
-      "token": "water",
-      "value": 7.583
+      "token": "halo",
+      "value": 5.12
      }
     ],
-    "value": 7.583,
+    "value": 5.12,
     "min": 4.5,
     "pass": true
    },
@@ -11432,39 +13227,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.311
+      "value": 0.305
      }
     ],
-    "value": 0.311,
+    "value": 0.305,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#e9b19f",
+    "subject": "#eec0b1",
     "against": [
      {
       "token": "land",
-      "value": 2.181
+      "value": 2.483
      }
     ],
-    "value": 2.181,
-    "min": 1.5,
+    "value": 2.483,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#de947c",
+    "subject": "#e4a28d",
     "against": [
      {
       "token": "land",
-      "value": 1.673
+      "value": 1.909
      }
     ],
-    "value": 1.673,
-    "min": 1.2,
+    "value": 1.909,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#003a47",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.349
+     }
+    ],
+    "value": 0.349,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -11479,6 +13288,10 @@
      {
       "token": "park",
       "value": 4.522
+     },
+     {
+      "token": "halo",
+      "value": 5.12
      }
     ],
     "value": 4.522,
@@ -11497,6 +13310,10 @@
      {
       "token": "park",
       "value": 4.502
+     },
+     {
+      "token": "halo",
+      "value": 5.099
      }
     ],
     "value": 4.502,
@@ -11506,14 +13323,14 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#e9b19f",
+    "subject": "#060000",
     "against": [
      {
-      "token": "water",
-      "value": 7.583
+      "token": "halo",
+      "value": 5.12
      }
     ],
-    "value": 7.583,
+    "value": 5.12,
     "min": 4.5,
     "pass": true
    },
@@ -11541,6 +13358,13 @@
     "to": "#c85f3d"
    },
    {
+    "check": "Water labels on deep",
+    "kind": "slot",
+    "target": "deep",
+    "from": "#541500",
+    "to": "#561601"
+   },
+   {
     "check": "Primary labels on the field",
     "kind": "token",
     "target": "labelPrimary",
@@ -11558,24 +13382,25 @@
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "roadMajor"
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    }
   ],
   "tokens": {
    "land": "#c85f3d",
-   "water": "#541500",
+   "water": "#561601",
    "park": "#bc5737",
-   "roadMajor": "#e9b19f",
-   "roadMinor": "#de947c",
-   "building": "#b04f30",
+   "roadMajor": "#eec0b1",
+   "roadMinor": "#e4a28d",
+   "building": "#b05031",
    "boundary": "#9e4427",
    "labelPrimary": "#060000",
    "labelSecondary": "#060100",
    "halo": "#c85f3d",
    "accent": "#003a47",
-   "urbanLanduse": "#b04f30",
-   "roadMajorCasing": "#c85f3d"
+   "urbanLanduse": "#b05031",
+   "roadMajorCasing": "#c85f3d",
+   "roadHighway": "#003a47"
   }
  },
  "colour-field-fixture10-zurich-z12": {
@@ -11589,7 +13414,7 @@
    {
     "id": "deep",
     "input": "#5d0004",
-    "used": "#5d0004",
+    "used": "#5f0205",
     "source": "default"
    },
    {
@@ -11613,39 +13438,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.28
+      "value": 0.274
      }
     ],
-    "value": 0.28,
+    "value": 0.274,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#f4a197",
+    "subject": "#f7b3ab",
     "against": [
      {
       "token": "land",
-      "value": 2.478
+      "value": 2.859
      }
     ],
-    "value": 2.478,
-    "min": 1.5,
+    "value": 2.859,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#eb7c70",
+    "subject": "#f08f84",
     "against": [
      {
       "token": "land",
-      "value": 1.824
+      "value": 2.138
      }
     ],
-    "value": 1.824,
-    "min": 1.2,
+    "value": 2.138,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#72d8e7",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.4
+     }
+    ],
+    "value": 0.4,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -11660,6 +13499,10 @@
      {
       "token": "park",
       "value": 5.038
+     },
+     {
+      "token": "halo",
+      "value": 4.519
      }
     ],
     "value": 4.519,
@@ -11678,6 +13521,10 @@
      {
       "token": "park",
       "value": 5.073
+     },
+     {
+      "token": "halo",
+      "value": 4.55
      }
     ],
     "value": 4.55,
@@ -11691,10 +13538,10 @@
     "against": [
      {
       "token": "water",
-      "value": 12.916
+      "value": 12.655
      }
     ],
-    "value": 12.916,
+    "value": 12.655,
     "min": 4.5,
     "pass": true
    },
@@ -11721,39 +13568,53 @@
     "against": [
      {
       "token": "water",
-      "value": 0.28
+      "value": 0.274
      }
     ],
-    "value": 0.28,
+    "value": 0.274,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#f4a197",
+    "subject": "#f7b3ab",
     "against": [
      {
       "token": "land",
-      "value": 2.478
+      "value": 2.859
      }
     ],
-    "value": 2.478,
-    "min": 1.5,
+    "value": 2.859,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#eb7c70",
+    "subject": "#f08f84",
     "against": [
      {
       "token": "land",
-      "value": 1.824
+      "value": 2.138
      }
     ],
-    "value": 1.824,
-    "min": 1.2,
+    "value": 2.138,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#72d8e7",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.4
+     }
+    ],
+    "value": 0.4,
+    "min": 0.12,
     "pass": true
    },
    {
@@ -11768,6 +13629,10 @@
      {
       "token": "park",
       "value": 5.038
+     },
+     {
+      "token": "halo",
+      "value": 4.519
      }
     ],
     "value": 4.519,
@@ -11786,6 +13651,10 @@
      {
       "token": "park",
       "value": 5.073
+     },
+     {
+      "token": "halo",
+      "value": 4.55
      }
     ],
     "value": 4.55,
@@ -11799,10 +13668,10 @@
     "against": [
      {
       "token": "water",
-      "value": 12.916
+      "value": 12.655
      }
     ],
-    "value": 12.916,
+    "value": 12.655,
     "min": 4.5,
     "pass": true
    },
@@ -11823,6 +13692,13 @@
   ],
   "notices": [
    {
+    "check": "Water labels on deep",
+    "kind": "slot",
+    "target": "deep",
+    "from": "#5d0004",
+    "to": "#5f0205"
+   },
+   {
     "check": "Primary labels on the field",
     "kind": "token",
     "target": "labelPrimary",
@@ -11840,24 +13716,25 @@
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "labelPrimary"
+    "from": "land on water",
+    "to": "labelPrimary on water"
    }
   ],
   "tokens": {
    "land": "#d62828",
-   "water": "#5d0004",
+   "water": "#5f0205",
    "park": "#c92424",
-   "roadMajor": "#f4a197",
-   "roadMinor": "#eb7c70",
-   "building": "#bc1f20",
+   "roadMajor": "#f7b3ab",
+   "roadMinor": "#f08f84",
+   "building": "#bd2020",
    "boundary": "#aa191a",
    "labelPrimary": "#fff0ee",
    "labelSecondary": "#fff1ef",
    "halo": "#d62828",
    "accent": "#72d8e7",
-   "urbanLanduse": "#bc1f20",
-   "roadMajorCasing": "#d62828"
+   "urbanLanduse": "#bd2020",
+   "roadMajorCasing": "#d62828",
+   "roadHighway": "#72d8e7"
   }
  },
  "colour-field-sample-light-zurich-z12": {
@@ -11905,46 +13782,64 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#ffd1d9",
+    "subject": "#fffafb",
     "against": [
      {
       "token": "land",
-      "value": 1.52
+      "value": 2.009
      }
     ],
-    "value": 1.52,
-    "min": 1.5,
+    "value": 2.009,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#fab9c6",
+    "subject": "#ffd1da",
     "against": [
      {
       "token": "land",
-      "value": 1.267
+      "value": 1.521
      }
     ],
-    "value": 1.267,
-    "min": 1.2,
+    "value": 1.521,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#ffe600",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.266
+     }
+    ],
+    "value": 0.266,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      },
      {
       "token": "park",
-      "value": 7.829
+      "value": 5.524
+     },
+     {
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 7.829,
+    "value": 5.524,
     "min": 4.5,
     "pass": true
    },
@@ -11960,6 +13855,10 @@
      {
       "token": "park",
       "value": 4.558
+     },
+     {
+      "token": "halo",
+      "value": 4.803
      }
     ],
     "value": 4.558,
@@ -11969,28 +13868,28 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
-      "token": "water",
-      "value": 4.521
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 4.521,
+    "value": 5.821,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      }
     ],
-    "value": 8.251,
+    "value": 5.821,
     "min": 3,
     "pass": true
    }
@@ -12013,46 +13912,64 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#ffd1d9",
+    "subject": "#fffafb",
     "against": [
      {
       "token": "land",
-      "value": 1.52
+      "value": 2.009
      }
     ],
-    "value": 1.52,
-    "min": 1.5,
+    "value": 2.009,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#fab9c6",
+    "subject": "#ffd1da",
     "against": [
      {
       "token": "land",
-      "value": 1.267
+      "value": 1.521
      }
     ],
-    "value": 1.267,
-    "min": 1.2,
+    "value": 1.521,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#ffe600",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.266
+     }
+    ],
+    "value": 0.266,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      },
      {
       "token": "park",
-      "value": 7.829
+      "value": 5.524
+     },
+     {
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 7.829,
+    "value": 5.524,
     "min": 4.5,
     "pass": true
    },
@@ -12068,6 +13985,10 @@
      {
       "token": "park",
       "value": 4.558
+     },
+     {
+      "token": "halo",
+      "value": 4.803
      }
     ],
     "value": 4.558,
@@ -12077,28 +13998,28 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
-      "token": "water",
-      "value": 4.521
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 4.521,
+    "value": 5.821,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      }
     ],
-    "value": 8.251,
+    "value": 5.821,
     "min": 3,
     "pass": true
    }
@@ -12108,8 +14029,15 @@
     "check": "Major roads on the field",
     "kind": "token",
     "target": "roadMajor",
-    "from": "#fccbd4",
-    "to": "#ffd1d9"
+    "from": "#fcd3db",
+    "to": "#fffafb"
+   },
+   {
+    "check": "Minor roads on the field",
+    "kind": "token",
+    "target": "roadMinor",
+    "from": "#fbc2cd",
+    "to": "#ffd1da"
    },
    {
     "check": "Secondary labels on the field",
@@ -12122,38 +14050,32 @@
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "labelPrimary"
-   },
-   {
-    "check": "Water labels on deep",
-    "kind": "token",
-    "target": "labelPrimary",
-    "from": "#3f1a8c",
-    "to": "#24005b"
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    },
    {
     "check": "Spark on the field",
     "kind": "fallback",
     "target": "accent",
     "from": "#ffe600",
-    "to": "#24005b"
+    "to": "#3f1a8c"
    }
   ],
   "tokens": {
    "land": "#f59aae",
    "water": "#ea4a3c",
    "park": "#f593a5",
-   "roadMajor": "#ffd1d9",
-   "roadMinor": "#fab9c6",
+   "roadMajor": "#fffafb",
+   "roadMinor": "#ffd1da",
    "building": "#f48b9c",
    "boundary": "#bd68a4",
-   "labelPrimary": "#24005b",
+   "labelPrimary": "#3f1a8c",
    "labelSecondary": "#602586",
    "halo": "#f59aae",
-   "accent": "#24005b",
+   "accent": "#3f1a8c",
    "urbanLanduse": "#f48b9c",
-   "roadMajorCasing": "#f59aae"
+   "roadMajorCasing": "#f59aae",
+   "roadHighway": "#ffe600"
   }
  },
  "colour-field-sample-data60-zurich-z12": {
@@ -12201,46 +14123,64 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#ffd1d9",
+    "subject": "#fffafb",
     "against": [
      {
       "token": "land",
-      "value": 1.52
+      "value": 2.009
      }
     ],
-    "value": 1.52,
-    "min": 1.5,
+    "value": 2.009,
+    "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#fab9c6",
+    "subject": "#ffd1da",
     "against": [
      {
       "token": "land",
-      "value": 1.267
+      "value": 1.521
      }
     ],
-    "value": 1.267,
-    "min": 1.2,
+    "value": 1.521,
+    "min": 1.5,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#ffe600",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.266
+     }
+    ],
+    "value": 0.266,
+    "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      },
      {
       "token": "park",
-      "value": 7.829
+      "value": 5.524
+     },
+     {
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 7.829,
+    "value": 5.524,
     "min": 4.5,
     "pass": true
    },
@@ -12256,6 +14196,10 @@
      {
       "token": "park",
       "value": 4.558
+     },
+     {
+      "token": "halo",
+      "value": 4.803
      }
     ],
     "value": 4.558,
@@ -12265,28 +14209,28 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
-      "token": "water",
-      "value": 4.521
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 4.521,
+    "value": 5.821,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.251
+      "value": 5.821
      }
     ],
-    "value": 8.251,
+    "value": 5.821,
     "min": 3,
     "pass": true
    }
@@ -12309,46 +14253,64 @@
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#dcc4c8",
+    "subject": "#dfdcdd",
     "against": [
      {
       "token": "land",
-      "value": 1.23
+      "value": 1.485
      }
     ],
-    "value": 1.23,
-    "min": 1.05,
+    "value": 1.485,
+    "min": 1.4,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#d8b6bc",
+    "subject": "#dcc4c9",
     "against": [
      {
       "token": "land",
-      "value": 1.092
+      "value": 1.231
      }
     ],
-    "value": 1.092,
-    "min": 0.84,
+    "value": 1.231,
+    "min": 1.05,
+    "pass": true
+   },
+   {
+    "id": "Spark highways stand out",
+    "kind": "distance",
+    "subject": "#dcd183",
+    "against": [
+     {
+      "token": "land",
+      "value": 0.137
+     }
+    ],
+    "value": 0.137,
+    "min": 0.084,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.468
+      "value": 5.974
      },
      {
       "token": "park",
-      "value": 8.014
+      "value": 5.654
+     },
+     {
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 8.014,
+    "value": 5.654,
     "min": 4.5,
     "pass": true
    },
@@ -12364,6 +14326,10 @@
      {
       "token": "park",
       "value": 4.665
+     },
+     {
+      "token": "halo",
+      "value": 4.803
      }
     ],
     "value": 4.665,
@@ -12373,28 +14339,28 @@
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
-      "token": "water",
-      "value": 5.475
+      "token": "halo",
+      "value": 5.821
      }
     ],
-    "value": 5.475,
+    "value": 5.821,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#24005b",
+    "subject": "#3f1a8c",
     "against": [
      {
       "token": "land",
-      "value": 8.468
+      "value": 5.974
      }
     ],
-    "value": 8.468,
+    "value": 5.974,
     "min": 2.1,
     "pass": true
    }
@@ -12404,8 +14370,15 @@
     "check": "Major roads on the field",
     "kind": "token",
     "target": "roadMajor",
-    "from": "#fccbd4",
-    "to": "#ffd1d9"
+    "from": "#fcd3db",
+    "to": "#fffafb"
+   },
+   {
+    "check": "Minor roads on the field",
+    "kind": "token",
+    "target": "roadMinor",
+    "from": "#fbc2cd",
+    "to": "#ffd1da"
    },
    {
     "check": "Secondary labels on the field",
@@ -12418,38 +14391,32 @@
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
-    "from": "land",
-    "to": "labelPrimary"
-   },
-   {
-    "check": "Water labels on deep",
-    "kind": "token",
-    "target": "labelPrimary",
-    "from": "#3f1a8c",
-    "to": "#24005b"
+    "from": "land on water",
+    "to": "labelPrimary on halo"
    },
    {
     "check": "Spark on the field",
     "kind": "fallback",
     "target": "accent",
     "from": "#ffe600",
-    "to": "#24005b"
+    "to": "#3f1a8c"
    }
   ],
   "tokens": {
    "land": "#daaab3",
    "water": "#cd7c70",
    "park": "#d8a4ac",
-   "roadMajor": "#dcc4c8",
-   "roadMinor": "#d8b6bc",
+   "roadMajor": "#dfdcdd",
+   "roadMinor": "#dcc4c9",
    "building": "#d59ea5",
    "boundary": "#a67a98",
-   "labelPrimary": "#24005b",
+   "labelPrimary": "#3f1a8c",
    "labelSecondary": "#602586",
    "halo": "#f59aae",
-   "accent": "#24005b",
+   "accent": "#3f1a8c",
    "urbanLanduse": "#d59ea5",
-   "roadMajorCasing": "#daaab3"
+   "roadMajorCasing": "#daaab3",
+   "roadHighway": "#dcd183"
   }
  }
 }

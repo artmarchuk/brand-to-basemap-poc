@@ -12,6 +12,7 @@ const LABELS: Record<TokenName, string> = {
   labelSecondary: 'Labels, secondary',
   urbanLanduse: 'Built-up land',
   roadMajorCasing: 'Major road casing',
+  roadHighway: 'Motorways and trunk roads',
   halo: 'Label halo',
   accent: 'Accent',
 };

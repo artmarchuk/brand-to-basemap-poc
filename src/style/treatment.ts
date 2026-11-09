@@ -21,7 +21,7 @@ export interface Treatment {
   roadMajor: RoadTreatment;
   roadMinor: RoadTreatment;
   boundaryDash?: number[];
-  waterLabel?: { text: ColorRef; halo: ColorRef };
+  waterLabel?: { text: ColorRef; halo: ColorRef; haloWidth?: number };
   /** Halo around POI text, the accent's outline. */
   accentOutline?: ColorRef;
   /** Built-up land fades out between these zooms, as buildings take over. */
@@ -55,7 +55,7 @@ export function applyTreatment(
     const role = roleOf(layer);
     if (!role) return layer;
     const next = { ...layer, paint: { ...layer.paint }, layout: { ...layer.layout } } as Mutable;
-    const road = role === 'roadMajor' ? treatment.roadMajor : role === 'roadMinor' ? treatment.roadMinor : undefined;
+    const road = role === 'roadMajor' || role === 'roadHighway' ? treatment.roadMajor : role === 'roadMinor' ? treatment.roadMinor : undefined;
     if (road?.width) next.paint['line-width'] = ramp(road.width);
 
     const casing = role === 'roadMajorCasing' ? treatment.roadMajor.casing : role === 'roadMinorCasing' ? treatment.roadMinor.casing : undefined;
@@ -65,6 +65,10 @@ export function applyTreatment(
     if (role === 'waterLabel' && treatment.waterLabel) {
       next.paint['text-color'] = rewriteColors(layer.paint?.['text-color' as keyof typeof layer.paint] ?? '#000', treatment.waterLabel.text, tokens);
       next.paint['text-halo-color'] = rewriteColors('#000', treatment.waterLabel.halo, tokens);
+      if (treatment.waterLabel.haloWidth !== undefined) {
+        next.paint['text-halo-width'] = treatment.waterLabel.haloWidth;
+        next.paint['text-halo-blur'] = 0;
+      }
     }
     if (role === 'placeLabel' && treatment.labelHaloWidth !== undefined) {
       next.paint['text-halo-width'] = treatment.labelHaloWidth;

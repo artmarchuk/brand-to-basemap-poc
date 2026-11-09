@@ -75,7 +75,7 @@ const SURFACES: TokenName[] = ['land', 'water', 'park', 'building'];
 // Built-up land recedes like a surface but does not move the mean: it is often hidden, and when it shows
 // (Figure-Ground) the building token already carries the same colour into the mean.
 const RECEDING_SURFACES: TokenName[] = [...SURFACES, 'urbanLanduse'];
-const RECEDING_FILLS: TokenName[] = [...RECEDING_SURFACES, 'roadMajor', 'roadMinor', 'roadMajorCasing'];
+const RECEDING_FILLS: TokenName[] = [...RECEDING_SURFACES, 'roadMajor', 'roadMinor', 'roadMajorCasing', 'roadHighway'];
 
 /**
  * Recede scales chroma on fills and lines, and pulls their lightness towards the mean of the

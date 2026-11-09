@@ -22,6 +22,8 @@ export const PRESET_CONFIG = {
     hairline: [[12, 0.4], [14, 0.7], [16, 1], [20, 2.5]] as WidthStops,
     medium: [[5, 0.5], [8, 1], [12, 1.8], [16, 3.5], [20, 8]] as WidthStops,
   },
+  /** Halo width for water labels that sit on a halo (a dark label on a paper halo) instead of on the water. */
+  waterLabelHaloWidth: 2.5,
   /** A hairline casing is its road's width plus this many pixels, so about half of it shows each side. */
   casingHairlinePx: 1.2,
 

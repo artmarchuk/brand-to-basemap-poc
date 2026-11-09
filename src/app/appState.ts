@@ -1,6 +1,7 @@
 import type { LabelDensity, ToggleGroup } from '../mapping/types';
 import {
   clearSlot,
+  getPreset,
   resetPresetOverride,
   resetPresetOverrides,
   samplePresetState,
@@ -25,10 +26,13 @@ export interface AppState {
   cityId: string;
   /** Zoom stops viewed since the last style change. A reminder, not a gate. */
   reviewed: number[];
+  /** What a preset switch replaced, so one click can bring it back. Cleared by the next edit. */
+  undo?: { palette: PresetState; fromName: string; hadOverrides: boolean };
 }
 
 export type Action =
   | { type: 'preset'; presetId: string }
+  | { type: 'undoPreset' }
   | { type: 'sample' }
   | { type: 'slot'; slot: string; hex: string }
   | { type: 'clearSlot'; slot: string }
@@ -52,11 +56,28 @@ const VIEWED_WITHIN = 0.3;
 /** Every change to what the map looks like resets the review dots. */
 const restyled = (state: AppState, change: Partial<AppState>): AppState => ({ ...state, ...change, reviewed: [] });
 
+const hasOverrides = (palette: PresetState) => Object.values(palette.overrides).some((set) => Object.keys(set).length > 0);
+
 export function reducer(state: AppState, action: Action): AppState {
+  const next = step(state, action);
+  // Only a preset switch offers an undo; the next real edit retires it. Moving the map does not.
+  if (action.type === 'preset' || action.type === 'undoPreset' || action.type === 'city' || action.type === 'viewed') return next;
+  return next.undo ? { ...next, undo: undefined } : next;
+}
+
+function step(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case 'preset':
+    case 'preset': {
+      if (action.presetId === state.palette.preset) return state;
       // Keeps the primary colour and the toggles the user changed; clears overrides (see switchPreset).
-      return restyled(state, { palette: switchPreset(state.palette, action.presetId) });
+      const fromName = getPreset(state.palette.preset).name;
+      return restyled(state, {
+        palette: switchPreset(state.palette, action.presetId),
+        undo: { palette: state.palette, fromName, hadOverrides: hasOverrides(state.palette) },
+      });
+    }
+    case 'undoPreset':
+      return state.undo ? restyled(state, { palette: state.undo.palette, undo: undefined }) : state;
     case 'sample':
       return restyled(state, { palette: { ...samplePresetState(state.palette.preset), mode: state.palette.mode, recede: state.palette.recede } });
     case 'slot':

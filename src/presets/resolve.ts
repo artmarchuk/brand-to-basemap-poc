@@ -56,11 +56,24 @@ export interface PresetResolved {
   overriddenTokens: TokenName[];
 }
 
+/** Which token colours the water labels and which token is their halo, hence what they sit on. */
+export interface WaterLabel {
+  text: TokenName;
+  halo: TokenName;
+}
+
 interface Draft {
   slots: Record<string, string>;
   tokens: ResolvedTokens;
-  waterLabel: TokenName;
+  waterLabel: WaterLabel;
 }
+
+/** A pick entry is `text` (the default halo) or `text/halo`. */
+const parseWaterLabel = (entry: string, fallbackHalo: TokenName): WaterLabel => {
+  const [text, halo] = entry.split('/');
+  return { text: text as TokenName, halo: (halo ?? fallbackHalo) as TokenName };
+};
+const describeWaterLabel = (label: WaterLabel) => `${label.text} on ${label.halo}`;
 
 const parsed = new Map<string, Expr>();
 const expr = (source: string) => {
@@ -95,10 +108,20 @@ export function dataMinimum(check: CheckDefinition, recede: number, config: Pres
   return check.min * (1 - (1 - config.data.relaxTo) * (Math.min(100, Math.max(0, recede)) / 100));
 }
 
-export function measure(check: CheckDefinition, tokens: ResolvedTokens, waterLabel: TokenName, min = check.min): CheckResult {
-  const subject = tokens[check.subject === 'waterLabel' ? waterLabel : check.subject];
+/**
+ * What a check measures against. A label sits on its halo, so for every label check the halo is a ground
+ * (the rule is general: a preset need not list it). Water labels sit on their own halo token, which is
+ * the water itself unless the label was given a paper halo.
+ */
+export function groundsOf(check: CheckDefinition, waterLabel: WaterLabel): TokenName[] {
+  if (check.subject === 'waterLabel') return waterLabel.halo === 'water' ? check.against : [waterLabel.halo];
+  return isLabelCheck(check) && !check.against.includes('halo') ? [...check.against, 'halo'] : check.against;
+}
+
+export function measure(check: CheckDefinition, tokens: ResolvedTokens, waterLabel: WaterLabel, min = check.min): CheckResult {
+  const subject = tokens[check.subject === 'waterLabel' ? waterLabel.text : check.subject];
   const metric = check.kind === 'contrast' ? contrastRatio : colorDistance;
-  const against = check.against.map((token) => ({ token, value: Math.round(metric(subject, tokens[token]) * 1000) / 1000 }));
+  const against = groundsOf(check, waterLabel).map((token) => ({ token, value: Math.round(metric(subject, tokens[token]) * 1000) / 1000 }));
   const value = Math.min(...against.map((ground) => ground.value));
   return { id: check.id, kind: check.kind, subject, against, value, min: Math.round(min * 1000) / 1000, pass: value >= min };
 }
@@ -142,7 +165,7 @@ interface Context {
   config: PresetConfig;
 }
 
-function rebuild(ctx: Context, waterLabel: TokenName): Draft {
+function rebuild(ctx: Context, waterLabel: WaterLabel): Draft {
   const { env } = evaluateSlots(ctx.preset, ctx.user, ctx.adjusted, ctx.config);
   return { slots: env, tokens: evaluateTokens(ctx.preset, env, ctx.config), waterLabel };
 }
@@ -160,7 +183,7 @@ function guarded(check: CheckDefinition, checks: CheckDefinition[], draft: Draft
 
 function applyTokenStrategy(check: CheckDefinition, strategy: FixStrategy, draft: Draft, step: number, checks: CheckDefinition[]) {
   if ('token' in strategy) {
-    const token = strategy.token === 'waterLabel' ? draft.waterLabel : strategy.token;
+    const token = strategy.token === 'waterLabel' ? draft.waterLabel.text : strategy.token;
     if (strategy.token === 'waterLabel' && !LABEL_TOKENS.includes(token)) return undefined;
     const direction = plainDirection(strategy.direction, check, draft.tokens);
     const scoreOf = guarded(check, checks, draft);
@@ -176,10 +199,13 @@ function applyTokenStrategy(check: CheckDefinition, strategy: FixStrategy, draft
     return { draft: { ...draft, tokens: { ...draft.tokens, [check.subject]: to } }, notice: { check: check.id, kind: 'fallback' as const, target: check.subject, from, to } };
   }
   if ('pick' in strategy) {
-    const ranked = strategy.pick.map((token) => ({ token, value: score(check, { ...draft, waterLabel: token }) }));
+    const ranked = strategy.pick.map((entry) => {
+      const label = parseWaterLabel(entry, draft.waterLabel.halo);
+      return { label, value: score(check, { ...draft, waterLabel: label }) };
+    });
     const choice = ranked.find((candidate) => candidate.value >= check.min) ?? ranked.reduce((a, b) => (b.value > a.value ? b : a));
-    if (choice.token === draft.waterLabel) return undefined;
-    return { draft: { ...draft, waterLabel: choice.token }, notice: { check: check.id, kind: 'pick' as const, target: 'waterLabel', from: draft.waterLabel, to: choice.token } };
+    if (choice.label.text === draft.waterLabel.text && choice.label.halo === draft.waterLabel.halo) return undefined;
+    return { draft: { ...draft, waterLabel: choice.label }, notice: { check: check.id, kind: 'pick' as const, target: 'waterLabel', from: describeWaterLabel(draft.waterLabel), to: describeWaterLabel(choice.label) } };
   }
   return undefined;
 }
@@ -193,7 +219,7 @@ function applyTokenStrategy(check: CheckDefinition, strategy: FixStrategy, draft
 function autoFix(ctx: Context): { draft: Draft; notices: FixNotice[] } {
   const { preset, config } = ctx;
   const step = config.autoFix.step;
-  let draft = rebuild(ctx, preset.treatment.waterLabel.text);
+  let draft = rebuild(ctx, preset.treatment.waterLabel);
   const notices: FixNotice[] = [];
 
   // A slot fix can break a check that passed earlier (a darker Deep darkens the park under the labels),
@@ -250,13 +276,13 @@ function autoFix(ctx: Context): { draft: Draft; notices: FixNotice[] } {
  * water). Where a label check fails after recede, its grounds (and the label, if it receded) are held back towards their light colour, just
  * far enough to pass. Driven by the preset's checks, so no preset needs code of its own.
  */
-function holdLabelGrounds(checks: CheckDefinition[], light: ResolvedTokens, data: ResolvedTokens, waterLabel: TokenName): ResolvedTokens {
+function holdLabelGrounds(checks: CheckDefinition[], light: ResolvedTokens, data: ResolvedTokens, waterLabel: WaterLabel): ResolvedTokens {
   let tokens = data;
   for (const check of checks.filter(isLabelCheck)) {
     if (measure(check, tokens, waterLabel).pass) continue;
     // The label itself can recede too, when it borrows a receding token (Colour Field's water labels use roadMajor).
-    const subject = check.subject === 'waterLabel' ? waterLabel : check.subject;
-    const grounds = [...new Set([subject, ...check.against])].filter((token) => tokens[token] !== light[token]);
+    const subject = check.subject === 'waterLabel' ? waterLabel.text : check.subject;
+    const grounds = [...new Set([subject, ...groundsOf(check, waterLabel)])].filter((token) => tokens[token] !== light[token]);
     const at = (t: number) => {
       const next = { ...tokens };
       for (const token of grounds) next[token] = formatColor({ ...mixColors(parseColor(light[token])!, parseColor(data[token])!, t), alpha: 1 });
@@ -274,7 +300,7 @@ function holdLabelGrounds(checks: CheckDefinition[], light: ResolvedTokens, data
   return tokens;
 }
 
-function resolveTreatment(definition: TreatmentDefinition, waterLabel: TokenName, config: PresetConfig): Treatment {
+function resolveTreatment(definition: TreatmentDefinition, waterLabel: WaterLabel, config: PresetConfig): Treatment {
   const road = (spec: TreatmentDefinition['roadMajor']) => ({
     ...(spec.weight !== 'base' && { width: config.weights[spec.weight] }),
     casing: spec.casing === 'hairline' ? { hairline: config.casingHairlinePx } : spec.casing,
@@ -283,7 +309,8 @@ function resolveTreatment(definition: TreatmentDefinition, waterLabel: TokenName
     roadMajor: road(definition.roadMajor),
     roadMinor: road(definition.roadMinor),
     ...(definition.boundaryDash && { boundaryDash: definition.boundaryDash }),
-    waterLabel: { text: waterLabel, halo: definition.waterLabel.halo },
+    // A halo other than the water itself is the label's ground, so it is drawn wide and unblurred.
+    waterLabel: { text: waterLabel.text, halo: waterLabel.halo, ...(waterLabel.halo !== 'water' && { haloWidth: config.waterLabelHaloWidth }) },
     accentOutline: definition.accentOutline,
     ...(definition.urbanLanduseFade && { urbanLanduseFade: definition.urbanLanduseFade }),
     ...(definition.hide && { hide: definition.hide }),

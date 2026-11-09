@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.3.0",
+  "schemaVersion": "0.4.0",
   "metadata": {
     "name": "Neutral"
   },
@@ -16,6 +16,7 @@
     "halo": "#ffffff",
     "accent": "#3b5bdb",
     "urbanLanduse": "#ebe9e6",
-    "roadMajorCasing": "#c4c3c4"
+    "roadMajorCasing": "#c4c3c4",
+    "roadHighway": "#ffffff"
   }
 }

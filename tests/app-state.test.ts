@@ -44,4 +44,22 @@ describe('app state', () => {
     const state = reducer(start, { type: 'toggleGroup', group: 'buildings', on: false });
     expect(presetDetails(getPreset('figure-ground'), state.detailChoices).groups).toContain('buildings');
   });
+
+  it('offers one undo after a preset switch, restoring slots and overrides, and drops it on the next edit', () => {
+    let state = reducer(start, { type: 'slot', slot: 'water', hex: '#123456' });
+    state = reducer(state, { type: 'override', token: 'land', hex: '#fafafa' });
+    const before = state.palette;
+    state = reducer(state, { type: 'preset', presetId: 'single-ink' });
+    expect(state.palette.overrides.light).toEqual({});
+    expect(state.undo).toMatchObject({ fromName: 'Figure-Ground', hadOverrides: true });
+    expect(reducer(state, { type: 'city', cityId: 'kyiv' }).undo).toBeDefined();
+    const restored = reducer(state, { type: 'undoPreset' });
+    expect(restored.palette).toEqual(before);
+    expect(restored.undo).toBeUndefined();
+    expect(reducer(state, { type: 'slot', slot: 'paper', hex: '#ffffff' }).undo).toBeUndefined();
+  });
+
+  it('switching to the same preset changes nothing and offers no undo', () => {
+    expect(reducer(start, { type: 'preset', presetId: 'figure-ground' })).toBe(start);
+  });
 });

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.3.0",
+  "schemaVersion": "0.4.0",
   "metadata": {
     "name": "Saturated brand"
   },
@@ -16,6 +16,7 @@
     "halo": "#fff7ea",
     "accent": "#d6006c",
     "urbanLanduse": "#fce7ce",
-    "roadMajorCasing": "#cb3879"
+    "roadMajorCasing": "#cb3879",
+    "roadHighway": "#ff4d6d"
   }
 }

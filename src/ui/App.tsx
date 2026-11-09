@@ -78,6 +78,14 @@ export function App() {
             onClear={(slot) => dispatch({ type: 'clearSlot', slot })}
             onSample={() => dispatch({ type: 'sample' })}
           />
+          {state.undo && (
+            <p className="notice" role="status">
+              <span>
+                Switched from {state.undo.fromName}. Other colours{state.undo.hadOverrides ? ' and edited map colours' : ''} went back to this preset&apos;s defaults.
+              </span>
+              <button type="button" className="button" onClick={() => dispatch({ type: 'undoPreset' })}>Undo</button>
+            </p>
+          )}
           <ModePanel
             mode={palette.mode}
             recede={palette.recede}

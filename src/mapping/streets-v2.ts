@@ -75,7 +75,8 @@ export const streetsV2Mapping: StyleMapping = {
 
     // Roads
     { match: { ids: ['Highway outline', 'Major road outline', 'Bridge outline', 'Minor road outline (secondary)'] }, group: 'core', colors: { 'line-color': 'roadMajorCasing' } },
-    { match: { ids: ['Highway', 'Major road', 'Minor road (secondary)'] }, group: 'core', colors: { 'line-color': 'roadMajor' } },
+    { match: { ids: ['Highway'] }, group: 'core', colors: { 'line-color': 'roadHighway' } },
+    { match: { ids: ['Major road', 'Minor road (secondary)'] }, group: 'core', colors: { 'line-color': 'roadMajor' } },
     { match: { ids: ['Tunnel outline (major)'] }, group: 'core', colors: { 'line-color': allBranches('roadMajorCasing') } },
     { match: { ids: ['Tunnel (major)'] }, group: 'core', colors: { 'line-color': allBranches(tunnel('roadMajor')) }, why: ROAD_WHY },
     { match: { ids: ['Tunnel outline'] }, group: 'minorRoads', colors: { 'line-color': allBranches(casing('roadMinor')) }, why: ROAD_WHY },

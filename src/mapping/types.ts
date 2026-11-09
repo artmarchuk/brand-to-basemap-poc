@@ -22,6 +22,7 @@ export const ALL_GROUPS: ToggleGroup[] = ['core', 'pois', 'transit', 'buildings'
 export type LayerRole =
   | 'roadMajor'
   | 'roadMajorCasing'
+  | 'roadHighway'
   | 'roadMinor'
   | 'roadMinorCasing'
   | 'boundary'

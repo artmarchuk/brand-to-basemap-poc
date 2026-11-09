@@ -16,6 +16,7 @@
     "building": "fabric",
     "urbanLanduse": "fabric",
     "roadMajor": "paper",
+    "roadHighway": "paper",
     "roadMajorCasing": "mix(fabric, paper, 35)",
     "roadMinor": "paper",
     "boundary": "mix(water, paper, 60)",

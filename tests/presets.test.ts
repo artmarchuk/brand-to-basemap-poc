@@ -11,6 +11,7 @@ import {
   evaluateSource,
   ExpressionError,
   getPreset,
+  measure,
   parseExpression,
   parsePresetState,
   presetDetails,
@@ -266,15 +267,81 @@ describe('Figure-Ground in data mode', () => {
 });
 
 describe('Single Ink on a bright brand', () => {
-  it('darkens the neon cyan ink for water and labels, and keeps its hue', () => {
+  it('keeps the neon cyan ink for the water, puts a dark label on a paper halo, and darkens only the roads', () => {
     const result = resolvePreset(createPresetState('single-ink', '#00F0FF'));
     const ink = result.slots.find((slot) => slot.id === 'ink')!;
-    expect(ink.input).toBe('#00f0ff');
-    expect(ink.used).not.toBe(ink.input);
-    expect(parseColor(ink.used)!.l).toBeLessThan(parseColor(ink.input)!.l);
-    expect(Math.abs(parseColor(ink.used)!.h - parseColor(ink.input)!.h)).toBeLessThan(8);
-    expect(result.notices.some((notice) => notice.kind === 'slot' && notice.target === 'ink')).toBe(true);
-    expect(contrastRatio(result.tokens.land, result.tokens.water)).toBeGreaterThanOrEqual(4.5);
+    expect(ink.used).toBe(ink.input);
+    expect(result.tokens.water).toBe('#00f0ff');
+    expect(result.notices.some((notice) => notice.kind === 'pick' && notice.to === 'labelPrimary on halo')).toBe(true);
+    expect(result.treatment.waterLabel).toMatchObject({ text: 'labelPrimary', halo: 'halo', haloWidth: PRESET_CONFIG.waterLabelHaloWidth });
+    expect(contrastRatio(result.tokens.labelPrimary, result.tokens.halo)).toBeGreaterThanOrEqual(4.5);
+    expect(contrastRatio(result.tokens.roadMajor, result.tokens.land)).toBeGreaterThanOrEqual(3);
+    expect(parseColor(result.tokens.roadMajor)!.l).toBeLessThan(parseColor(ink.input)!.l);
+    expect(Math.abs(parseColor(result.tokens.roadMajor)!.h - parseColor(ink.input)!.h)).toBeLessThan(8);
+  });
+
+  it('keeps Paper labels on the water when they already pass', () => {
+    const result = resolvePreset(samplePresetState('single-ink'));
+    expect(result.treatment.waterLabel).toMatchObject({ text: 'land', halo: 'water' });
+    expect(result.treatment.waterLabel!.haloWidth).toBeUndefined();
+  });
+
+  it('darkens the ink only when a dark label on a halo cannot pass either', () => {
+    // A mid-tone ink has no usable water label either way unless it moves: nothing here may fail silently.
+    for (const hex of RANDOM.slice(0, 60)) {
+      const result = resolvePreset(createPresetState('single-ink', hex));
+      const ink = result.slots.find((slot) => slot.id === 'ink')!;
+      const pick = result.notices.find((notice) => notice.kind === 'pick');
+      if (ink.used !== ink.input) expect(pick ?? result.notices.find((notice) => notice.check === 'Water apart from paper')).toBeDefined();
+    }
+  });
+});
+
+describe('a label sits on its halo', () => {
+  it('measures every label check against the halo as well as its listed grounds', () => {
+    for (const preset of PRESETS) {
+      const result = resolvePreset(samplePresetState(preset.id));
+      for (const check of result.checks.filter((c) => /label/i.test(c.id) && !/^Water/.test(c.id))) {
+        expect(check.against.map((ground) => ground.token), `${preset.id}: ${check.id}`).toContain('halo');
+      }
+    }
+  });
+
+  it('fails a label that clears its listed grounds but not its halo', () => {
+    const tokens = { ...resolvePreset(samplePresetState('colour-field')).tokens, halo: '#3f1a8c' };
+    const check = getPreset('colour-field').checks.find((candidate) => candidate.subject === 'labelPrimary')!;
+    const result = measure(check, tokens, { text: 'land', halo: 'water' });
+    expect(result.pass).toBe(false);
+    expect(result.against.find((ground) => ground.token === 'halo')!.value).toBeLessThan(4.5);
+  });
+});
+
+describe('Colour Field', () => {
+  const inputs = fixtures.map((fixture) => resolvePreset(createPresetState('colour-field', fixture.colors[fixture.primary])));
+
+  it('keeps roads at 2:1 (major) and 1.5:1 (minor) against the field', () => {
+    for (const result of [resolvePreset(samplePresetState('colour-field')), ...inputs]) {
+      expect(contrastRatio(result.stages.fixed.roadMajor, result.stages.fixed.land)).toBeGreaterThanOrEqual(2);
+      expect(contrastRatio(result.stages.fixed.roadMinor, result.stages.fixed.land)).toBeGreaterThanOrEqual(1.5);
+    }
+  });
+
+  it('gives Spark a visible default role: motorways and trunk roads', () => {
+    const result = resolvePreset(samplePresetState('colour-field'));
+    expect(result.stages.expressions.roadHighway).toBe('#ffe600');
+    expect(colorDistance(result.tokens.roadHighway, result.tokens.land)).toBeGreaterThanOrEqual(0.12);
+    expect(result.tokens.roadHighway).not.toBe(result.tokens.roadMajor);
+    const compiled = applyTokens(liberty, result.tokens, { mapping: MAPPINGS.liberty, treatment: result.treatment, onWarning: () => {} });
+    const paint = (id: string) => (compiled.layers.find((layer) => layer.id === id)!.paint as Record<string, unknown>)['line-color'];
+    expect(paint('road_trunk')).toBe(result.tokens.roadHighway);
+    expect(paint('road_trunk_primary')).toBe(result.tokens.roadMajor);
+    expect(JSON.stringify(paint('road_motorway'))).toContain(result.tokens.roadHighway);
+  });
+
+  it('draws tonal buildings by default, but the user can switch them off', () => {
+    const preset = getPreset('colour-field');
+    expect(presetDetails(preset, {}).groups).toContain('buildings');
+    expect(presetDetails(preset, { buildings: false }).groups).not.toContain('buildings');
   });
 });
 

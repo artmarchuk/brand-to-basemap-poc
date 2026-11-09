@@ -26,6 +26,11 @@ export const libertyMapping: StyleMapping = {
     { layerId: 'road_secondary_tertiary', newId: 'road_tertiary', classes: ['tertiary'] },
     { layerId: 'bridge_secondary_tertiary_casing', newId: 'bridge_tertiary_casing', classes: ['tertiary'] },
     { layerId: 'bridge_secondary_tertiary', newId: 'bridge_tertiary', classes: ['tertiary'] },
+    // Motorways have their own layers; trunk shares one with primary, so it is split out to join them.
+    ...['tunnel', 'road', 'bridge'].flatMap((kind) => [
+      { layerId: `${kind}_trunk_primary_casing`, newId: `${kind}_trunk_casing`, classes: ['trunk'] },
+      { layerId: `${kind}_trunk_primary`, newId: `${kind}_trunk`, classes: ['trunk'] },
+    ]),
   ],
   // Liberty's residential fill stops at z12, is translucent and has no commercial or industrial land.
   // Not suburb, quarter or neighbourhood: those are place polygons that blanket whole cities.
@@ -83,7 +88,9 @@ export const libertyMapping: StyleMapping = {
     { match: { ...transport, idPattern: /_rail(_hatching)?$/ }, group: 'transit', colors: { 'line-color': rail }, why: 'No rail token; a neutral between land and secondary label.' },
 
     // Roads
-    ...roadRules(/(motorway|trunk_primary|secondary_tertiary|link)/, 'roadMajor', 'core'),
+    { match: { ...transport, idPattern: /^(road|bridge)_(motorway|trunk)$/ }, group: 'core', role: 'roadHighway', colors: { 'line-color': 'roadHighway' } },
+    { match: { ...transport, idPattern: /^tunnel_(motorway|trunk)$/ }, group: 'core', role: 'roadHighway', colors: { 'line-color': tint('roadHighway', 'land', 0.35) }, why: ROAD_WHY },
+    ...roadRules(/(motorway|trunk|secondary_tertiary|link)/, 'roadMajor', 'core'),
     ...roadRules(/(tertiary|service_track|street|minor|path_pedestrian)/, 'roadMinor', 'minorRoads'),
     {
       match: { sourceLayer: 'transportation', type: 'fill' },

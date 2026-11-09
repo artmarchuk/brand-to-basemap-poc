@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://brand-to-basemap/token-set-0.3.0.schema.json",
+  "$id": "https://brand-to-basemap/token-set-0.4.0.schema.json",
   "title": "Brand-to-Basemap token set",
   "type": "object",
   "required": [
@@ -11,7 +11,7 @@
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
-      "const": "0.3.0"
+      "const": "0.4.0"
     },
     "metadata": {
       "type": "object",
@@ -63,7 +63,8 @@
         "halo",
         "accent",
         "urbanLanduse",
-        "roadMajorCasing"
+        "roadMajorCasing",
+        "roadHighway"
       ],
       "properties": {
         "land": {
@@ -104,6 +105,9 @@
         },
         "roadMajorCasing": {
           "$ref": "#/$defs/hex"
+        },
+        "roadHighway": {
+          "$ref": "#/$defs/hex"
         }
       }
     },
@@ -130,7 +134,8 @@
         "halo",
         "accent",
         "urbanLanduse",
-        "roadMajorCasing"
+        "roadMajorCasing",
+        "roadHighway"
       ]
     },
     "perMode": {

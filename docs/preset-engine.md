@@ -14,7 +14,7 @@ primary + optional slots -> slot defaults -> token expressions -> auto-fix (chec
 | Stage | Where | Notes |
 | --- | --- | --- |
 | Slots | `evaluateSlots` | User value, else the slot's default expression over earlier slots. |
-| Tokens | `evaluateTokens` | One expression per token, over the slots. All 13 tokens. |
+| Tokens | `evaluateTokens` | One expression per token, over the slots. All 14 tokens. |
 | Auto-fix | `autoFix` | Runs the preset's checks; moves slots, then tokens. See below. |
 | Overrides | `applyOverrides` | Per token, per mode, for the active preset. Cleared on preset change. |
 | Data | `transformData`, `holdLabelGrounds` | The existing recede transform, then label AA is restored. |
@@ -29,8 +29,8 @@ primary + optional slots -> slot defaults -> token expressions -> auto-fix (chec
 | Primary slot | Ink | Fabric | Field |
 | Primary lands on | water | built-up land and buildings | land |
 | Optional slots (default) | Paper (`light(ink)`) | Paper (`light(fabric)`), Water (`waterFor(fabric)`), Green (`paper`) | Deep (`dark(field)`), Ink (`dark(field)`), Spark (`complement(field)`) |
-| Roads | Ink; medium major, hairline minor, no casings | Paper; Liberty widths, hairline casing on major | Tonal tints of the field, no casings |
-| Detail | all off | buildings and built-up land, locked on | all off |
+| Roads | Ink; medium major, hairline minor, no casings | Paper; Liberty widths, hairline casing on major | Tints of the field (65% and 45% towards near-white), no casings; motorways and trunk roads in Spark |
+| Detail | all off | buildings and built-up land, locked on | tonal buildings on (switchable) |
 
 ## Preset format
 
@@ -64,9 +64,11 @@ Each check names its subject (a token, or `waterLabel`), the grounds it is measu
 | `{ "slot": s }` | Move slot s in lightness by the smallest amount that passes. Every token is recomputed. |
 | `{ "token": t }` | Move token t in lightness. `waterLabel` means the label token picked for water labels. |
 | `{ "fallback": t }` | Use token t's colour for the subject. |
-| `{ "pick": [t, ...] }` | Water labels only: the first token that passes, else the best one. |
+| `{ "pick": [e, ...] }` | Water labels only: the first entry that passes, else the best. An entry is a token, or `text/halo`: that label colour on that halo token, drawn with a 2.5 px unblurred halo. |
 
 Slot and token strategies take an optional `direction`: `darker`, `lighter`, or `{ "sideOf": token }` (the side of the ground that token is on, so minor roads follow major roads).
+
+**A label sits on its halo.** This is general: every label check (primary, secondary, water) is also measured against the halo, whether or not the preset lists it. A water label that uses a paper halo is measured against that halo, not the water.
 
 Rules:
 
@@ -79,8 +81,9 @@ Rules:
 
 | Preset | Check | Minimum | Ground |
 | --- | --- | --- | --- |
-| Single Ink | Water labels (Paper) | 4.5 | water |
-| | Major roads | 3 | land |
+| Single Ink | Water apart from paper | 0.12 OKLab | land |
+| | Water labels: Paper on water, else dark on a paper halo, else darken the ink | 4.5 | water or halo |
+| | Major roads, highways | 3 | land |
 | | Minor roads | 1.5 | land |
 | | Labels, primary and secondary | 4.5 | land, park |
 | | Accent | 3 | land |
@@ -91,7 +94,8 @@ Rules:
 | | Water labels | 4.5 | water |
 | | Accent | 3 | land |
 | Colour Field | Field apart from deep | 0.12 OKLab | water |
-| | Major roads, minor roads | 1.5, 1.2 | land |
+| | Major roads, minor roads | 2, 1.5 | land |
+| | Spark highways apart from the field | 0.12 OKLab | land |
 | | Labels, primary and secondary | 4.5 | land, park |
 | | Water labels | 4.5 | water |
 | | Spark | 3 | land |
@@ -113,9 +117,9 @@ The two new tokens recede like the others: `urbanLanduse` as a surface (lighter 
 
 ## Compiler extensions
 
-- **Tokens:** schema 0.3.0 adds `urbanLanduse` and `roadMajorCasing`. The brand-colour engine derives both the way those layers were drawn before, so its output is unchanged.
+- **Tokens:** schema 0.4.0 has 14 tokens. 0.3.0 added `urbanLanduse` and `roadMajorCasing`; 0.4.0 adds `roadHighway` (motorway and trunk lines; Liberty splits trunk out of its trunk/primary layers). The brand-colour engine derives all three the way those layers were drawn before, so its output is unchanged. In Single Ink and Figure-Ground `roadHighway` is the major-road colour; in Colour Field it is Spark.
 - **Additions:** a mapping can add layers. Liberty adds `b2b_urban_landuse` (landuse classes residential, commercial, industrial and retail) after `landuse_residential`, in the new `urbanLanduse` group.
-- **Roles:** rules carry a `role`, written to `b2b:role` metadata, and treatments act on roles: `roadMajor`, `roadMajorCasing`, `roadMinor`, `roadMinorCasing`, `boundary`, `waterLabel`, `poi`, `urbanLanduse`, `roadArea`, `oneWay`, `placeLabel`.
+- **Roles:** rules carry a `role`, written to `b2b:role` metadata, and treatments act on roles: `roadMajor`, `roadHighway`, `roadMajorCasing`, `roadMinor`, `roadMinorCasing`, `boundary`, `waterLabel`, `poi`, `urbanLanduse`, `roadArea`, `oneWay`, `placeLabel`.
 - **Hairline casing:** a casing is its road's final width ramp plus `casingHairlinePx`, found by the mapping's `casingSuffix`.
 
 ## Tunables
@@ -125,6 +129,10 @@ In [config.ts](../src/presets/config.ts): the function constants, the `hairline`
 ## Known limits
 
 - **Liberty only.** Streets v2 has no roles or additions yet.
+- **Single Ink is sparse at z12.** Minor roads below z14 are off by default, so the dense hairline street look of the reference only appears from z14.
+- **Colour Field is flatter than its reference.** Frame 3 gets its depth from tonal farmland and landcover patches, which the preset does not draw.
+- **Tonal buildings can read muddy** when Deep and Field are far apart (terracotta with a navy Deep).
+- **Thumbnails are static.** `scripts/make-thumbs.mjs` crops them from the M3 captures (macOS); rerun it when a preset's look changes.
 - **Auto-fix can move a key colour a long way.** A mid-tone or dark primary in Colour Field, or a pastel fabric, is moved to reach label contrast. The UI shows the used colour, but the map may stop feeling on brand. See the report for the worst cases.
 - **Figure-Ground labels on dark fabric rely on the Paper halo.** They are checked against paper and the halo, not against the fabric, so the preset draws a 2.5 px unblurred halo.
 - **In data mode, Figure-Ground's two carriers converge** for pastel and neon palettes: both lose chroma, so the separation check fails at recede 30-100 for 1-3 of 11 palettes.

@@ -361,3 +361,67 @@ body {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+.panel-subheading {
+  margin: var(--ui-space-2) 0 0;
+  font-size: var(--ui-font-size-sm);
+  font-weight: var(--ui-font-weight-semibold);
+}
+
+/* Preset cards: a static thumbnail from the preset's sample palette (Zurich, z12), no live rendering. */
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ui-space-2);
+}
+
+.preset-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-1);
+  text-align: center;
+  font-size: var(--ui-font-size-sm);
+  border: var(--ui-border-width-default) solid var(--ui-color-border-subtle);
+  border-radius: var(--ui-radius-sm);
+  overflow: hidden;
+}
+
+.preset-card input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.preset-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.preset-card:has(input:checked) {
+  border-color: var(--ui-color-accent-default);
+  background: var(--ui-color-accent-default);
+  color: var(--ui-color-text-on-accent);
+}
+
+.preset-card:has(input:focus-visible) {
+  outline: var(--ui-border-width-focus) solid var(--ui-color-focus-ring);
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  padding: var(--ui-space-2);
+  background: var(--ui-color-surface-sunken);
+  border-radius: var(--ui-radius-sm);
+  font-size: var(--ui-font-size-sm);
+}
+
+.token-name .hint {
+  display: block;
+}

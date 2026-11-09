@@ -2,6 +2,8 @@
 
 Captured with `npx tsx scripts/capture-m3.ts <server>/harness/presets.html` on real OpenFreeMap tiles, Liberty, at each preset's default detail. Raw captures are gitignored; [checks.json](checks.json) holds the slots used, checks and auto-fix notices for every Zurich z12 shot.
 
+**A3 tweaks and references:** [Single Ink labels, before and after](tweak-single-ink-labels.png), [Colour Field roads, Spark and buildings, before and after](tweak-colour-field-roads-spark-buildings.png). Side-by-side with the Figma reference frames (local only, not committed): `reference-single-ink.png`, `reference-figure-ground.png`, `reference-colour-field.png`. The app in headless Chrome: [app/](app/).
+
 **Start here (about 15 minutes):**
 
 1. [Same palette, three presets](variability-one-palette.png) and [same preset, five palettes](variability-one-preset.png)

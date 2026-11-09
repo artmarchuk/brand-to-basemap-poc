@@ -56,7 +56,7 @@ export function validatePreset(raw: unknown): PresetDefinition {
   }
   if (!isToken(treatment.waterLabel?.text) || !isToken(treatment.waterLabel?.halo)) fail('water label text and halo must be tokens');
   if (!isToken(treatment.accentOutline)) fail('accent outline must be a token');
-  const ROLES = ['roadMajor', 'roadMajorCasing', 'roadMinor', 'roadMinorCasing', 'boundary', 'waterLabel', 'poi', 'urbanLanduse', 'roadArea', 'oneWay', 'placeLabel'];
+  const ROLES = ['roadMajor', 'roadMajorCasing', 'roadHighway', 'roadMinor', 'roadMinorCasing', 'boundary', 'waterLabel', 'poi', 'urbanLanduse', 'roadArea', 'oneWay', 'placeLabel'];
   if (treatment.labelHaloWidth !== undefined && !(treatment.labelHaloWidth >= 0)) fail('label halo width must be a number of pixels');
   for (const role of treatment.hide ?? []) if (!ROLES.includes(role)) fail(`cannot hide unknown role "${role}"`);
 
@@ -77,7 +77,7 @@ export function validatePreset(raw: unknown): PresetDefinition {
       if ('slot' in strategy && !known.includes(strategy.slot)) fail(`check "${check.id}" fixes an unknown slot`);
       if ('token' in strategy && !isToken(strategy.token) && !(strategy.token === 'waterLabel' && check.subject === 'waterLabel')) fail(`check "${check.id}" fixes an unknown token`);
       if ('fallback' in strategy && !isToken(strategy.fallback)) fail(`check "${check.id}" falls back to an unknown token`);
-      if ('pick' in strategy && (check.subject !== 'waterLabel' || !strategy.pick.every(isToken))) fail(`check "${check.id}": pick needs the waterLabel subject and tokens`);
+      if ('pick' in strategy && (check.subject !== 'waterLabel' || !strategy.pick.every((entry) => entry.split('/').every(isToken)))) fail(`check "${check.id}": pick needs the waterLabel subject and tokens`);
     }
   }
   for (const [slot, hex] of Object.entries(preset.sample ?? {})) {

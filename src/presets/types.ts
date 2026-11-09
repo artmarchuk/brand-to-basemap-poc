@@ -52,8 +52,11 @@ export type FixStrategy =
   | { token: TokenName | 'waterLabel'; direction?: FixDirection }
   /** Use another token's colour for the subject. */
   | { fallback: TokenName }
-  /** Only for the `waterLabel` subject: the first of these tokens that passes, else the best. */
-  | { pick: TokenName[] };
+  /**
+   * Only for the `waterLabel` subject: the first entry that passes, else the best. An entry is a token, or
+   * `text/halo`: a label colour on a halo token, which then becomes what the label sits on.
+   */
+  | { pick: string[] };
 
 export interface CheckDefinition {
   id: string;
