@@ -1,0 +1,17 @@
+{
+  "_comment": "Test inputs for presets: each palette's colours assigned to slots by role, as the P1 logo remap would (spec 7.9). Sample palettes are in each preset file.",
+  "terracotta": {
+    "name": "Terracotta Co.",
+    "colors": ["#C65D3B", "#E9D8C4", "#5B6B4F", "#2E3A59"],
+    "single-ink": { "ink": "#C65D3B", "paper": "#E9D8C4" },
+    "figure-ground": { "fabric": "#C65D3B", "paper": "#E9D8C4", "water": "#2E3A59", "green": "#5B6B4F" },
+    "colour-field": { "field": "#C65D3B", "deep": "#2E3A59", "ink": "#2E3A59", "spark": "#E9D8C4" }
+  },
+  "cyan-magenta": {
+    "name": "Neon Arcade",
+    "colors": ["#00F0FF", "#FF2BD6"],
+    "single-ink": { "ink": "#00F0FF" },
+    "figure-ground": { "fabric": "#00F0FF", "water": "#FF2BD6" },
+    "colour-field": { "field": "#00F0FF", "deep": "#FF2BD6" }
+  }
+}

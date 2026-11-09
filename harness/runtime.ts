@@ -57,3 +57,15 @@ export function benchmark(base: StyleSpecification, styleId: string, view: Palet
   times.sort((a, b) => a - b);
   return { median: times[Math.floor(times.length / 2)], p95: times[Math.floor(times.length * 0.95)], runs };
 }
+
+// Presets (M3): the whole path from preset state to a finished style, as the app runs it.
+import { presetDetails, resolvePreset, type PresetState } from '../src/presets';
+import type { DetailGroup } from '../src/presets/types';
+
+export function buildPresetStyle(base: StyleSpecification, state: PresetState, choices: Partial<Record<DetailGroup, boolean>> = {}) {
+  const resolved = resolvePreset(state);
+  const details = presetDetails(resolved.preset, choices);
+  const { groups, labelDensity } = applyVisibility(details.groups, details.labelDensity, resolved.visibility);
+  const style = applyTokens(base, resolved.tokens, { mapping: MAPPINGS.liberty, groups, labelDensity, treatment: resolved.treatment });
+  return { style, resolved };
+}
