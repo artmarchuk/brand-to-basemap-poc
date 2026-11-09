@@ -425,3 +425,21 @@ body {
 .token-name .hint {
   display: block;
 }
+
+.tag {
+  padding: 0 var(--ui-space-1);
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-color-surface-sunken);
+  color: var(--ui-color-text-secondary);
+  font-size: var(--ui-font-size-sm);
+}
+
+.refine summary {
+  cursor: pointer;
+  font-size: var(--ui-font-size-sm);
+  font-weight: var(--ui-font-weight-semibold);
+}
+
+.refine[open] summary {
+  margin-bottom: var(--ui-space-2);
+}

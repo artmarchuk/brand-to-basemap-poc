@@ -9490,36 +9490,36 @@
      },
      {
       "token": "park",
-      "value": 5.524
+      "value": 5.076
      },
      {
       "token": "halo",
       "value": 5.821
      }
     ],
-    "value": 5.524,
+    "value": 5.076,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#602586",
+    "subject": "#5a1f80",
     "against": [
      {
       "token": "land",
-      "value": 4.803
+      "value": 5.208
      },
      {
       "token": "park",
-      "value": 4.558
+      "value": 4.542
      },
      {
       "token": "halo",
-      "value": 4.803
+      "value": 5.208
      }
     ],
-    "value": 4.558,
+    "value": 4.542,
     "min": 4.5,
     "pass": true
    },
@@ -9620,36 +9620,36 @@
      },
      {
       "token": "park",
-      "value": 5.524
+      "value": 5.076
      },
      {
       "token": "halo",
       "value": 5.821
      }
     ],
-    "value": 5.524,
+    "value": 5.076,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#602586",
+    "subject": "#5a1f80",
     "against": [
      {
       "token": "land",
-      "value": 4.803
+      "value": 5.208
      },
      {
       "token": "park",
-      "value": 4.558
+      "value": 4.542
      },
      {
       "token": "halo",
-      "value": 4.803
+      "value": 5.208
      }
     ],
-    "value": 4.558,
+    "value": 4.542,
     "min": 4.5,
     "pass": true
    },
@@ -9702,7 +9702,7 @@
     "kind": "token",
     "target": "labelSecondary",
     "from": "#713899",
-    "to": "#602586"
+    "to": "#5a1f80"
    },
    {
     "check": "Water labels on deep",
@@ -9722,13 +9722,13 @@
   "tokens": {
    "land": "#f59aae",
    "water": "#ea4a3c",
-   "park": "#f593a5",
+   "park": "#f48898",
    "roadMajor": "#fffafb",
    "roadMinor": "#ffd1da",
    "building": "#f48b9c",
    "boundary": "#bd68a4",
    "labelPrimary": "#3f1a8c",
-   "labelSecondary": "#602586",
+   "labelSecondary": "#5a1f80",
    "halo": "#f59aae",
    "accent": "#3f1a8c",
    "urbanLanduse": "#f48b9c",
@@ -9741,7 +9741,7 @@
    {
     "id": "field",
     "input": "#c65d3b",
-    "used": "#c65d3b",
+    "used": "#bd5533",
     "source": "user"
    },
    {
@@ -9767,42 +9767,42 @@
    {
     "id": "Field apart from deep",
     "kind": "distance",
-    "subject": "#c65d3b",
+    "subject": "#bd5533",
     "against": [
      {
       "token": "water",
-      "value": 0.307
+      "value": 0.286
      }
     ],
-    "value": 0.307,
+    "value": 0.286,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#eebfb0",
+    "subject": "#eabcad",
     "against": [
      {
       "token": "land",
-      "value": 2.528
+      "value": 2.726
      }
     ],
-    "value": 2.528,
+    "value": 2.726,
     "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#e3a18c",
+    "subject": "#de9d88",
     "against": [
      {
       "token": "land",
-      "value": 1.937
+      "value": 2.058
      }
     ],
-    "value": 1.937,
+    "value": 2.058,
     "min": 1.5,
     "pass": true
    },
@@ -9813,82 +9813,82 @@
     "against": [
      {
       "token": "land",
-      "value": 0.312
+      "value": 0.337
      }
     ],
-    "value": 0.312,
+    "value": 0.337,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#000013",
+    "subject": "#fcfdff",
     "against": [
      {
       "token": "land",
-      "value": 4.983
+      "value": 4.574
      },
      {
       "token": "park",
-      "value": 4.508
+      "value": 5.733
      },
      {
       "token": "halo",
-      "value": 4.983
+      "value": 4.574
      }
     ],
-    "value": 4.508,
+    "value": 4.574,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#03000c",
+    "subject": "#fdfcff",
     "against": [
      {
       "token": "land",
-      "value": 4.984
+      "value": 4.554
      },
      {
       "token": "park",
-      "value": 4.509
+      "value": 5.708
      },
      {
       "token": "halo",
-      "value": 4.984
+      "value": 4.554
      }
     ],
-    "value": 4.509,
+    "value": 4.554,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#000013",
+    "subject": "#fcfdff",
     "against": [
      {
-      "token": "halo",
-      "value": 4.983
+      "token": "water",
+      "value": 10.893
      }
     ],
-    "value": 4.983,
+    "value": 10.893,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#000013",
+    "subject": "#e9d8c4",
     "against": [
      {
       "token": "land",
-      "value": 4.983
+      "value": 3.344
      }
     ],
-    "value": 4.983,
+    "value": 3.344,
     "min": 3,
     "pass": true
    }
@@ -9897,42 +9897,42 @@
    {
     "id": "Field apart from deep",
     "kind": "distance",
-    "subject": "#c65d3b",
+    "subject": "#bd5533",
     "against": [
      {
       "token": "water",
-      "value": 0.307
+      "value": 0.286
      }
     ],
-    "value": 0.307,
+    "value": 0.286,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#eebfb0",
+    "subject": "#eabcad",
     "against": [
      {
       "token": "land",
-      "value": 2.528
+      "value": 2.726
      }
     ],
-    "value": 2.528,
+    "value": 2.726,
     "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#e3a18c",
+    "subject": "#de9d88",
     "against": [
      {
       "token": "land",
-      "value": 1.937
+      "value": 2.058
      }
     ],
-    "value": 1.937,
+    "value": 2.058,
     "min": 1.5,
     "pass": true
    },
@@ -9943,87 +9943,101 @@
     "against": [
      {
       "token": "land",
-      "value": 0.312
+      "value": 0.337
      }
     ],
-    "value": 0.312,
+    "value": 0.337,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#000013",
+    "subject": "#fcfdff",
     "against": [
      {
       "token": "land",
-      "value": 4.983
+      "value": 4.574
      },
      {
       "token": "park",
-      "value": 4.508
+      "value": 5.733
      },
      {
       "token": "halo",
-      "value": 4.983
+      "value": 4.574
      }
     ],
-    "value": 4.508,
+    "value": 4.574,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#03000c",
+    "subject": "#fdfcff",
     "against": [
      {
       "token": "land",
-      "value": 4.984
+      "value": 4.554
      },
      {
       "token": "park",
-      "value": 4.509
+      "value": 5.708
      },
      {
       "token": "halo",
-      "value": 4.984
+      "value": 4.554
      }
     ],
-    "value": 4.509,
+    "value": 4.554,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#000013",
+    "subject": "#fcfdff",
     "against": [
      {
-      "token": "halo",
-      "value": 4.983
+      "token": "water",
+      "value": 10.893
      }
     ],
-    "value": 4.983,
+    "value": 10.893,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#000013",
+    "subject": "#e9d8c4",
     "against": [
      {
       "token": "land",
-      "value": 4.983
+      "value": 3.344
      }
     ],
-    "value": 4.983,
+    "value": 3.344,
     "min": 3,
     "pass": true
    }
   ],
   "notices": [
+   {
+    "check": "Primary labels on the field",
+    "kind": "slot",
+    "target": "field",
+    "from": "#c65d3b",
+    "to": "#bf5735"
+   },
+   {
+    "check": "Secondary labels on the field",
+    "kind": "slot",
+    "target": "field",
+    "from": "#bf5735",
+    "to": "#bd5533"
+   },
    {
     "check": "Water labels on deep",
     "kind": "slot",
@@ -10036,44 +10050,37 @@
     "kind": "token",
     "target": "labelPrimary",
     "from": "#2e3a59",
-    "to": "#000013"
+    "to": "#fcfdff"
    },
    {
     "check": "Secondary labels on the field",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#524170",
-    "to": "#03000c"
+    "from": "#513f6e",
+    "to": "#fdfcff"
    },
    {
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
     "from": "land on water",
-    "to": "labelPrimary on halo"
-   },
-   {
-    "check": "Spark on the field",
-    "kind": "fallback",
-    "target": "accent",
-    "from": "#e9d8c4",
-    "to": "#000013"
+    "to": "labelPrimary on water"
    }
   ],
   "tokens": {
-   "land": "#c65d3b",
+   "land": "#bd5533",
    "water": "#2f3b5a",
-   "park": "#bc554f",
-   "roadMajor": "#eebfb0",
-   "roadMinor": "#e3a18c",
-   "building": "#af4f5e",
-   "boundary": "#97496d",
-   "labelPrimary": "#000013",
-   "labelSecondary": "#03000c",
-   "halo": "#c65d3b",
-   "accent": "#000013",
-   "urbanLanduse": "#af4f5e",
-   "roadMajorCasing": "#c65d3b",
+   "park": "#a2475e",
+   "roadMajor": "#eabcad",
+   "roadMinor": "#de9d88",
+   "building": "#a84958",
+   "boundary": "#914468",
+   "labelPrimary": "#fcfdff",
+   "labelSecondary": "#fdfcff",
+   "halo": "#bd5533",
+   "accent": "#e9d8c4",
+   "urbanLanduse": "#a84958",
+   "roadMajorCasing": "#bd5533",
    "roadHighway": "#e9d8c4"
   }
  },
@@ -10172,36 +10179,36 @@
      },
      {
       "token": "park",
-      "value": 8.801
+      "value": 7.979
      },
      {
       "token": "halo",
       "value": 9.506
      }
     ],
-    "value": 8.801,
+    "value": 7.979,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#005f65",
+    "subject": "#005d63",
     "against": [
      {
       "token": "land",
-      "value": 5.278
+      "value": 5.429
      },
      {
       "token": "park",
-      "value": 4.886
+      "value": 4.557
      },
      {
       "token": "halo",
-      "value": 5.278
+      "value": 5.429
      }
     ],
-    "value": 4.886,
+    "value": 4.557,
     "min": 4.5,
     "pass": true
    },
@@ -10302,36 +10309,36 @@
      },
      {
       "token": "park",
-      "value": 8.801
+      "value": 7.979
      },
      {
       "token": "halo",
       "value": 9.506
      }
     ],
-    "value": 8.801,
+    "value": 7.979,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#005f65",
+    "subject": "#005d63",
     "against": [
      {
       "token": "land",
-      "value": 5.278
+      "value": 5.429
      },
      {
       "token": "park",
-      "value": 4.886
+      "value": 4.557
      },
      {
       "token": "halo",
-      "value": 5.278
+      "value": 5.429
      }
     ],
-    "value": 4.886,
+    "value": 4.557,
     "min": 4.5,
     "pass": true
    },
@@ -10380,6 +10387,13 @@
     "to": "#65c0c8"
    },
    {
+    "check": "Secondary labels on the field",
+    "kind": "token",
+    "target": "labelSecondary",
+    "from": "#005f65",
+    "to": "#005d63"
+   },
+   {
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
@@ -10390,13 +10404,13 @@
   "tokens": {
    "land": "#00f0ff",
    "water": "#ff2bd6",
-   "park": "#68e1ff",
+   "park": "#82d1ff",
    "roadMajor": "#69a2a7",
    "roadMinor": "#65c0c8",
    "building": "#7dd6ff",
    "boundary": "#00a9b4",
    "labelPrimary": "#003539",
-   "labelSecondary": "#005f65",
+   "labelSecondary": "#005d63",
    "halo": "#00f0ff",
    "accent": "#a36d6a",
    "urbanLanduse": "#7dd6ff",
@@ -10491,58 +10505,58 @@
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#7dabd0",
+    "subject": "#83b1d7",
     "against": [
      {
       "token": "land",
-      "value": 4.733
+      "value": 5.078
      },
      {
       "token": "park",
-      "value": 4.526
+      "value": 4.509
      },
      {
       "token": "halo",
-      "value": 4.733
+      "value": 5.078
      }
     ],
-    "value": 4.526,
+    "value": 4.509,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#7dabd0",
+    "subject": "#83b2d7",
     "against": [
      {
       "token": "land",
-      "value": 4.733
+      "value": 5.122
      },
      {
       "token": "park",
-      "value": 4.526
+      "value": 4.547
      },
      {
       "token": "halo",
-      "value": 4.733
+      "value": 5.122
      }
     ],
-    "value": 4.526,
+    "value": 4.547,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#7dabd0",
+    "subject": "#83b1d7",
     "against": [
      {
       "token": "halo",
-      "value": 4.733
+      "value": 5.078
      }
     ],
-    "value": 4.733,
+    "value": 5.078,
     "min": 4.5,
     "pass": true
    },
@@ -10621,58 +10635,58 @@
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#7dabd0",
+    "subject": "#83b1d7",
     "against": [
      {
       "token": "land",
-      "value": 4.733
+      "value": 5.078
      },
      {
       "token": "park",
-      "value": 4.526
+      "value": 4.509
      },
      {
       "token": "halo",
-      "value": 4.733
+      "value": 5.078
      }
     ],
-    "value": 4.526,
+    "value": 4.509,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#7dabd0",
+    "subject": "#83b2d7",
     "against": [
      {
       "token": "land",
-      "value": 4.733
+      "value": 5.122
      },
      {
       "token": "park",
-      "value": 4.526
+      "value": 4.547
      },
      {
       "token": "halo",
-      "value": 4.733
+      "value": 5.122
      }
     ],
-    "value": 4.526,
+    "value": 4.547,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#7dabd0",
+    "subject": "#83b1d7",
     "against": [
      {
       "token": "halo",
-      "value": 4.733
+      "value": 5.078
      }
     ],
-    "value": 4.733,
+    "value": 5.078,
     "min": 4.5,
     "pass": true
    },
@@ -10711,14 +10725,14 @@
     "kind": "token",
     "target": "labelPrimary",
     "from": "#003150",
-    "to": "#7dabd0"
+    "to": "#83b1d7"
    },
    {
     "check": "Secondary labels on the field",
     "kind": "token",
     "target": "labelSecondary",
     "from": "#023453",
-    "to": "#7dabd0"
+    "to": "#83b2d7"
    },
    {
     "check": "Water labels on deep",
@@ -10731,13 +10745,13 @@
   "tokens": {
    "land": "#0b3c5d",
    "water": "#3d5c75",
-   "park": "#123f5f",
+   "park": "#194463",
    "roadMajor": "#9cb1c3",
    "roadMinor": "#708ba3",
    "building": "#174262",
    "boundary": "#073858",
-   "labelPrimary": "#7dabd0",
-   "labelSecondary": "#7dabd0",
+   "labelPrimary": "#83b1d7",
+   "labelSecondary": "#83b2d7",
    "halo": "#0b3c5d",
    "accent": "#a47b53",
    "urbanLanduse": "#174262",
@@ -10840,7 +10854,7 @@
      },
      {
       "token": "park",
-      "value": 4.963
+      "value": 5.621
      },
      {
       "token": "halo",
@@ -10862,7 +10876,7 @@
      },
      {
       "token": "park",
-      "value": 4.98
+      "value": 5.64
      },
      {
       "token": "halo",
@@ -10970,7 +10984,7 @@
      },
      {
       "token": "park",
-      "value": 4.963
+      "value": 5.621
      },
      {
       "token": "halo",
@@ -10992,7 +11006,7 @@
      },
      {
       "token": "park",
-      "value": 4.98
+      "value": 5.64
      },
      {
       "token": "halo",
@@ -11065,7 +11079,7 @@
   "tokens": {
    "land": "#1f7a4d",
    "water": "#01391f",
-   "park": "#1c7348",
+   "park": "#176a41",
    "roadMajor": "#aacbb5",
    "roadMinor": "#82b294",
    "building": "#186c43",
@@ -11084,7 +11098,7 @@
    {
     "id": "field",
     "input": "#e8442e",
-    "used": "#e8442e",
+    "used": "#db3721",
     "source": "user"
    },
    {
@@ -11102,7 +11116,7 @@
    {
     "id": "spark",
     "input": "#94eeff",
-    "used": "#94eeff",
+    "used": "#76e1f5",
     "source": "default"
    }
   ],
@@ -11110,128 +11124,128 @@
    {
     "id": "Field apart from deep",
     "kind": "distance",
-    "subject": "#e8442e",
+    "subject": "#db3721",
     "against": [
      {
       "token": "water",
-      "value": 0.328
+      "value": 0.294
      }
     ],
-    "value": 0.328,
+    "value": 0.294,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#fdbaae",
+    "subject": "#f8b7aa",
     "against": [
      {
       "token": "land",
-      "value": 2.418
+      "value": 2.695
      }
     ],
-    "value": 2.418,
+    "value": 2.695,
     "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#f99a88",
+    "subject": "#f29483",
     "against": [
      {
       "token": "land",
-      "value": 1.889
+      "value": 2.039
      }
     ],
-    "value": 1.889,
+    "value": 2.039,
     "min": 1.5,
     "pass": true
    },
    {
     "id": "Spark highways stand out",
     "kind": "distance",
-    "subject": "#94eeff",
+    "subject": "#76e1f5",
     "against": [
      {
       "token": "land",
-      "value": 0.403
+      "value": 0.405
      }
     ],
-    "value": 0.403,
+    "value": 0.405,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#170000",
+    "subject": "#fffdfd",
     "against": [
      {
       "token": "land",
-      "value": 5.111
+      "value": 4.524
      },
      {
       "token": "park",
-      "value": 4.507
+      "value": 5.968
      },
      {
       "token": "halo",
-      "value": 5.111
+      "value": 4.524
      }
     ],
-    "value": 4.507,
+    "value": 4.524,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#170000",
+    "subject": "#fffefe",
     "against": [
      {
       "token": "land",
-      "value": 5.111
+      "value": 4.554
      },
      {
       "token": "park",
-      "value": 4.507
+      "value": 6.009
      },
      {
       "token": "halo",
-      "value": 5.111
+      "value": 4.554
      }
     ],
-    "value": 4.507,
+    "value": 4.554,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#170000",
+    "subject": "#fffdfd",
     "against": [
      {
-      "token": "halo",
-      "value": 5.111
+      "token": "water",
+      "value": 13.808
      }
     ],
-    "value": 5.111,
+    "value": 13.808,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#94eeff",
+    "subject": "#76e1f5",
     "against": [
      {
       "token": "land",
-      "value": 3.008
+      "value": 3.026
      }
     ],
-    "value": 3.008,
+    "value": 3.026,
     "min": 3,
     "pass": true
    }
@@ -11240,133 +11254,140 @@
    {
     "id": "Field apart from deep",
     "kind": "distance",
-    "subject": "#e8442e",
+    "subject": "#db3721",
     "against": [
      {
       "token": "water",
-      "value": 0.328
+      "value": 0.294
      }
     ],
-    "value": 0.328,
+    "value": 0.294,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#fdbaae",
+    "subject": "#f8b7aa",
     "against": [
      {
       "token": "land",
-      "value": 2.418
+      "value": 2.695
      }
     ],
-    "value": 2.418,
+    "value": 2.695,
     "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#f99a88",
+    "subject": "#f29483",
     "against": [
      {
       "token": "land",
-      "value": 1.889
+      "value": 2.039
      }
     ],
-    "value": 1.889,
+    "value": 2.039,
     "min": 1.5,
     "pass": true
    },
    {
     "id": "Spark highways stand out",
     "kind": "distance",
-    "subject": "#94eeff",
+    "subject": "#76e1f5",
     "against": [
      {
       "token": "land",
-      "value": 0.403
+      "value": 0.405
      }
     ],
-    "value": 0.403,
+    "value": 0.405,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#170000",
+    "subject": "#fffdfd",
     "against": [
      {
       "token": "land",
-      "value": 5.111
+      "value": 4.524
      },
      {
       "token": "park",
-      "value": 4.507
+      "value": 5.968
      },
      {
       "token": "halo",
-      "value": 5.111
+      "value": 4.524
      }
     ],
-    "value": 4.507,
+    "value": 4.524,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#170000",
+    "subject": "#fffefe",
     "against": [
      {
       "token": "land",
-      "value": 5.111
+      "value": 4.554
      },
      {
       "token": "park",
-      "value": 4.507
+      "value": 6.009
      },
      {
       "token": "halo",
-      "value": 5.111
+      "value": 4.554
      }
     ],
-    "value": 4.507,
+    "value": 4.554,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#170000",
+    "subject": "#fffdfd",
     "against": [
      {
-      "token": "halo",
-      "value": 5.111
+      "token": "water",
+      "value": 13.808
      }
     ],
-    "value": 5.111,
+    "value": 13.808,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#94eeff",
+    "subject": "#76e1f5",
     "against": [
      {
       "token": "land",
-      "value": 3.008
+      "value": 3.026
      }
     ],
-    "value": 3.008,
+    "value": 3.026,
     "min": 3,
     "pass": true
    }
   ],
   "notices": [
+   {
+    "check": "Primary labels on the field",
+    "kind": "slot",
+    "target": "field",
+    "from": "#e8442e",
+    "to": "#db3721"
+   },
    {
     "check": "Water labels on deep",
     "kind": "slot",
@@ -11379,38 +11400,38 @@
     "kind": "token",
     "target": "labelPrimary",
     "from": "#5b0600",
-    "to": "#170000"
+    "to": "#fffdfd"
    },
    {
     "check": "Secondary labels on the field",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#7c1508",
-    "to": "#170000"
+    "from": "#791205",
+    "to": "#fffefe"
    },
    {
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
     "from": "land on water",
-    "to": "labelPrimary on halo"
+    "to": "labelPrimary on water"
    }
   ],
   "tokens": {
-   "land": "#e8442e",
+   "land": "#db3721",
    "water": "#5d0801",
-   "park": "#d93e29",
-   "roadMajor": "#fdbaae",
-   "roadMinor": "#f99a88",
-   "building": "#ca3824",
-   "boundary": "#b42e1c",
-   "labelPrimary": "#170000",
-   "labelSecondary": "#170000",
-   "halo": "#e8442e",
-   "accent": "#94eeff",
-   "urbanLanduse": "#ca3824",
-   "roadMajorCasing": "#e8442e",
-   "roadHighway": "#94eeff"
+   "park": "#bb2b18",
+   "roadMajor": "#f8b7aa",
+   "roadMinor": "#f29483",
+   "building": "#c02d1a",
+   "boundary": "#ac2513",
+   "labelPrimary": "#fffdfd",
+   "labelSecondary": "#fffefe",
+   "halo": "#db3721",
+   "accent": "#76e1f5",
+   "urbanLanduse": "#c02d1a",
+   "roadMajorCasing": "#db3721",
+   "roadHighway": "#76e1f5"
   }
  },
  "colour-field-fixture4-zurich-z12": {
@@ -11508,36 +11529,36 @@
      },
      {
       "token": "park",
-      "value": 6.375
+      "value": 4.908
      },
      {
       "token": "halo",
       "value": 7.58
      }
     ],
-    "value": 6.375,
+    "value": 4.908,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#574000",
+    "subject": "#423000",
     "against": [
      {
       "token": "land",
-      "value": 5.45
+      "value": 7.045
      },
      {
       "token": "park",
-      "value": 4.584
+      "value": 4.562
      },
      {
       "token": "halo",
-      "value": 5.45
+      "value": 7.045
      }
     ],
-    "value": 4.584,
+    "value": 4.562,
     "min": 4.5,
     "pass": true
    },
@@ -11638,36 +11659,36 @@
      },
      {
       "token": "park",
-      "value": 6.375
+      "value": 4.908
      },
      {
       "token": "halo",
       "value": 7.58
      }
     ],
-    "value": 6.375,
+    "value": 4.908,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#574000",
+    "subject": "#423000",
     "against": [
      {
       "token": "land",
-      "value": 5.45
+      "value": 7.045
      },
      {
       "token": "park",
-      "value": 4.584
+      "value": 4.562
      },
      {
       "token": "halo",
-      "value": 5.45
+      "value": 7.045
      }
     ],
-    "value": 4.584,
+    "value": 4.562,
     "min": 4.5,
     "pass": true
    },
@@ -11720,19 +11741,19 @@
     "kind": "token",
     "target": "labelSecondary",
     "from": "#664b00",
-    "to": "#574000"
+    "to": "#423000"
    }
   ],
   "tokens": {
    "land": "#f5b700",
    "water": "#3c2b00",
-   "park": "#e1a800",
+   "park": "#c59300",
    "roadMajor": "#9a8357",
    "roadMinor": "#ba9852",
    "building": "#cc9900",
    "boundary": "#af8200",
    "labelPrimary": "#3c2b00",
-   "labelSecondary": "#574000",
+   "labelSecondary": "#423000",
    "halo": "#f5b700",
    "accent": "#4f69a0",
    "urbanLanduse": "#cc9900",
@@ -11835,7 +11856,7 @@
      },
      {
       "token": "park",
-      "value": 4.963
+      "value": 5.576
      },
      {
       "token": "halo",
@@ -11857,7 +11878,7 @@
      },
      {
       "token": "park",
-      "value": 4.963
+      "value": 5.576
      },
      {
       "token": "halo",
@@ -11965,7 +11986,7 @@
      },
      {
       "token": "park",
-      "value": 4.963
+      "value": 5.576
      },
      {
       "token": "halo",
@@ -11987,7 +12008,7 @@
      },
      {
       "token": "park",
-      "value": 4.963
+      "value": 5.576
      },
      {
       "token": "halo",
@@ -12060,7 +12081,7 @@
   "tokens": {
    "land": "#6c3fc5",
    "water": "#380279",
-   "park": "#663abd",
+   "park": "#5f32b2",
    "roadMajor": "#c1b7ed",
    "roadMinor": "#a594e2",
    "building": "#6134b5",
@@ -12169,7 +12190,7 @@
      },
      {
       "token": "park",
-      "value": 4.712
+      "value": 4.924
      },
      {
       "token": "halo",
@@ -12191,7 +12212,7 @@
      },
      {
       "token": "park",
-      "value": 4.712
+      "value": 4.924
      },
      {
       "token": "halo",
@@ -12299,7 +12320,7 @@
      },
      {
       "token": "park",
-      "value": 4.712
+      "value": 4.924
      },
      {
       "token": "halo",
@@ -12321,7 +12342,7 @@
      },
      {
       "token": "park",
-      "value": 4.712
+      "value": 4.924
      },
      {
       "token": "halo",
@@ -12394,7 +12415,7 @@
   "tokens": {
    "land": "#222222",
    "water": "#070707",
-   "park": "#1f1f1f",
+   "park": "#1b1b1b",
    "roadMajor": "#a4a4a4",
    "roadMinor": "#797979",
    "building": "#1c1c1c",
@@ -12503,36 +12524,36 @@
      },
      {
       "token": "park",
-      "value": 7.849
+      "value": 5.939
      },
      {
       "token": "halo",
       "value": 9.506
      }
     ],
-    "value": 7.849,
+    "value": 5.939,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#005c62",
+    "subject": "#00484d",
     "against": [
      {
       "token": "land",
-      "value": 5.507
+      "value": 7.329
      },
      {
       "token": "park",
-      "value": 4.547
+      "value": 4.579
      },
      {
       "token": "halo",
-      "value": 5.507
+      "value": 7.329
      }
     ],
-    "value": 4.547,
+    "value": 4.579,
     "min": 4.5,
     "pass": true
    },
@@ -12633,36 +12654,36 @@
      },
      {
       "token": "park",
-      "value": 7.849
+      "value": 5.939
      },
      {
       "token": "halo",
       "value": 9.506
      }
     ],
-    "value": 7.849,
+    "value": 5.939,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#005c62",
+    "subject": "#00484d",
     "against": [
      {
       "token": "land",
-      "value": 5.507
+      "value": 7.329
      },
      {
       "token": "park",
-      "value": 4.547
+      "value": 4.579
      },
      {
       "token": "halo",
-      "value": 5.507
+      "value": 7.329
      }
     ],
-    "value": 4.547,
+    "value": 4.579,
     "min": 4.5,
     "pass": true
    },
@@ -12715,19 +12736,19 @@
     "kind": "token",
     "target": "labelSecondary",
     "from": "#005f65",
-    "to": "#005c62"
+    "to": "#00484d"
    }
   ],
   "tokens": {
    "land": "#00f0ff",
    "water": "#003539",
-   "park": "#00dbe9",
+   "park": "#00bfcb",
    "roadMajor": "#69a2a7",
    "roadMinor": "#65c0c8",
    "building": "#00c7d4",
    "boundary": "#00a9b4",
    "labelPrimary": "#003539",
-   "labelSecondary": "#005c62",
+   "labelSecondary": "#00484d",
    "halo": "#00f0ff",
    "accent": "#a36d6a",
    "urbanLanduse": "#00c7d4",
@@ -12830,36 +12851,36 @@
      },
      {
       "token": "park",
-      "value": 7.75
+      "value": 5.841
      },
      {
       "token": "halo",
       "value": 9.342
      }
     ],
-    "value": 7.75,
+    "value": 5.841,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#6b4253",
+    "subject": "#583142",
     "against": [
      {
       "token": "land",
-      "value": 5.549
+      "value": 7.261
      },
      {
       "token": "park",
-      "value": 4.603
+      "value": 4.54
      },
      {
       "token": "halo",
-      "value": 5.549
+      "value": 7.261
      }
     ],
-    "value": 4.603,
+    "value": 4.54,
     "min": 4.5,
     "pass": true
    },
@@ -12960,36 +12981,36 @@
      },
      {
       "token": "park",
-      "value": 7.75
+      "value": 5.841
      },
      {
       "token": "halo",
       "value": 9.342
      }
     ],
-    "value": 7.75,
+    "value": 5.841,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#6b4253",
+    "subject": "#583142",
     "against": [
      {
       "token": "land",
-      "value": 5.549
+      "value": 7.261
      },
      {
       "token": "park",
-      "value": 4.603
+      "value": 4.54
      },
      {
       "token": "halo",
-      "value": 5.549
+      "value": 7.261
      }
     ],
-    "value": 4.603,
+    "value": 4.54,
     "min": 4.5,
     "pass": true
    },
@@ -13042,19 +13063,19 @@
     "kind": "token",
     "target": "labelSecondary",
     "from": "#6e4556",
-    "to": "#6b4253"
+    "to": "#583142"
    }
   ],
   "tokens": {
    "land": "#f7c6d9",
    "water": "#452030",
-   "park": "#e4b4c6",
+   "park": "#c99bad",
    "roadMajor": "#a58f98",
    "roadMinor": "#c2a4af",
    "building": "#d1a2b4",
    "boundary": "#b58799",
    "labelPrimary": "#452030",
-   "labelSecondary": "#6b4253",
+   "labelSecondary": "#583142",
    "halo": "#f7c6d9",
    "accent": "#4d8071",
    "urbanLanduse": "#d1a2b4",
@@ -13067,7 +13088,7 @@
    {
     "id": "field",
     "input": "#c65d3b",
-    "used": "#c85f3d",
+    "used": "#bd5533",
     "source": "user"
    },
    {
@@ -13085,7 +13106,7 @@
    {
     "id": "spark",
     "input": "#003845",
-    "used": "#003a47",
+    "used": "#78dffc",
     "source": "default"
    }
   ],
@@ -13093,128 +13114,128 @@
    {
     "id": "Field apart from deep",
     "kind": "distance",
-    "subject": "#c85f3d",
+    "subject": "#bd5533",
     "against": [
      {
       "token": "water",
-      "value": 0.305
+      "value": 0.273
      }
     ],
-    "value": 0.305,
+    "value": 0.273,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#eec0b1",
+    "subject": "#eabcad",
     "against": [
      {
       "token": "land",
-      "value": 2.483
+      "value": 2.726
      }
     ],
-    "value": 2.483,
+    "value": 2.726,
     "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#e4a28d",
+    "subject": "#de9d88",
     "against": [
      {
       "token": "land",
-      "value": 1.909
+      "value": 2.058
      }
     ],
-    "value": 1.909,
+    "value": 2.058,
     "min": 1.5,
     "pass": true
    },
    {
     "id": "Spark highways stand out",
     "kind": "distance",
-    "subject": "#003a47",
+    "subject": "#78dffc",
     "against": [
      {
       "token": "land",
-      "value": 0.349
+      "value": 0.371
      }
     ],
-    "value": 0.349,
+    "value": 0.371,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#060000",
+    "subject": "#fffbf9",
     "against": [
      {
       "token": "land",
-      "value": 5.12
+      "value": 4.526
      },
      {
       "token": "park",
-      "value": 4.522
+      "value": 5.939
      },
      {
       "token": "halo",
-      "value": 5.12
+      "value": 4.526
      }
     ],
-    "value": 4.522,
+    "value": 4.526,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#060100",
+    "subject": "#fffcfb",
     "against": [
      {
       "token": "land",
-      "value": 5.099
+      "value": 4.56
      },
      {
       "token": "park",
-      "value": 4.502
+      "value": 5.983
      },
      {
       "token": "halo",
-      "value": 5.099
+      "value": 4.56
      }
     ],
-    "value": 4.502,
+    "value": 4.56,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#060000",
+    "subject": "#fffbf9",
     "against": [
      {
-      "token": "halo",
-      "value": 5.12
+      "token": "water",
+      "value": 13.514
      }
     ],
-    "value": 5.12,
+    "value": 13.514,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#003a47",
+    "subject": "#78dffc",
     "against": [
      {
       "token": "land",
-      "value": 3.042
+      "value": 3.05
      }
     ],
-    "value": 3.042,
+    "value": 3.05,
     "min": 3,
     "pass": true
    }
@@ -13223,128 +13244,128 @@
    {
     "id": "Field apart from deep",
     "kind": "distance",
-    "subject": "#c85f3d",
+    "subject": "#bd5533",
     "against": [
      {
       "token": "water",
-      "value": 0.305
+      "value": 0.273
      }
     ],
-    "value": 0.305,
+    "value": 0.273,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#eec0b1",
+    "subject": "#eabcad",
     "against": [
      {
       "token": "land",
-      "value": 2.483
+      "value": 2.726
      }
     ],
-    "value": 2.483,
+    "value": 2.726,
     "min": 2,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#e4a28d",
+    "subject": "#de9d88",
     "against": [
      {
       "token": "land",
-      "value": 1.909
+      "value": 2.058
      }
     ],
-    "value": 1.909,
+    "value": 2.058,
     "min": 1.5,
     "pass": true
    },
    {
     "id": "Spark highways stand out",
     "kind": "distance",
-    "subject": "#003a47",
+    "subject": "#78dffc",
     "against": [
      {
       "token": "land",
-      "value": 0.349
+      "value": 0.371
      }
     ],
-    "value": 0.349,
+    "value": 0.371,
     "min": 0.12,
     "pass": true
    },
    {
     "id": "Primary labels on the field",
     "kind": "contrast",
-    "subject": "#060000",
+    "subject": "#fffbf9",
     "against": [
      {
       "token": "land",
-      "value": 5.12
+      "value": 4.526
      },
      {
       "token": "park",
-      "value": 4.522
+      "value": 5.939
      },
      {
       "token": "halo",
-      "value": 5.12
+      "value": 4.526
      }
     ],
-    "value": 4.522,
+    "value": 4.526,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#060100",
+    "subject": "#fffcfb",
     "against": [
      {
       "token": "land",
-      "value": 5.099
+      "value": 4.56
      },
      {
       "token": "park",
-      "value": 4.502
+      "value": 5.983
      },
      {
       "token": "halo",
-      "value": 5.099
+      "value": 4.56
      }
     ],
-    "value": 4.502,
+    "value": 4.56,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Water labels on deep",
     "kind": "contrast",
-    "subject": "#060000",
+    "subject": "#fffbf9",
     "against": [
      {
-      "token": "halo",
-      "value": 5.12
+      "token": "water",
+      "value": 13.514
      }
     ],
-    "value": 5.12,
+    "value": 13.514,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Spark on the field",
     "kind": "contrast",
-    "subject": "#003a47",
+    "subject": "#78dffc",
     "against": [
      {
       "token": "land",
-      "value": 3.042
+      "value": 3.05
      }
     ],
-    "value": 3.042,
+    "value": 3.05,
     "min": 3,
     "pass": true
    }
@@ -13355,7 +13376,7 @@
     "kind": "slot",
     "target": "field",
     "from": "#c65d3b",
-    "to": "#c85f3d"
+    "to": "#bd5533"
    },
    {
     "check": "Water labels on deep",
@@ -13369,38 +13390,38 @@
     "kind": "token",
     "target": "labelPrimary",
     "from": "#541500",
-    "to": "#060000"
+    "to": "#fffbf9"
    },
    {
     "check": "Secondary labels on the field",
     "kind": "token",
     "target": "labelSecondary",
-    "from": "#6f270d",
-    "to": "#060100"
+    "from": "#6d240b",
+    "to": "#fffcfb"
    },
    {
     "check": "Water labels on deep",
     "kind": "pick",
     "target": "waterLabel",
     "from": "land on water",
-    "to": "labelPrimary on halo"
+    "to": "labelPrimary on water"
    }
   ],
   "tokens": {
-   "land": "#c85f3d",
+   "land": "#bd5533",
    "water": "#561601",
-   "park": "#bc5737",
-   "roadMajor": "#eec0b1",
-   "roadMinor": "#e4a28d",
-   "building": "#b05031",
-   "boundary": "#9e4427",
-   "labelPrimary": "#060000",
-   "labelSecondary": "#060100",
-   "halo": "#c85f3d",
-   "accent": "#003a47",
-   "urbanLanduse": "#b05031",
-   "roadMajorCasing": "#c85f3d",
-   "roadHighway": "#003a47"
+   "park": "#a34527",
+   "roadMajor": "#eabcad",
+   "roadMinor": "#de9d88",
+   "building": "#a74829",
+   "boundary": "#973e20",
+   "labelPrimary": "#fffbf9",
+   "labelSecondary": "#fffcfb",
+   "halo": "#bd5533",
+   "accent": "#78dffc",
+   "urbanLanduse": "#a74829",
+   "roadMajorCasing": "#bd5533",
+   "roadHighway": "#78dffc"
   }
  },
  "colour-field-fixture10-zurich-z12": {
@@ -13498,7 +13519,7 @@
      },
      {
       "token": "park",
-      "value": 5.038
+      "value": 5.843
      },
      {
       "token": "halo",
@@ -13520,7 +13541,7 @@
      },
      {
       "token": "park",
-      "value": 5.073
+      "value": 5.883
      },
      {
       "token": "halo",
@@ -13628,7 +13649,7 @@
      },
      {
       "token": "park",
-      "value": 5.038
+      "value": 5.843
      },
      {
       "token": "halo",
@@ -13650,7 +13671,7 @@
      },
      {
       "token": "park",
-      "value": 5.073
+      "value": 5.883
      },
      {
       "token": "halo",
@@ -13723,7 +13744,7 @@
   "tokens": {
    "land": "#d62828",
    "water": "#5f0205",
-   "park": "#c92424",
+   "park": "#b81e1f",
    "roadMajor": "#f7b3ab",
    "roadMinor": "#f08f84",
    "building": "#bd2020",
@@ -13832,36 +13853,36 @@
      },
      {
       "token": "park",
-      "value": 5.524
+      "value": 5.076
      },
      {
       "token": "halo",
       "value": 5.821
      }
     ],
-    "value": 5.524,
+    "value": 5.076,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#602586",
+    "subject": "#5a1f80",
     "against": [
      {
       "token": "land",
-      "value": 4.803
+      "value": 5.208
      },
      {
       "token": "park",
-      "value": 4.558
+      "value": 4.542
      },
      {
       "token": "halo",
-      "value": 4.803
+      "value": 5.208
      }
     ],
-    "value": 4.558,
+    "value": 4.542,
     "min": 4.5,
     "pass": true
    },
@@ -13962,36 +13983,36 @@
      },
      {
       "token": "park",
-      "value": 5.524
+      "value": 5.076
      },
      {
       "token": "halo",
       "value": 5.821
      }
     ],
-    "value": 5.524,
+    "value": 5.076,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#602586",
+    "subject": "#5a1f80",
     "against": [
      {
       "token": "land",
-      "value": 4.803
+      "value": 5.208
      },
      {
       "token": "park",
-      "value": 4.558
+      "value": 4.542
      },
      {
       "token": "halo",
-      "value": 4.803
+      "value": 5.208
      }
     ],
-    "value": 4.558,
+    "value": 4.542,
     "min": 4.5,
     "pass": true
    },
@@ -14044,7 +14065,7 @@
     "kind": "token",
     "target": "labelSecondary",
     "from": "#713899",
-    "to": "#602586"
+    "to": "#5a1f80"
    },
    {
     "check": "Water labels on deep",
@@ -14064,13 +14085,13 @@
   "tokens": {
    "land": "#f59aae",
    "water": "#ea4a3c",
-   "park": "#f593a5",
+   "park": "#f48898",
    "roadMajor": "#fffafb",
    "roadMinor": "#ffd1da",
    "building": "#f48b9c",
    "boundary": "#bd68a4",
    "labelPrimary": "#3f1a8c",
-   "labelSecondary": "#602586",
+   "labelSecondary": "#5a1f80",
    "halo": "#f59aae",
    "accent": "#3f1a8c",
    "urbanLanduse": "#f48b9c",
@@ -14173,36 +14194,36 @@
      },
      {
       "token": "park",
-      "value": 5.524
+      "value": 5.076
      },
      {
       "token": "halo",
       "value": 5.821
      }
     ],
-    "value": 5.524,
+    "value": 5.076,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#602586",
+    "subject": "#5a1f80",
     "against": [
      {
       "token": "land",
-      "value": 4.803
+      "value": 5.208
      },
      {
       "token": "park",
-      "value": 4.558
+      "value": 4.542
      },
      {
       "token": "halo",
-      "value": 4.803
+      "value": 5.208
      }
     ],
-    "value": 4.558,
+    "value": 4.542,
     "min": 4.5,
     "pass": true
    },
@@ -14243,52 +14264,52 @@
     "against": [
      {
       "token": "water",
-      "value": 0.127
+      "value": 0.129
      }
     ],
-    "value": 0.127,
+    "value": 0.129,
     "min": 0.084,
     "pass": true
    },
    {
     "id": "Major roads on the field",
     "kind": "contrast",
-    "subject": "#dfdcdd",
+    "subject": "#dedcdc",
     "against": [
      {
       "token": "land",
-      "value": 1.485
+      "value": 1.481
      }
     ],
-    "value": 1.485,
+    "value": 1.481,
     "min": 1.4,
     "pass": true
    },
    {
     "id": "Minor roads on the field",
     "kind": "contrast",
-    "subject": "#dcc4c9",
+    "subject": "#dbc4c8",
     "against": [
      {
       "token": "land",
-      "value": 1.231
+      "value": 1.227
      }
     ],
-    "value": 1.231,
+    "value": 1.227,
     "min": 1.05,
     "pass": true
    },
    {
     "id": "Spark highways stand out",
     "kind": "distance",
-    "subject": "#dcd183",
+    "subject": "#dbd082",
     "against": [
      {
       "token": "land",
-      "value": 0.137
+      "value": 0.136
      }
     ],
-    "value": 0.137,
+    "value": 0.136,
     "min": 0.084,
     "pass": true
    },
@@ -14303,36 +14324,36 @@
      },
      {
       "token": "park",
-      "value": 5.654
+      "value": 5.24
      },
      {
       "token": "halo",
       "value": 5.821
      }
     ],
-    "value": 5.654,
+    "value": 5.24,
     "min": 4.5,
     "pass": true
    },
    {
     "id": "Secondary labels on the field",
     "kind": "contrast",
-    "subject": "#602586",
+    "subject": "#5a1f80",
     "against": [
      {
       "token": "land",
-      "value": 4.929
+      "value": 5.345
      },
      {
       "token": "park",
-      "value": 4.665
+      "value": 4.688
      },
      {
       "token": "halo",
-      "value": 4.803
+      "value": 5.208
      }
     ],
-    "value": 4.665,
+    "value": 4.688,
     "min": 4.5,
     "pass": true
    },
@@ -14385,7 +14406,7 @@
     "kind": "token",
     "target": "labelSecondary",
     "from": "#713899",
-    "to": "#602586"
+    "to": "#5a1f80"
    },
    {
     "check": "Water labels on deep",
@@ -14404,19 +14425,19 @@
   ],
   "tokens": {
    "land": "#daaab3",
-   "water": "#cd7c70",
-   "park": "#d8a4ac",
-   "roadMajor": "#dfdcdd",
-   "roadMinor": "#dcc4c9",
+   "water": "#cc7b70",
+   "park": "#d59ca2",
+   "roadMajor": "#dedcdc",
+   "roadMinor": "#dbc4c8",
    "building": "#d59ea5",
    "boundary": "#a67a98",
    "labelPrimary": "#3f1a8c",
-   "labelSecondary": "#602586",
+   "labelSecondary": "#5a1f80",
    "halo": "#f59aae",
    "accent": "#3f1a8c",
    "urbanLanduse": "#d59ea5",
    "roadMajorCasing": "#daaab3",
-   "roadHighway": "#dcd183"
+   "roadHighway": "#dbd082"
   }
  }
 }

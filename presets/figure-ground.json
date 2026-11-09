@@ -3,10 +3,10 @@
   "name": "Figure-Ground",
   "description": "The built-up city is the hero. Water is a second colour. The rest is paper.",
   "slots": [
-    { "id": "fabric", "label": "Fabric", "role": "Buildings and built-up land", "primary": true },
-    { "id": "paper", "label": "Paper", "role": "Land, roads and halo", "default": "light(fabric)" },
-    { "id": "water", "label": "Water", "role": "Water and accent", "default": "waterFor(fabric)" },
-    { "id": "green", "label": "Green", "role": "Parks", "default": "paper" }
+    { "id": "fabric", "label": "Fabric", "role": "Buildings and built-up land", "exposed": true, "primary": true },
+    { "id": "paper", "label": "Paper", "role": "Land, roads and halo", "exposed": true, "default": "light(fabric)" },
+    { "id": "water", "label": "Water", "role": "Water and accent", "exposed": true, "default": "waterFor(fabric)" },
+    { "id": "green", "label": "Green", "role": "Parks", "exposed": false, "default": "paper" }
   ],
   "sample": { "fabric": "#E0623F", "water": "#7FBDB0", "paper": "#FBEFE0" },
   "tokens": {
@@ -36,7 +36,7 @@
     "urbanLanduseFade": [13, 14.5]
   },
   "detailDefaults": {
-    "buildings": true, "urbanLanduse": true, "landuse": false, "pois": false, "transit": false,
+    "buildings": true, "urbanLanduse": true, "landcover": false, "landuse": false, "pois": false, "transit": false,
     "boundaries": false, "minorRoads": false, "labelDensity": "low"
   },
   "lockedDetails": ["buildings", "urbanLanduse"],

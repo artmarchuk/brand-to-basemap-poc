@@ -3,8 +3,8 @@
   "name": "Single Ink",
   "description": "One ink on paper. The ink draws water, roads and labels.",
   "slots": [
-    { "id": "ink", "label": "Ink", "role": "Water, roads and labels", "primary": true },
-    { "id": "paper", "label": "Paper", "role": "Land and halo", "default": "light(ink)" }
+    { "id": "ink", "label": "Ink", "role": "Water, roads and labels", "exposed": true, "primary": true },
+    { "id": "paper", "label": "Paper", "role": "Land and halo", "exposed": false, "default": "light(ink)" }
   ],
   "sample": { "ink": "#6B2C91" },
   "tokens": {
@@ -32,7 +32,7 @@
     "hide": ["roadArea", "oneWay"]
   },
   "detailDefaults": {
-    "buildings": false, "urbanLanduse": false, "landuse": false, "pois": false, "transit": false,
+    "buildings": false, "urbanLanduse": false, "landcover": false, "landuse": false, "pois": false, "transit": false,
     "boundaries": false, "minorRoads": false, "labelDensity": "low"
   },
   "lockedDetails": [],

@@ -11,9 +11,11 @@ export type ToggleGroup =
   | 'boundaries'
   | 'labels'
   /** Built-up land as one fill. Not a user toggle: a preset switches it on (Figure-Ground). */
-  | 'urbanLanduse';
+  | 'urbanLanduse'
+  /** Farmland and rock patches that Liberty does not draw. Not a user toggle: a preset switches it on (Colour Field). */
+  | 'landcover';
 
-export const ALL_GROUPS: ToggleGroup[] = ['core', 'pois', 'transit', 'buildings', 'landuse', 'minorRoads', 'boundaries', 'labels', 'urbanLanduse'];
+export const ALL_GROUPS: ToggleGroup[] = ['core', 'pois', 'transit', 'buildings', 'landuse', 'minorRoads', 'boundaries', 'labels', 'urbanLanduse', 'landcover'];
 
 /**
  * What a layer does on the map, for treatments that change more than colour (widths, casings, dashes).

@@ -193,6 +193,7 @@ Presets replace the brand-colour list as the first decision. Spec: [presets-desi
 - **No live preset thumbnails** in P0; static ones from sample palettes come with the app step.
 - Tokens: schema 0.4.0 has 14 tokens (adds `urbanLanduse`, `roadMajorCasing`, `roadHighway`).
 - **A label sits on its halo** is a general check rule. Single Ink tries a dark water label on a paper halo before darkening the ink. Colour Field gives Spark the motorway and trunk roads, raises road minimums to 2:1 and 1.5:1, and draws tonal buildings by default.
+- **Slots (Nov 9, A3):** each preset file marks slots `exposed` (up front) or not (under a collapsed Refine group). Single Ink: Ink | Paper. Figure-Ground: Fabric, Water, Paper | Green. Colour Field: Field, Deep | Ink, Spark. Derived defaults carry an "auto" tag until typed. Colour Field draws tonal farmland and rock patches (two added Liberty layers).
 - **App step (Nov 9):** the preset picker with static thumbnails replaces the brand-colour list; named slots (one required, the rest "Refine" with the derived default shown); one undo after a preset switch.
 
 ## Open items for the PM (spec additions, defaults apply unless Artem objects)
