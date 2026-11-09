@@ -1,40 +1,44 @@
 import type { Map as MapLibreMap, StyleSpecification } from 'maplibre-gl';
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import libertyStyle from '../../base-styles/liberty.json';
-import samples from '../../fixtures/palettes.json';
 import { initialState, reducer } from '../app/appState';
 import { CITIES, DEFAULT_CITY } from '../app/cities';
 import { MAPPINGS } from '../mapping';
-import { applyVisibility, resolve } from '../palette';
+import { applyVisibility } from '../palette';
+import { presetDetails, resolvePreset } from '../presets';
 import { applyTokens } from '../style/applyTokens';
-import { BrandPanel } from './BrandPanel';
+import { PresetPanel } from './PresetPanel';
 import { DetailPanel } from './DetailPanel';
 import { MapView } from './MapView';
 import { ModePanel } from './ModePanel';
 import { TokenPanel } from './TokenPanel';
 import { ZoomBar } from './ZoomBar';
 
-const START = samples.find((sample) => sample.name === 'Terracotta Co.') ?? samples[0];
+const START_PRESET = 'figure-ground';
 const START_ZOOM = 12;
 const SWEEP_MS = 12000;
-const MODE_NAMES = { light: 'light', dark: 'dark', data: 'data' };
+const MODE_NAMES = { light: 'light', data: 'data' };
 const base = libertyStyle as unknown as StyleSpecification;
 
 export function App() {
-  const [state, dispatch] = useReducer(reducer, { colors: START.colors, primary: START.primary }, initialState);
+  const [state, dispatch] = useReducer(reducer, START_PRESET, initialState);
   const [zoom, setZoom] = useState(START_ZOOM);
   const [sweeping, setSweeping] = useState(false);
   const mapRef = useRef<MapLibreMap | null>(null);
   const { palette } = state;
 
-  const resolved = useMemo(() => resolve(palette), [palette]);
+  const resolved = useMemo(() => resolvePreset(palette), [palette]);
+  const details = useMemo(
+    () => presetDetails(resolved.preset, state.detailChoices, state.densityChoice),
+    [resolved.preset, state.detailChoices, state.densityChoice],
+  );
   const { groups, labelDensity } = useMemo(
-    () => applyVisibility(state.groups, state.labelDensity, resolved.visibility),
-    [state.groups, state.labelDensity, resolved.visibility],
+    () => applyVisibility(details.groups, details.labelDensity, resolved.visibility),
+    [details, resolved.visibility],
   );
   const style = useMemo(
-    () => applyTokens(base, resolved.tokens, { mapping: MAPPINGS.liberty, groups, labelDensity, onWarning: () => {} }),
-    [resolved.tokens, groups, labelDensity],
+    () => applyTokens(base, resolved.tokens, { mapping: MAPPINGS.liberty, groups, labelDensity, treatment: resolved.treatment, onWarning: () => {} }),
+    [resolved.tokens, resolved.treatment, groups, labelDensity],
   );
 
   const city = CITIES.find((candidate) => candidate.id === state.cityId) ?? DEFAULT_CITY;
@@ -65,7 +69,15 @@ export function App() {
       </header>
       <div className="app-body">
         <aside className="panel" aria-label="Controls">
-          <BrandPanel brand={palette.brand} onChange={(brand) => dispatch({ type: 'brand', brand })} />
+          <PresetPanel
+            preset={resolved.preset}
+            slots={resolved.slots}
+            notices={resolved.notices}
+            onPreset={(presetId) => dispatch({ type: 'preset', presetId })}
+            onSlot={(slot, hex) => dispatch({ type: 'slot', slot, hex })}
+            onClear={(slot) => dispatch({ type: 'clearSlot', slot })}
+            onSample={() => dispatch({ type: 'sample' })}
+          />
           <ModePanel
             mode={palette.mode}
             recede={palette.recede}
@@ -73,11 +85,12 @@ export function App() {
             onRecede={(recede) => dispatch({ type: 'recede', recede })}
           />
           <DetailPanel
-            groups={state.groups}
-            density={state.labelDensity}
+            groups={details.groups}
+            density={details.labelDensity}
             forcedOff={resolved.visibility.hidePois ? { pois: 'Hidden by data mode' } : {}}
+            locked={details.locked}
             densityForced={resolved.visibility.thinMinorLabels}
-            onToggle={(group) => dispatch({ type: 'toggleGroup', group })}
+            onToggle={(group, on) => dispatch({ type: 'toggleGroup', group, on })}
             onDensity={(density) => dispatch({ type: 'density', density })}
           />
           <TokenPanel

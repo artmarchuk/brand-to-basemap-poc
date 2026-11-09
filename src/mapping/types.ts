@@ -31,7 +31,9 @@ export type LayerRole =
   /** Pedestrian squares and similar paved polygons. */
   | 'roadArea'
   /** One-way arrows: baked sprites. */
-  | 'oneWay';
+  | 'oneWay'
+  /** Country, state, city, town and village names. */
+  | 'placeLabel';
 
 export type LabelDensity = 'low' | 'medium' | 'high';
 

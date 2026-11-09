@@ -56,7 +56,8 @@ export function validatePreset(raw: unknown): PresetDefinition {
   }
   if (!isToken(treatment.waterLabel?.text) || !isToken(treatment.waterLabel?.halo)) fail('water label text and halo must be tokens');
   if (!isToken(treatment.accentOutline)) fail('accent outline must be a token');
-  const ROLES = ['roadMajor', 'roadMajorCasing', 'roadMinor', 'roadMinorCasing', 'boundary', 'waterLabel', 'poi', 'urbanLanduse', 'roadArea', 'oneWay'];
+  const ROLES = ['roadMajor', 'roadMajorCasing', 'roadMinor', 'roadMinorCasing', 'boundary', 'waterLabel', 'poi', 'urbanLanduse', 'roadArea', 'oneWay', 'placeLabel'];
+  if (treatment.labelHaloWidth !== undefined && !(treatment.labelHaloWidth >= 0)) fail('label halo width must be a number of pixels');
   for (const role of treatment.hide ?? []) if (!ROLES.includes(role)) fail(`cannot hide unknown role "${role}"`);
 
   for (const group of DETAIL_GROUPS) if (typeof preset.detailDefaults?.[group] !== 'boolean') fail(`detail default for "${group}" must be true or false`);

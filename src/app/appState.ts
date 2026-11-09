@@ -1,48 +1,49 @@
-import {
-  createState,
-  resetOverride,
-  resetOverrides,
-  setBrand,
-  setOverride,
-  type BrandInput,
-  type BrandState,
-} from '../palette';
 import type { LabelDensity, ToggleGroup } from '../mapping/types';
-import type { Mode, TokenName } from '../tokens/types';
-import { ZOOM_STOPS, DEFAULT_CITY } from './cities';
+import {
+  clearSlot,
+  resetPresetOverride,
+  resetPresetOverrides,
+  samplePresetState,
+  setPresetOverride,
+  setSlot,
+  switchPreset,
+  type DetailGroup,
+  type PresetMode,
+  type PresetState,
+} from '../presets';
+import type { TokenName } from '../tokens/types';
+import { DEFAULT_CITY, ZOOM_STOPS } from './cities';
 
-/** Groups the user can switch. `core` and `labels` are always on. */
-export const OPTIONAL_GROUPS: ToggleGroup[] = ['pois', 'transit', 'buildings', 'landuse', 'minorRoads', 'boundaries'];
+/** Groups the user can switch. `core` and `labels` are always on; `urbanLanduse` belongs to the preset. */
+export const OPTIONAL_GROUPS: DetailGroup[] = ['pois', 'transit', 'buildings', 'landuse', 'minorRoads', 'boundaries'];
 
 export interface AppState {
-  palette: BrandState;
-  groups: ToggleGroup[];
-  labelDensity: LabelDensity;
+  palette: PresetState;
+  /** Toggles the user changed. Everything else follows the preset's defaults; locked groups ignore these. */
+  detailChoices: Partial<Record<DetailGroup, boolean>>;
+  densityChoice?: LabelDensity;
   cityId: string;
   /** Zoom stops viewed since the last style change. A reminder, not a gate. */
   reviewed: number[];
 }
 
 export type Action =
-  | { type: 'brand'; brand: BrandInput }
-  | { type: 'mode'; mode: Mode }
+  | { type: 'preset'; presetId: string }
+  | { type: 'sample' }
+  | { type: 'slot'; slot: string; hex: string }
+  | { type: 'clearSlot'; slot: string }
+  | { type: 'mode'; mode: PresetMode }
   | { type: 'recede'; recede: number }
   | { type: 'override'; token: TokenName; hex: string }
   | { type: 'resetOverride'; token: TokenName }
   | { type: 'resetOverrides' }
-  | { type: 'toggleGroup'; group: ToggleGroup }
+  | { type: 'toggleGroup'; group: DetailGroup; on: boolean }
   | { type: 'density'; density: LabelDensity }
   | { type: 'city'; cityId: string }
   | { type: 'viewed'; zoom: number };
 
-export function initialState(brand: BrandInput): AppState {
-  return {
-    palette: createState(brand),
-    groups: ['core', 'labels'],
-    labelDensity: 'low',
-    cityId: DEFAULT_CITY.id,
-    reviewed: [],
-  };
+export function initialState(presetId: string): AppState {
+  return { palette: samplePresetState(presetId), detailChoices: {}, cityId: DEFAULT_CITY.id, reviewed: [] };
 }
 
 /** A stop counts as viewed when the map is within this many zoom levels of it. */
@@ -53,26 +54,29 @@ const restyled = (state: AppState, change: Partial<AppState>): AppState => ({ ..
 
 export function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case 'brand':
-      return restyled(state, { palette: setBrand(state.palette, action.brand) });
+    case 'preset':
+      // Keeps the primary colour and the toggles the user changed; clears overrides (see switchPreset).
+      return restyled(state, { palette: switchPreset(state.palette, action.presetId) });
+    case 'sample':
+      return restyled(state, { palette: { ...samplePresetState(state.palette.preset), mode: state.palette.mode, recede: state.palette.recede } });
+    case 'slot':
+      return restyled(state, { palette: setSlot(state.palette, action.slot, action.hex) });
+    case 'clearSlot':
+      return restyled(state, { palette: clearSlot(state.palette, action.slot) });
     case 'mode':
       return restyled(state, { palette: { ...state.palette, mode: action.mode } });
     case 'recede':
       return restyled(state, { palette: { ...state.palette, recede: action.recede } });
     case 'override':
-      return restyled(state, { palette: setOverride(state.palette, state.palette.mode, action.token, action.hex) });
+      return restyled(state, { palette: setPresetOverride(state.palette, action.token, action.hex) });
     case 'resetOverride':
-      return restyled(state, { palette: resetOverride(state.palette, state.palette.mode, action.token) });
+      return restyled(state, { palette: resetPresetOverride(state.palette, action.token) });
     case 'resetOverrides':
-      return restyled(state, { palette: resetOverrides(state.palette) });
+      return restyled(state, { palette: resetPresetOverrides(state.palette) });
     case 'toggleGroup':
-      return restyled(state, {
-        groups: state.groups.includes(action.group)
-          ? state.groups.filter((group) => group !== action.group)
-          : [...state.groups, action.group],
-      });
+      return restyled(state, { detailChoices: { ...state.detailChoices, [action.group]: action.on } });
     case 'density':
-      return restyled(state, { labelDensity: action.density });
+      return restyled(state, { densityChoice: action.density });
     case 'city':
       return { ...state, cityId: action.cityId };
     case 'viewed': {
@@ -81,3 +85,5 @@ export function reducer(state: AppState, action: Action): AppState {
     }
   }
 }
+
+export type { ToggleGroup };

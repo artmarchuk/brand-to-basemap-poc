@@ -30,6 +30,8 @@ export interface TreatmentDefinition {
   urbanLanduseFade?: [number, number];
   /** Layer roles the preset does not draw, such as baked one-way arrows. */
   hide?: LayerRole[];
+  /** Place-label halo width in pixels, when labels must read on a dark carrier. */
+  labelHaloWidth?: number;
 }
 
 /**

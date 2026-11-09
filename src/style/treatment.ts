@@ -28,6 +28,8 @@ export interface Treatment {
   urbanLanduseFade?: [from: number, to: number];
   /** Layers with these roles are not drawn. */
   hide?: LayerRole[];
+  /** Halo width in pixels for place labels, drawn without blur. Wide enough to be the label's ground. */
+  labelHaloWidth?: number;
 }
 
 const ramp = (stops: WidthStops) => ['interpolate', ['exponential', 1.2], ['zoom'], ...stops.flat()];
@@ -63,6 +65,10 @@ export function applyTreatment(
     if (role === 'waterLabel' && treatment.waterLabel) {
       next.paint['text-color'] = rewriteColors(layer.paint?.['text-color' as keyof typeof layer.paint] ?? '#000', treatment.waterLabel.text, tokens);
       next.paint['text-halo-color'] = rewriteColors('#000', treatment.waterLabel.halo, tokens);
+    }
+    if (role === 'placeLabel' && treatment.labelHaloWidth !== undefined) {
+      next.paint['text-halo-width'] = treatment.labelHaloWidth;
+      next.paint['text-halo-blur'] = 0;
     }
     if (role === 'poi' && treatment.accentOutline) next.paint['text-halo-color'] = rewriteColors('#000', treatment.accentOutline, tokens);
     if (role === 'urbanLanduse' && treatment.urbanLanduseFade) {

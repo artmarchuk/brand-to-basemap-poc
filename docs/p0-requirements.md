@@ -179,6 +179,20 @@ Everything else depends on this, so it is specified first.
 - Design agency: delivers app UX, UI and branding after the working prototype exists (Phase 2).
 - Token layering (F0): brand input → base tokens → per-mode transform → per-mode overrides → auto-fix adjustments. Adopted as the default.
 
+### Decisions: presets (M3, Nov 9, 2026)
+
+Presets replace the brand-colour list as the first decision. Spec: [presets-design-spec.md](presets-design-spec.md); brief: [briefs/m3-presets.md](briefs/m3-presets.md), which wins where they differ; engine: [preset-engine.md](preset-engine.md).
+
+- **Three test presets:** Single Ink, Figure-Ground, Colour Field. Each puts the primary colour on an area token (water, built-up land, land), never on roads alone.
+- **Only the primary colour is required.** Every other slot has a derived default, so one colour gives a full map.
+- **Liberty only for presets in P0**, on OpenFreeMap tiles (OpenMapTiles schema; no terrain, contours or hillshade). Streets v2 and the provider switch wait. The [spike](spikes/presets-feasibility.md) found Liberty reaches all three looks with one added layer.
+- **Dark is hidden while presets are on.** The modes are Light and Data. The dark code stays in the repo.
+- **Contrast thresholds are per preset**, and each check names its ground. Auto-fix never overwrites a typed colour; it reports the colour it used.
+- **Data mode needs no preset code.** It keeps labels AA by holding back a surface where a label would fail, and keeps land-coloured tokens (Figure-Ground's paper roads) with the land.
+- **Overrides belong to the active preset** and clear on a preset change. The primary colour carries over; other slots reset to the new preset's defaults.
+- **No live preset thumbnails** in P0; static ones from sample palettes come with the app step.
+- Tokens: schema 0.3.0 adds `urbanLanduse` and `roadMajorCasing` (13 tokens).
+
 ## Open items for the PM (spec additions, defaults apply unless Artem objects)
 
 - **Auto-fix vs manual overrides.** Default: auto-fix does not change a token the user set by hand; it flags the failing override and asks.

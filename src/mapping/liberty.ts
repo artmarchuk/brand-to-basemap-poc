@@ -120,8 +120,8 @@ export const libertyMapping: StyleMapping = {
     },
 
     // Places
-    { match: { ids: ['label_other', 'label_village'] }, group: 'labels', density: 'medium', colors: text('labelSecondary') },
-    { match: { ids: ['label_state'] }, group: 'labels', density: 'low', colors: text('labelSecondary') },
-    { match: { sourceLayer: 'place' }, group: 'labels', density: 'low', colors: text('labelPrimary') },
+    { match: { ids: ['label_other', 'label_village'] }, group: 'labels', density: 'medium', role: 'placeLabel', colors: text('labelSecondary') },
+    { match: { ids: ['label_state'] }, group: 'labels', density: 'low', role: 'placeLabel', colors: text('labelSecondary') },
+    { match: { sourceLayer: 'place' }, group: 'labels', density: 'low', role: 'placeLabel', colors: text('labelPrimary') },
   ],
 };

@@ -1,16 +1,16 @@
 import * as Slider from '@radix-ui/react-slider';
-import type { Mode } from '../tokens/types';
+import type { PresetMode } from '../presets';
 
-const MODES: { mode: Mode; label: string }[] = [
+// Dark is hidden while presets are on (M3). Its engine code stays in src/palette.
+const MODES: { mode: PresetMode; label: string }[] = [
   { mode: 'light', label: 'Light' },
-  { mode: 'dark', label: 'Dark' },
   { mode: 'data', label: 'Data' },
 ];
 
 interface Props {
-  mode: Mode;
+  mode: PresetMode;
   recede: number;
-  onMode: (mode: Mode) => void;
+  onMode: (mode: PresetMode) => void;
   onRecede: (recede: number) => void;
 }
 

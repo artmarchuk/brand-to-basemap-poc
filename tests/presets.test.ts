@@ -252,6 +252,19 @@ describe('treatment in the compiled style', () => {
   });
 });
 
+describe('Figure-Ground in data mode', () => {
+  it('keeps paper roads and paper parks with the land, so gaps do not turn into lines', () => {
+    const light = resolvePreset(samplePresetState('figure-ground'));
+    expect(light.tokens.roadMajor).toBe(light.tokens.land);
+    for (const recede of [30, 60, 100]) {
+      const data = resolvePreset({ ...samplePresetState('figure-ground'), mode: 'data', recede });
+      expect(data.tokens.roadMajor).toBe(data.tokens.land);
+      expect(data.tokens.roadMinor).toBe(data.tokens.land);
+      expect(data.tokens.park).toBe(data.tokens.land);
+    }
+  });
+});
+
 describe('Single Ink on a bright brand', () => {
   it('darkens the neon cyan ink for water and labels, and keeps its hue', () => {
     const result = resolvePreset(createPresetState('single-ink', '#00F0FF'));

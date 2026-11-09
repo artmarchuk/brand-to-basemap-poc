@@ -102,6 +102,9 @@ export function transformData(light: ResolvedTokens, recede: number, config: Pal
   });
   const boundary = parseColor(light.boundary)!;
   output.boundary = makeColor(boundary.l, boundary.c * chromaFactor, boundary.h);
+  // A token drawn in the land colour is a gap, not a line (Figure-Ground's paper roads, its paper parks).
+  // Pulling it towards the mean would turn gaps into grey lines, so it follows the land instead.
+  for (const token of RECEDING_FILLS) if (token !== 'land' && light[token] === light.land) output[token] = output.land;
   return output;
 }
 

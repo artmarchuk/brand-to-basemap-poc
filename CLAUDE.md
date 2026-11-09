@@ -4,7 +4,7 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 
 ## Read first
 1. `docs/p0-requirements.md`: the full P0 requirements, decisions and plan. It is the source of truth for scope.
-2. `docs/briefs/m1-token-model.md`: your first task (setup, then the token model).
+2. `docs/preset-engine.md`: how presets work (M3), and `docs/briefs/` for the briefs in order.
 
 ## Who is who
 - **Artem**: product owner and the only human. Makes the key decisions. His time is the bottleneck, so he reviews at short checkpoints only.
@@ -27,6 +27,9 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 - Token layering: brand input, base tokens, per-mode transform, per-mode overrides, auto-fix adjustments.
 - Stack: Vite, TypeScript, React, maplibre-gl, culori, Vitest, plain CSS custom properties, Radix UI primitives (unstyled).
 - UI tokens: Figma Variables will be the source of truth for the tool's own UI, exported as DTCG JSON into the repo and built into CSS variables. Until then, placeholder tokens.
+
+## Presets (M3, Nov 9, 2026)
+The app is organised around **presets**: Single Ink, Figure-Ground, Colour Field. A preset is a JSON file in `presets/` that maps key-colour slots to the map tokens, with a treatment (widths, casings, dashes), detail defaults and its own checks. Only the primary colour is required. Liberty only; Dark hidden (code kept); modes are Light and Data. Schema 0.3.0 has 13 tokens (adds `urbanLanduse`, `roadMajorCasing`). Read `docs/preset-engine.md`; decisions are in `docs/p0-requirements.md`. The brand-colour engine in `src/palette` stays, unwired except for the data transform.
 
 ## Working rules
 - **Lean and fast.** The target is a working, presentable P0 in 1-2 days. No scope creep; anything not in the P0 requirements is out. Decide small things yourself and note them in your report.

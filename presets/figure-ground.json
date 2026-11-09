@@ -31,6 +31,7 @@
     "waterLabel": { "text": "labelSecondary", "halo": "water" },
     "accentOutline": "land",
     "hide": ["oneWay"],
+    "labelHaloWidth": 2.5,
     "urbanLanduseFade": [13, 14.5]
   },
   "detailDefaults": {

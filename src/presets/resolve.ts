@@ -287,6 +287,7 @@ function resolveTreatment(definition: TreatmentDefinition, waterLabel: TokenName
     accentOutline: definition.accentOutline,
     ...(definition.urbanLanduseFade && { urbanLanduseFade: definition.urbanLanduseFade }),
     ...(definition.hide && { hide: definition.hide }),
+    ...(definition.labelHaloWidth !== undefined && { labelHaloWidth: definition.labelHaloWidth }),
   };
 }
 
