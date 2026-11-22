@@ -4,7 +4,7 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 
 ## Read first
 1. `docs/p0-requirements.md`: the full P0 requirements, decisions and plan. It is the source of truth for scope.
-2. `docs/preset-engine.md`: how presets work (M3), and `docs/briefs/` for the briefs in order.
+2. `docs/preset-engine.md`: how presets work (M3); `docs/export.md`: exports, share link and tile sources (M4); and `docs/briefs/` for the briefs in order.
 
 ## Who is who
 - **Artem**: product owner and the only human. Makes the key decisions. His time is the bottleneck, so he reviews at short checkpoints only.
@@ -30,6 +30,9 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 
 ## Presets (M3, Nov 9, 2026)
 The app is organised around **presets**: Single Ink, Figure-Ground, Colour Field. A preset is a JSON file in `presets/` that maps key-colour slots to the map tokens, with a treatment (widths, casings, dashes), detail defaults and its own checks. Only the primary colour is required. Liberty only; Dark hidden (code kept); modes are Light and Data. Schema 0.4.0 has 14 tokens (adds `urbanLanduse`, `roadMajorCasing`, `roadHighway`). Read `docs/preset-engine.md`; decisions are in `docs/p0-requirements.md`. The brand-colour engine in `src/palette` stays, unwired except for the data transform.
+
+## Export, state and MapTiler (M4, Nov 22, 2026)
+State v3 (`src/app/brandState.ts`): the primary colour is global, each preset remembers its typed slots and overrides, derived slots are never stored. It goes in the hash (`#s=`) and localStorage autosave; the hash wins. Exports (`src/export/export.ts`): an HTML embed snippet and a style JSON, with the `b2b-data-anchor` layer under the labels. Tile source switch (`src/style/source.ts`): OpenFreeMap or MapTiler `v3-openmaptiles` with the user's key, same Liberty-based style, OpenFreeMap sprite on both. Read `docs/export.md`. Checks: `npm run check-export` (exported page in headless Chrome, both sources) and `npm run compare-sources` (OpenFreeMap vs MapTiler sheets); both read `MAPTILER_KEY` from `.env.local` and never write it outside `node_modules/.cache`.
 
 ## Working rules
 - **Lean and fast.** The target is a working, presentable P0 in 1-2 days. No scope creep; anything not in the P0 requirements is out. Decide small things yourself and note them in your report.
