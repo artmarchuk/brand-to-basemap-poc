@@ -189,12 +189,23 @@ Presets replace the brand-colour list as the first decision. Spec: [presets-desi
 - **Dark is hidden while presets are on.** The modes are Light and Data. The dark code stays in the repo.
 - **Contrast thresholds are per preset**, and each check names its ground. Auto-fix never overwrites a typed colour; it reports the colour it used.
 - **Data mode needs no preset code.** It keeps labels AA by holding back a surface where a label would fail, and keeps land-coloured tokens (Figure-Ground's paper roads) with the land.
-- **Overrides belong to the active preset** and clear on a preset change. The primary colour carries over; other slots reset to the new preset's defaults.
+- ~~**Overrides belong to the active preset** and clear on a preset change. The primary colour carries over; other slots reset to the new preset's defaults.~~ Superseded by M4: each preset keeps its own typed slots and overrides (see below).
 - **No live preset thumbnails** in P0; static ones from sample palettes come with the app step.
 - Tokens: schema 0.4.0 has 14 tokens (adds `urbanLanduse`, `roadMajorCasing`, `roadHighway`).
 - **A label sits on its halo** is a general check rule. Single Ink tries a dark water label on a paper halo before darkening the ink. Colour Field gives Spark the motorway and trunk roads, raises road minimums to 2:1 and 1.5:1, and draws tonal buildings by default.
 - **Slots (Nov 9, A3):** each preset file marks slots `exposed` (up front) or not (under a collapsed Refine group). Single Ink: Ink | Paper. Figure-Ground: Fabric, Water, Paper | Green. Colour Field: Field, Deep | Ink, Spark. Derived defaults carry an "auto" tag until typed. Colour Field draws tonal farmland and rock patches (two added Liberty layers).
-- **App step (Nov 9):** the preset picker with static thumbnails replaces the brand-colour list; named slots (one required, the rest "Refine" with the derived default shown); one undo after a preset switch.
+- **App step (Nov 9):** the preset picker with static thumbnails replaces the brand-colour list; named slots (one required, the rest "Refine" with the derived default shown); one undo after a preset switch (removed in M4: a switch no longer discards anything).
+
+### Decisions: export, state and MapTiler (M4, Nov 22, 2026)
+
+Brief: [briefs/m4-export-state.md](briefs/m4-export-state.md). Details: [export.md](export.md).
+
+- **Colour persistence (PM default, pending Artem):** the primary colour is global; each preset remembers its own typed slots and overrides (per mode); derived slots follow the primary and are never stored. "Reset this preset" and "Reset all presets" clear typed values and overrides and keep the primary. The one-step undo is gone: switching presets loses nothing. The sample-palette button sets the primary (for every preset) and types the sample colours for the current preset.
+- **State v3** (`BrandState`): `primary`, `presetId`, `perPreset`, `mode`, `recede`, `details`, `density`, `source`, `view`. In the hash as `#s=<base64url JSON>` and in localStorage; the hash wins; a bad hash loads defaults with a notice. The key is not part of the state.
+- **Exports:** an embed snippet (full HTML page, MapLibre 6.16.0 from unpkg, inline style, attribution always expanded) and a style JSON, both for the current mode. A persistent Export button sits in the header.
+- **Data anchor:** `b2b-data-anchor`, an invisible background layer after the last fill or line layer and before the first label.
+- **MapTiler source:** `v3-openmaptiles` tiles and MapTiler fonts with the same Liberty-based style; the sprite stays OpenFreeMap's (Liberty icon names). Logo and "© MapTiler, © OpenStreetMap contributors" when on. Exports carry `YOUR_MAPTILER_KEY` unless the user ticks "Include my key". Rendered comparison: same labels and layers, 1-2 feature differences from data builds.
+- **Notices:** every auto-fix shows next to its slot or map-colour row with the colour used; data-mode holds now report too, and a check that still fails after every fix shows next to its token. Per-zoom-stop pass/fail was skipped.
 
 ## Open items for the PM (spec additions, defaults apply unless Artem objects)
 
@@ -203,7 +214,7 @@ Presets replace the brand-colour list as the first decision. Spec: [presets-desi
 - **Measuring the success criteria.** "Under 5 minutes" needs a timed test with 2–3 first-time users; "renders identically" needs a scripted check (export → plain MapLibre page → visual diff).
 - **Hosting and public link.** Claude Code's call (GitHub Pages or Vercel); no secrets in the repo.
 - **Test palettes.** Use palettes inspired by well-known brands but shown under fictional brand names, to avoid trademark use in a public case study.
-- **Export format details.** Versioned token JSON schema, CSS variable naming, and what the embed snippet contains (CDN MapLibre version, inline style vs hosted style URL).
+- **Export format details.** Snippet decided in M4 (CDN MapLibre 6.16.0, inline style). Still open: versioned token JSON schema and CSS variable naming, if the token exports stay in P0.
 - **Browser support.** Latest Chrome, Safari, Firefox and Edge.
 
 ## Plan (2-day target)

@@ -34,7 +34,8 @@ export interface CheckResult {
 /** One change auto-fix made, for the notice next to the slot or token that caused it. */
 export interface FixNotice {
   check: string;
-  kind: 'slot' | 'token' | 'fallback' | 'pick';
+  /** `hold`: data mode kept a label's ground back towards its light colour so the label stays AA. */
+  kind: 'slot' | 'token' | 'fallback' | 'pick' | 'hold';
   target: string;
   from: string;
   to: string;
@@ -276,8 +277,9 @@ function autoFix(ctx: Context): { draft: Draft; notices: FixNotice[] } {
  * water). Where a label check fails after recede, its grounds (and the label, if it receded) are held back towards their light colour, just
  * far enough to pass. Driven by the preset's checks, so no preset needs code of its own.
  */
-function holdLabelGrounds(checks: CheckDefinition[], light: ResolvedTokens, data: ResolvedTokens, waterLabel: WaterLabel): ResolvedTokens {
+function holdLabelGrounds(checks: CheckDefinition[], light: ResolvedTokens, data: ResolvedTokens, waterLabel: WaterLabel) {
   let tokens = data;
+  const notices: FixNotice[] = [];
   for (const check of checks.filter(isLabelCheck)) {
     if (measure(check, tokens, waterLabel).pass) continue;
     // The label itself can recede too, when it borrows a receding token (Colour Field's water labels use roadMajor).
@@ -295,9 +297,13 @@ function holdLabelGrounds(checks: CheckDefinition[], light: ResolvedTokens, data
       if (measure(check, at(mid), waterLabel).pass) low = mid;
       else high = mid;
     }
-    tokens = at(low);
+    const held = at(low);
+    for (const token of grounds) {
+      if (held[token] !== tokens[token]) notices.push({ check: check.id, kind: 'hold', target: token, from: data[token], to: held[token] });
+    }
+    tokens = held;
   }
-  return tokens;
+  return { tokens, notices };
 }
 
 function resolveTreatment(definition: TreatmentDefinition, waterLabel: WaterLabel, config: PresetConfig): Treatment {
@@ -331,9 +337,8 @@ export function resolvePreset(state: PresetState, config: PresetConfig = PRESET_
 
   const overridden = applyOverrides(draft.tokens, state.overrides.light);
   const data = state.mode === 'data';
-  const tokens = data
-    ? applyOverrides(holdLabelGrounds(preset.checks, overridden, transformData(overridden, state.recede), draft.waterLabel), state.overrides.data)
-    : overridden;
+  const hold = data ? holdLabelGrounds(preset.checks, overridden, transformData(overridden, state.recede), draft.waterLabel) : undefined;
+  const tokens = hold ? applyOverrides(hold.tokens, state.overrides.data) : overridden;
   const modeOverrides = state.overrides[state.mode];
 
   return {
@@ -350,7 +355,7 @@ export function resolvePreset(state: PresetState, config: PresetConfig = PRESET_
     stages: { expressions, fixed: draft.tokens, overridden },
     checks: preset.checks.map((check) => measure(check, draft.tokens, draft.waterLabel)),
     finalChecks: preset.checks.map((check) => measure(check, tokens, draft.waterLabel, data ? dataMinimum(check, state.recede, config) : check.min)),
-    notices,
+    notices: [...notices, ...(hold?.notices ?? [])],
     overriddenTokens: TOKEN_NAMES.filter((token) => token in modeOverrides),
   };
 }

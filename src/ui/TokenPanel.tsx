@@ -1,5 +1,6 @@
 import { TOKEN_NAMES, type ResolvedTokens, type TokenName } from '../tokens/types';
 
+
 const LABELS: Record<TokenName, string> = {
   land: 'Land',
   water: 'Water',
@@ -21,21 +22,20 @@ interface Props {
   tokens: ResolvedTokens;
   overridden: TokenName[];
   modeName: string;
+  /** Auto-fix and data-mode notices, and checks that still fail, as lines per token row. */
+  notes: Partial<Record<TokenName, string[]>>;
   onOverride: (token: TokenName, hex: string) => void;
   onReset: (token: TokenName) => void;
-  onResetAll: () => void;
 }
 
-export function TokenPanel({ tokens, overridden, modeName, onOverride, onReset, onResetAll }: Props) {
+export function TokenPanel({ tokens, overridden, modeName, notes, onOverride, onReset }: Props) {
   return (
     <section className="panel-section" aria-labelledby="tokens-heading">
-      <div className="row row-between">
-        <h2 id="tokens-heading" className="panel-heading">Map colours, {modeName}</h2>
-        <button type="button" className="button button-quiet" onClick={onResetAll}>Reset all</button>
-      </div>
+      <h2 id="tokens-heading" className="panel-heading">Map colours, {modeName}</h2>
+      <p className="hint">Edits are kept per preset and mode. &quot;Reset this preset&quot; clears them.</p>
       <ul className="token-list">
         {TOKEN_NAMES.map((token) => (
-          <li key={token} className="token-row">
+          <li key={token} className="token-row colour-row-wrap">
             <input
               className="colour-input"
               type="color"
@@ -51,6 +51,9 @@ export function TokenPanel({ tokens, overridden, modeName, onOverride, onReset, 
             ) : (
               <span className="hint">Derived</span>
             )}
+            {notes[token]?.map((note) => (
+              <span key={note} className="fix-note" role="note">{note}</span>
+            ))}
           </li>
         ))}
       </ul>

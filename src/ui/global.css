@@ -443,3 +443,54 @@ body {
 .refine[open] summary {
   margin-bottom: var(--ui-space-2);
 }
+
+/* M4: inline notices, source switch, export */
+.colour-row-wrap {
+  flex-wrap: wrap;
+}
+
+.fix-note {
+  flex-basis: 100%;
+  padding: var(--ui-space-1) var(--ui-space-2);
+  border-left: var(--ui-border-width-focus) solid var(--ui-color-accent-default);
+  background: var(--ui-color-surface-sunken);
+  font-size: var(--ui-font-size-sm);
+}
+
+.row-wrap {
+  flex-wrap: wrap;
+}
+
+.notice-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2);
+}
+
+.key-field {
+  width: 100%;
+}
+
+.export-output {
+  width: 100%;
+  height: calc(var(--ui-space-12) * 2);
+  font-family: var(--ui-font-family-mono);
+  font-size: var(--ui-font-size-xs);
+  resize: vertical;
+}
+
+.map-logo {
+  position: absolute;
+  bottom: var(--ui-space-1);
+  left: var(--ui-space-3);
+  z-index: 2;
+}
+
+.map-logo img {
+  display: block;
+  height: var(--ui-space-6);
+}
+
+.header-export {
+  margin-left: auto;
+}
