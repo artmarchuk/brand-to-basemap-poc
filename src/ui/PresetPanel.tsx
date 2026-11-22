@@ -6,6 +6,7 @@ interface Props {
   preset: PresetDefinition;
   slots: SlotResult[];
   notices: FixNotice[];
+  dataMode: boolean;
   /** Presets other than this one that hold typed colours, by name. */
   otherTyped: string[];
   onPreset: (id: string) => void;
@@ -19,7 +20,7 @@ interface Props {
 const thumbnail = (id: string) => `${import.meta.env.BASE_URL}thumbs/${id}.png`;
 
 /** Proof of concept: preset first (static thumbnails), then the primary colour, then optional "refine" slots. */
-export function PresetPanel({ preset, slots, notices, otherTyped, onPreset, onSlot, onClear, onSample, onResetPreset, onResetAll }: Props) {
+export function PresetPanel({ preset, slots, notices, dataMode, otherTyped, onPreset, onSlot, onClear, onSample, onResetPreset, onResetAll }: Props) {
   const fixOf = (id: string) => notices.find((notice) => notice.kind === 'slot' && notice.target === id);
   const row = (definition: PresetDefinition['slots'][number]) => {
     const slot = slots.find((candidate) => candidate.id === definition.id)!;
@@ -41,7 +42,7 @@ export function PresetPanel({ preset, slots, notices, otherTyped, onPreset, onSl
         )}
         {fix && (
           <span className="fix-note" role="note">
-            used: {slot.used}. {describeFix(fix)}
+            used: {slot.used}. {describeFix(fix, dataMode)}
           </span>
         )}
       </li>

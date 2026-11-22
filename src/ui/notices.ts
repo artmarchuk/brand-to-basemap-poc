@@ -1,8 +1,16 @@
 import type { CheckResult, FixNotice } from '../presets';
 import type { TokenName } from '../tokens/types';
 
-/** One line per auto-fix, worded for the row it sits next to. Every kind includes the colour that was used. */
-export function describeFix(notice: FixNotice): string {
+/**
+ * One line per auto-fix, worded for the row it sits next to. Every kind includes the colour that was used.
+ * In data mode, fixes other than holds happened on the light colours, before the map receded.
+ */
+export function describeFix(notice: FixNotice, dataMode = false): string {
+  const text = describe(notice);
+  return dataMode && notice.kind !== 'hold' ? `Before data mode: ${text.charAt(0).toLowerCase()}${text.slice(1)}` : text;
+}
+
+function describe(notice: FixNotice): string {
   switch (notice.kind) {
     case 'slot':
       return `Auto-fix: used ${notice.to} so “${notice.check}” passes.`;
@@ -10,8 +18,10 @@ export function describeFix(notice: FixNotice): string {
       return `Auto-fix: used ${notice.to} (was ${notice.from}) so “${notice.check}” passes.`;
     case 'fallback':
       return `Auto-fix: used ${notice.to} (was ${notice.from}) so “${notice.check}” passes.`;
-    case 'pick':
-      return `Auto-fix: water labels use ${notice.to.replace(' on ', ' on a ')} halo so “${notice.check}” passes.`;
+    case 'pick': {
+      const [text, halo] = notice.to.split(' on ');
+      return `Auto-fix: water labels use the ${text} colour with a ${halo} halo so “${notice.check}” passes.`;
+    }
     case 'hold':
       return `Data mode: used ${notice.to} (receded: ${notice.from}) so “${notice.check}” stays readable.`;
   }

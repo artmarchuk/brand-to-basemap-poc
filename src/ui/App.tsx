@@ -95,7 +95,7 @@ export function App() {
     const add = (token: TokenName, text: string) => (notes[token] ??= []).push(text);
     for (const fix of resolved.notices) {
       const token = noticeToken(fix);
-      if (token) add(token, describeFix(fix));
+      if (token) add(token, describeFix(fix, mode === 'data'));
     }
     resolved.finalChecks.forEach((check, index) => {
       if (check.pass) return;
@@ -103,7 +103,7 @@ export function App() {
       add(subject === 'waterLabel' ? 'water' : subject, describeFailure(check));
     });
     return notes;
-  }, [resolved]);
+  }, [resolved, mode]);
 
   const otherTyped = Object.keys(perPreset).filter((id) => id !== presetId).map((id) => getPreset(id).name);
 
@@ -143,6 +143,7 @@ export function App() {
             preset={resolved.preset}
             slots={resolved.slots}
             notices={resolved.notices}
+            dataMode={mode === 'data'}
             otherTyped={otherTyped}
             onPreset={(id) => dispatch({ type: 'preset', presetId: id })}
             onSlot={(slot, hex) => dispatch({ type: 'slot', slot, hex })}
