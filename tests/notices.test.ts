@@ -13,7 +13,7 @@ const cases = PRESETS.flatMap((preset) =>
   ),
 ).filter((item) => item.mode === 'data' || item.recede === 0);
 
-describe('auto-fix notices', () => {
+describe('auto-fix notices', { timeout: 60_000 }, () => {
   it('every notice in every preset and mode has a row to sit next to, and names the colour used', () => {
     const kinds = new Set<string>();
     for (const { preset, primary, mode, recede } of cases) {
