@@ -34,7 +34,7 @@ P0 serves both segments (agencies/freelancers and small product teams) with the 
 3. **Add detail** — toggle groups and label density.
 4. **Switch modes** — light, dark, data (recede slider).
 5. **Check zooms** — zoom stops (z4 / z8 / z12 / z16) on the main map, with a sweep and a review dot per stop.
-6. **Check accessibility** — pass/fail per mode, colour-vision simulation, auto-fix.
+6. **Check accessibility** — pass/fail per mode, colour-vision preview, auto-fix.
 7. **Choose provider** — OpenFreeMap (default) or MapTiler with own key.
 8. **Export** — style JSON per mode, tokens (JSON, CSS), embed snippet.
 
@@ -89,7 +89,7 @@ Everything else depends on this, so it is specified first.
 - Four zoom stops (about z4, z8, z12, z16) sit as chips on the main map. Selecting one flies the single map to that zoom at the current centre.
 - A sweep button animates a smooth zoom through the whole range, so abrupt jumps in colour, line width or label visibility between stops become visible.
 - Each stop has a review dot. Any style change resets all dots to unreviewed; viewing a stop marks it reviewed. The dots are a reminder, not a gate.
-- Each stop also shows the F5 pass/fail status evaluated at its zoom, so a failing stop is flagged before the user visits it.
+- ~~Each stop also shows the F5 pass/fail status evaluated at its zoom, so a failing stop is flagged before the user visits it.~~ **Dropped from P0** (S4, Nov 24, 2026): the checks run on the tokens, which are the same at every zoom, so a per-stop status would repeat the per-mode one.
 - The location is the main map's: the user can pan anywhere or pick from 6 curated cities (default Zurich).
 - The stops are one click away at all times. P0 renders no second map; side-by-side comparison and per-zoom editing are out of scope.
 
@@ -100,8 +100,9 @@ Everything else depends on this, so it is specified first.
 - Checks contrast for label primary (7:1) and secondary (4.5:1) against the colours they sit on, with and without halo.
 - Checks features against land: road major and boundary 3:1; road minor 1.5:1; water and park by OKLab colour distance, not a ratio. The single 0.05 threshold proposed from the per-palette values in `docs/contrast-report.md` is superseded: each preset carries its own distance checks (see `docs/preset-engine.md`).
 - In data mode the road major / land threshold slides linearly from 3:1 at recede 0 to 1.5:1 at recede 100. Labels stay AA.
-- Shows a clear pass or fail summary, per mode and per zoom stop, with the failing token pairs named.
-- Colour-vision simulation toggle: protanopia, deuteranopia, tritanopia.
+- Shows pass or fail per mode, with the failing token pairs named next to the colour they belong to. Per-zoom-stop pass/fail is **dropped from P0** (S4).
+- **Colour-vision preview** (S4): a control in the map view with none, protanopia, deuteranopia, tritanopia and achromatopsia. It is a colour-matrix filter on the map canvas (Machado et al. 2009 for the three dichromacies, luminance for achromatopsia). Preview only: it changes nothing in the tokens, the state, the share link or the exports, and adds no checks or auto-fix rules. What collapses under each simulation is reported in [colour-vision.md](colour-vision.md).
+- **Data-mode auto-fix** (S4): the preset's auto-fix also runs on the data-mode colours after the recede transform, with the same rules, and its notices are labelled "In data mode:".
 - Auto-fix adjusts token lightness, keeping hue as close to the brand as possible, until checks pass. Shows what changed and allows undo.
 - Checks run on every change, not on demand only.
 
@@ -111,7 +112,7 @@ Everything else depends on this, so it is specified first.
 
 - Provider switch: OpenFreeMap (default, no key) or MapTiler (user pastes their own key, stored in localStorage, never in the URL). The deployed app ships with no key and there is no demo key.
 - Switching provider keeps the token set and re-applies it to that provider's base style.
-- Exports: MapLibre style JSON per mode; the token set as JSON and as CSS variables; a copy-paste HTML/JS embed snippet.
+- Exports: MapLibre style JSON per mode; the token set as JSON and as CSS variables; a copy-paste HTML/JS embed snippet. The token export **stays in P0** (confirmed Nov 24, 2026; built in S4): the resolved map tokens as DTCG JSON (`$type: "color"`, hex `$value`, grouped under `map`) and as `--b2b-<token>` CSS custom properties. It never contains a key.
 - The exported style includes a stable, documented anchor layer ID for "add your data above this, below the labels".
 - Required attribution is included automatically for the chosen provider.
 - The current state can be saved and reopened (decided: URL-encoded state in the hash plus local autosave; the MapTiler key is never put in the URL).
@@ -200,12 +201,21 @@ Presets replace the brand-colour list as the first decision. Spec: [presets-desi
 
 Brief: [briefs/m4-export-state.md](briefs/m4-export-state.md). Details: [export.md](export.md).
 
-- **Colour persistence (PM default, pending Artem):** the primary colour is global; each preset remembers its own typed slots and overrides (per mode); derived slots follow the primary and are never stored. "Reset this preset" and "Reset all presets" clear typed values and overrides and keep the primary. The one-step undo is gone: switching presets loses nothing. The sample-palette button sets the primary (for every preset) and types the sample colours for the current preset.
+- **Colour persistence (DECIDED, confirmed by Artem Nov 24, 2026):** the primary colour is global; each preset remembers its own typed slots and overrides (per mode); derived slots follow the primary and are never stored. "Reset this preset" and "Reset all presets" clear typed values and overrides and keep the primary. The one-step undo is gone: switching presets loses nothing. The sample-palette button sets the primary (for every preset) and types the sample colours for the current preset.
 - **State v3** (`BrandState`): `primary`, `presetId`, `perPreset`, `mode`, `recede`, `details`, `density`, `source`, `view`. In the hash as `#s=<base64url JSON>` and in localStorage; the hash wins; a bad hash loads defaults with a notice. The key is not part of the state.
 - **Exports:** an embed snippet (full HTML page, MapLibre 6.16.0 from unpkg, inline style, attribution always expanded) and a style JSON, both for the current mode. A persistent Export button sits in the header.
 - **Data anchor:** `b2b-data-anchor`, an invisible background layer after the last fill or line layer and before the first label.
 - **MapTiler source:** `v3-openmaptiles` tiles and MapTiler fonts with the same Liberty-based style; the sprite stays OpenFreeMap's (Liberty icon names). Logo and "© MapTiler, © OpenStreetMap contributors" when on. Exports carry `YOUR_MAPTILER_KEY` unless the user ticks "Include my key". Rendered comparison: same labels and layers, 1-2 feature differences from data builds.
-- **Notices:** every auto-fix shows next to its slot or map-colour row with the colour used; data-mode holds now report too, and a check that still fails after every fix shows next to its token. Per-zoom-stop pass/fail was skipped.
+- **Notices:** every auto-fix shows next to its slot or map-colour row with the colour used; data-mode holds now report too, and a check that still fails after every fix shows next to its token. Per-zoom-stop pass/fail was skipped, and is dropped from P0 (S4).
+
+### Decisions: finishing P0 (S4, Nov 24, 2026)
+
+Spec: [specs/s4-finish-p0.md](specs/s4-finish-p0.md).
+
+- **Base styles, as built:** Q1 above named MapTiler Streets v2. What ships is the Liberty-based style on both sources: OpenFreeMap tiles, or MapTiler `v3-openmaptiles` tiles with the user's key. Streets v2 is not used by the app.
+- **Per-zoom-stop pass/fail is dropped from P0.** The review dots stay.
+- **Token export stays in P0** (F6) and the **colour-vision preview** is added to F5, as a preview and a report only.
+- **MapTiler terms.** Fine for this case study, because every user supplies their own key and the logo and credit stay visible. A public or commercial product built on this needs MapTiler's agreement (their free plan covers non-commercial use and R&D only).
 
 ## Open items for the PM (spec additions, defaults apply unless Artem objects)
 
@@ -214,7 +224,7 @@ Brief: [briefs/m4-export-state.md](briefs/m4-export-state.md). Details: [export.
 - **Measuring the success criteria.** "Under 5 minutes" needs a timed test with 2–3 first-time users; "renders identically" needs a scripted check (export → plain MapLibre page → visual diff).
 - **Hosting and public link.** Claude Code's call (GitHub Pages or Vercel); no secrets in the repo.
 - **Test palettes.** Use palettes inspired by well-known brands but shown under fictional brand names, to avoid trademark use in a public case study.
-- **Export format details.** Snippet decided in M4 (CDN MapLibre 6.16.0, inline style). Still open: versioned token JSON schema and CSS variable naming, if the token exports stay in P0.
+- **Export format details.** Snippet decided in M4 (CDN MapLibre 6.16.0, inline style). Token exports decided in S4: DTCG JSON with the state schema version in `$extensions`, and `--b2b-<token>` CSS variables (see [export.md](export.md)).
 - **Browser support.** Latest Chrome, Safari, Firefox and Edge.
 
 ## Plan (2-day target)

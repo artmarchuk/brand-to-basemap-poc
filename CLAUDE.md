@@ -13,7 +13,7 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 - **Design agency** (a separate Claude project): designs app UX, UI and branding in Figma after the working prototype exists (Phase 2). Not involved in P0.
 
 ## Locked decisions (Oct 31, 2026)
-- Base styles: OpenFreeMap **Liberty** and MapTiler **Streets v2**. Liberty is pinned in the repo. Streets is gitignored because of its licence: `npm run fetch-styles` gets it for local tests, and the deployed app fetches it at runtime with the user's key.
+- Base styles: OpenFreeMap **Liberty** and MapTiler tiles (v3-openmaptiles) with the Liberty-based style. Liberty is pinned in the repo and is the only style the app renders, on either tile source. The MapTiler Streets v2 style is not used by the app: its M1 mapping stays in the repo for the harness, and the style file is gitignored because of its licence (`npm run fetch-styles` gets it for local tests).
 - Palette derivation: **OKLCH** rules, tested on a set of 10 palettes.
 - Save/share: URL-encoded state in the hash plus local autosave. The MapTiler key is never put in the URL.
 - Data mode: a 0-100 "recede" slider on the light palette only (dark + data is P1). The sample data overlay is gone (app and harness).
@@ -32,7 +32,9 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 The app is organised around **presets**: Single Ink, Figure-Ground, Colour Field. A preset is a JSON file in `presets/` that maps key-colour slots to the map tokens, with a treatment (widths, casings, dashes), detail defaults and its own checks. Only the primary colour is required. Liberty only; Dark hidden (code kept); modes are Light and Data. Schema 0.4.0 has 14 tokens (adds `urbanLanduse`, `roadMajorCasing`, `roadHighway`). Read `docs/preset-engine.md`; decisions are in `docs/p0-requirements.md`. The brand-colour engine in `src/palette` stays, unwired except for the data transform.
 
 ## Export, state and MapTiler (M4, Nov 22, 2026)
-State v3 (`src/app/brandState.ts`): the primary colour is global, each preset remembers its typed slots and overrides, derived slots are never stored. It goes in the hash (`#s=`) and localStorage autosave; the hash wins. Exports (`src/export/export.ts`): an HTML embed snippet and a style JSON, with the `b2b-data-anchor` layer under the labels. Tile source switch (`src/style/source.ts`): OpenFreeMap or MapTiler `v3-openmaptiles` with the user's key, same Liberty-based style, OpenFreeMap sprite on both. Read `docs/export.md`. Checks: `npm run check-export` (exported page in headless Chrome, both sources) and `npm run compare-sources` (OpenFreeMap vs MapTiler sheets); both read `MAPTILER_KEY` from `.env.local` and never write it outside `node_modules/.cache`.
+**DECIDED (Artem, Nov 24, 2026): colour persistence.** The primary colour is global; each preset remembers its own typed slots and overrides (per mode); derived slots follow the primary and are never stored. Switching presets loses nothing; the resets clear typed values and overrides and keep the primary.
+
+State v3 (`src/app/brandState.ts`) implements that rule. It goes in the hash (`#s=`) and localStorage autosave; the hash wins. Exports (`src/export/export.ts`): an HTML embed snippet and a style JSON, with the `b2b-data-anchor` layer under the labels. Tile source switch (`src/style/source.ts`): OpenFreeMap or MapTiler `v3-openmaptiles` with the user's key, same Liberty-based style, OpenFreeMap sprite on both. Read `docs/export.md`. Checks: `npm run check-export` (exported page in headless Chrome, both sources) and `npm run compare-sources` (OpenFreeMap vs MapTiler sheets); both read `MAPTILER_KEY` from `.env.local` and never write it outside `node_modules/.cache`.
 
 ## Working rules
 - **Lean and fast.** The target is a working, presentable P0 in 1-2 days. No scope creep; anything not in the P0 requirements is out. Decide small things yourself and note them in your report.

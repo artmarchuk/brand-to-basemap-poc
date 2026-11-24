@@ -1,4 +1,6 @@
-// Screenshots of the real app with presets: each preset at z12 and z16 with default toggles, and the undo notice.
+// Screenshots of the real app with presets: each preset at z12 and z16 with default toggles.
+// It also checks that an edited map colour survives a preset switch and back (the M4 persistence rule;
+// the one-step undo notice this script used to capture was removed in M4).
 import { mkdirSync } from 'node:fs';
 import { launchChrome, wait } from './lib-chrome.mjs';
 
@@ -7,18 +9,28 @@ const OUT = 'docs/screens/m3/app';
 mkdirSync(OUT, { recursive: true });
 const browser = await launchChrome({ port: 9390, width: 1440, height: 900 });
 const click = (selector, nth = 0) => browser.evaluate(`document.querySelectorAll(${JSON.stringify(selector)})[${nth}].click()`);
+const landColour = () => browser.evaluate(`document.querySelector('input[aria-label="Land colour"]').value`);
+// Start from the defaults: no autosave from an earlier run, no hash.
+await browser.open(URL, 1000);
+await browser.evaluate(`localStorage.removeItem('b2b:state')`);
 await browser.open(URL, 1000);
 await wait(10000);
 const names = ['single-ink', 'figure-ground', 'colour-field'];
+
+// Edit a map colour in Figure-Ground, switch away and back: the edit must still be there.
 await click('input[name=preset]', 1); await wait(500);
-// Edit a map colour first, so the switch has something to undo.
 await browser.evaluate(`(() => { const i = document.querySelector('input[aria-label="Land colour"]'); const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set; set.call(i, '#eeeeee'); i.dispatchEvent(new Event('input', { bubbles: true })); })()`);
 await wait(500);
 await click('input[name=preset]', 0); await wait(1200);
-await browser.screenshot(`${OUT}/undo-notice.png`);
-console.log('undo notice:', await browser.evaluate(`document.querySelector('.notice')?.textContent`));
-await click('.notice button'); await wait(800);
-console.log('after undo preset:', await browser.evaluate(`document.querySelector('input[name=preset]:checked').closest('label').textContent`));
+await click('input[name=preset]', 1); await wait(1200);
+const kept = await landColour();
+console.log('land edit after switching away and back:', kept);
+if (kept !== '#eeeeee') {
+  console.error('The edited colour was lost on a preset switch.');
+  process.exitCode = 1;
+}
+await click('button[aria-label="Reset Land to derived"]'); await wait(500);
+
 for (const [i, name] of names.entries()) {
   await click('input[name=preset]', i); await wait(7000);
   await browser.screenshot(`${OUT}/${name}-z12.png`);
@@ -27,5 +39,6 @@ for (const [i, name] of names.entries()) {
   await click('.chip', 2); await wait(3000);
   console.log(name, 'ok');
 }
-console.log(JSON.stringify(browser.session.problems.filter((p) => !/could not be loaded/.test(p)).slice(0, 6), null, 1));
+const problems = browser.session.problems.filter((p) => !/could not be loaded/.test(p));
+console.log(JSON.stringify(problems.slice(0, 6), null, 1));
 browser.close();
