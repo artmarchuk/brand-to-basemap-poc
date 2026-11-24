@@ -113,7 +113,7 @@ Data mode runs the existing `transformData` on the resolved tokens, so it needs 
   - *A colour typed for data mode is locked.* A token with a data override is never moved; the fix works around it, and if it cannot, the check is reported as still failing.
   - *A slot strategy holds instead of moving the slot.* Moving a slot would repaint the light map, so the receded colours the check measures are held back towards their light colours, just far enough to pass (`holdForCheck`). Tokens that share a colour with one of them move together, so Figure-Ground's buildings and built-up land stay one colour.
 
-  Notices from this stage carry `stage: "data"` and read "In data mode: …" in the app; a token moved twice is reported once. Light-mode fixes read "Before data mode: …" while data mode is on. A property test runs the 10 fixtures × 3 presets × recede 0-100 in steps of 10: every check passes (55 of 2,640 failed before: yellow roads on Single Ink's paper at recede 10-60, and Figure-Ground's fabric against its water at recede 80-100).
+  Notices from this stage carry `stage: "data"` and read "In data mode: …" in the app; a token moved twice is reported once. Light-mode fixes read "Before data mode: …" while data mode is on. A property test runs the 10 fixtures × 3 presets × recede 0-100 in steps of 10: every check passes (55 of 2,640 failed before: yellow roads on Single Ink's paper at recede 10-60, and Figure-Ground's fabric against its water at high recede).
 
 - **Gaps stay gaps.** A token equal to the land in light mode follows the land in data mode. Without this, Figure-Ground's paper roads were pulled towards the surface mean and became grey lines on paper at z16.
 
