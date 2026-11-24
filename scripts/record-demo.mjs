@@ -101,10 +101,12 @@ await click(page.getByRole('button', { name: 'Export', exact: true }));
 await pause(1400);
 // Over the panel's edge, so the wheel scrolls the panel and not a text box.
 await page.mouse.move(6, 420, { steps: 10 });
-await page.mouse.wheel(0, 520);
-await pause(1300);
-await page.mouse.wheel(0, 620);
-await pause(1800);
+// Down to the design tokens, staying inside the Export panel.
+for (let i = 0; i < 6; i++) {
+  await page.mouse.wheel(0, 50);
+  await pause(90);
+}
+await pause(2400);
 
 const length = (Date.now() - started) / 1000 - trim;
 await context.close();
