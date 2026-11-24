@@ -39,6 +39,8 @@ export interface FixNotice {
   target: string;
   from: string;
   to: string;
+  /** `data`: made on the data-mode colours, after the recede transform. Absent on fixes to the light colours. */
+  stage?: 'data';
 }
 
 export interface PresetResolved {
@@ -51,7 +53,7 @@ export interface PresetResolved {
   stages: { expressions: ResolvedTokens; fixed: ResolvedTokens; overridden: ResolvedTokens };
   /** Checks after auto-fix, at the light tokens. */
   checks: CheckResult[];
-  /** The same checks on the tokens the map gets (after overrides and data mode), non-label minimums relaxed in data mode. */
+  /** The same checks on the tokens the map gets (after overrides, data mode and its auto-fix), non-label minimums relaxed in data mode. */
   finalChecks: CheckResult[];
   notices: FixNotice[];
   overriddenTokens: TokenName[];
@@ -129,6 +131,10 @@ export function measure(check: CheckDefinition, tokens: ResolvedTokens, waterLab
 
 const score = (check: CheckDefinition, draft: Draft) => measure(check, draft.tokens, draft.waterLabel).value;
 
+/** The minimum a check must reach: its own in light mode, the relaxed one in data mode. */
+type MinOf = (check: CheckDefinition) => number;
+const ownMin: MinOf = (check) => check.min;
+
 /**
  * Steps a colour's lightness both ways at once and returns the nearest candidate that passes, or the
  * candidate with the best score if none does. Hue and chroma are kept where the gamut allows.
@@ -177,26 +183,38 @@ function rebuild(ctx: Context, waterLabel: WaterLabel): Draft {
  * A fix may never trade one passing check for another, which also stops two fixes from pulling one slot
  * back and forth.
  */
-function guarded(check: CheckDefinition, checks: CheckDefinition[], draft: Draft) {
-  const passing = checks.filter((other) => other !== check && score(other, draft) >= other.min);
-  return (candidate: Draft) => (passing.every((other) => score(other, candidate) >= other.min) ? score(check, candidate) : -Infinity);
+function guarded(check: CheckDefinition, checks: CheckDefinition[], draft: Draft, minOf: MinOf = ownMin) {
+  const passing = checks.filter((other) => other !== check && score(other, draft) >= minOf(other));
+  return (candidate: Draft) => (passing.every((other) => score(other, candidate) >= minOf(other)) ? score(check, candidate) : -Infinity);
 }
 
-function applyTokenStrategy(check: CheckDefinition, strategy: FixStrategy, draft: Draft, step: number, checks: CheckDefinition[]) {
+/** `locked` tokens hold a colour the user typed for this mode: no strategy may move them. */
+function applyTokenStrategy(
+  check: CheckDefinition,
+  strategy: FixStrategy,
+  draft: Draft,
+  step: number,
+  checks: CheckDefinition[],
+  minOf: MinOf = ownMin,
+  locked: TokenName[] = [],
+) {
+  const min = minOf(check);
   if ('token' in strategy) {
     const token = strategy.token === 'waterLabel' ? draft.waterLabel.text : strategy.token;
     if (strategy.token === 'waterLabel' && !LABEL_TOKENS.includes(token)) return undefined;
+    if (locked.includes(token)) return undefined;
     const direction = plainDirection(strategy.direction, check, draft.tokens);
-    const scoreOf = guarded(check, checks, draft);
-    const found = nearestPassing(draft.tokens[token], (hex) => scoreOf({ ...draft, tokens: { ...draft.tokens, [token]: hex } }), check.min, step, direction);
+    const scoreOf = guarded(check, checks, draft, minOf);
+    const found = nearestPassing(draft.tokens[token], (hex) => scoreOf({ ...draft, tokens: { ...draft.tokens, [token]: hex } }), min, step, direction);
     if (found.hex === draft.tokens[token]) return undefined;
     const notice: FixNotice = { check: check.id, kind: 'token', target: token, from: draft.tokens[token], to: found.hex };
     return { draft: { ...draft, tokens: { ...draft.tokens, [token]: found.hex } }, notice };
   }
   if ('fallback' in strategy && check.subject !== 'waterLabel') {
+    if (locked.includes(check.subject)) return undefined;
     const from = draft.tokens[check.subject];
     const to = draft.tokens[strategy.fallback];
-    if (from === to || guarded(check, checks, draft)({ ...draft, tokens: { ...draft.tokens, [check.subject]: to } }) === -Infinity) return undefined;
+    if (from === to || guarded(check, checks, draft, minOf)({ ...draft, tokens: { ...draft.tokens, [check.subject]: to } }) === -Infinity) return undefined;
     return { draft: { ...draft, tokens: { ...draft.tokens, [check.subject]: to } }, notice: { check: check.id, kind: 'fallback' as const, target: check.subject, from, to } };
   }
   if ('pick' in strategy) {
@@ -204,7 +222,7 @@ function applyTokenStrategy(check: CheckDefinition, strategy: FixStrategy, draft
       const label = parseWaterLabel(entry, draft.waterLabel.halo);
       return { label, value: score(check, { ...draft, waterLabel: label }) };
     });
-    const choice = ranked.find((candidate) => candidate.value >= check.min) ?? ranked.reduce((a, b) => (b.value > a.value ? b : a));
+    const choice = ranked.find((candidate) => candidate.value >= min) ?? ranked.reduce((a, b) => (b.value > a.value ? b : a));
     if (choice.label.text === draft.waterLabel.text && choice.label.halo === draft.waterLabel.halo) return undefined;
     return { draft: { ...draft, waterLabel: choice.label }, notice: { check: check.id, kind: 'pick' as const, target: 'waterLabel', from: describeWaterLabel(draft.waterLabel), to: describeWaterLabel(choice.label) } };
   }
@@ -306,6 +324,101 @@ function holdLabelGrounds(checks: CheckDefinition[], light: ResolvedTokens, data
   return { tokens, notices };
 }
 
+/** How finely a data-mode hold searches for the largest share of the recede that still passes. */
+const HOLD_SCAN_STEPS = 20;
+const HOLD_BISECTIONS = 10;
+
+/**
+ * A slot strategy in data mode. The slot's light colour already passed, and moving the slot now would repaint
+ * the light map, so instead the receded colours the check measures are held back towards their light colours,
+ * just far enough to pass. Tokens that share a colour with one of them (Figure-Ground's buildings and built-up
+ * land) move with it, so one colour stays one colour.
+ */
+function holdForCheck(check: CheckDefinition, draft: Draft, light: ResolvedTokens, checks: CheckDefinition[], minOf: MinOf, locked: TokenName[]) {
+  const { tokens } = draft;
+  const subject = check.subject === 'waterLabel' ? draft.waterLabel.text : check.subject;
+  const measured = [...new Set([subject, ...groundsOf(check, draft.waterLabel)])];
+  const moving = TOKEN_NAMES.filter(
+    (token) =>
+      !locked.includes(token) &&
+      tokens[token] !== light[token] &&
+      measured.some((other) => light[other] === light[token] && tokens[other] === tokens[token]),
+  );
+  if (moving.length === 0) return undefined;
+  const at = (t: number): Draft => {
+    const next = { ...tokens };
+    for (const token of moving) next[token] = formatColor({ ...mixColors(parseColor(light[token])!, parseColor(tokens[token])!, t), alpha: 1 });
+    return { ...draft, tokens: next };
+  };
+  const scoreOf = guarded(check, checks, draft, minOf);
+  const passes = (t: number) => scoreOf(at(t)) >= minOf(check);
+  // The largest share of the recede that passes: a coarse scan down from the full recede, then bisection.
+  let low = -1;
+  for (let i = HOLD_SCAN_STEPS - 1; i >= 0 && low < 0; i--) if (passes(i / HOLD_SCAN_STEPS)) low = i / HOLD_SCAN_STEPS;
+  if (low < 0) return undefined;
+  let high = low + 1 / HOLD_SCAN_STEPS;
+  for (let i = 0; i < HOLD_BISECTIONS; i++) {
+    const mid = (low + high) / 2;
+    if (passes(mid)) low = mid;
+    else high = mid;
+  }
+  const held = at(low);
+  const notices: FixNotice[] = moving
+    .filter((token) => held.tokens[token] !== tokens[token])
+    .map((token) => ({ check: check.id, kind: 'hold', target: token, from: tokens[token], to: held.tokens[token], stage: 'data' }));
+  return notices.length > 0 ? { draft: held, notices } : undefined;
+}
+
+/**
+ * The preset's auto-fix again, on the data-mode colours: after the recede transform, the label holds and the
+ * data overrides. Same checks (at their data minimums), same strategies in the same order, same rules: a fix
+ * never breaks a passing check, and a colour typed for data mode (`locked`) is never changed. The one
+ * difference is a slot strategy, which holds colours back instead of moving the slot (see `holdForCheck`).
+ */
+function autoFixData(
+  preset: PresetDefinition,
+  start: Draft,
+  light: ResolvedTokens,
+  minOf: MinOf,
+  locked: TokenName[],
+  step: number,
+): { draft: Draft; notices: FixNotice[] } {
+  let draft = start;
+  const notices: FixNotice[] = [];
+  for (const check of preset.checks) {
+    if (score(check, draft) >= minOf(check)) continue;
+    for (const strategy of check.fix) {
+      const result =
+        'slot' in strategy
+          ? holdForCheck(check, draft, light, preset.checks, minOf, locked)
+          : (() => {
+              const applied = applyTokenStrategy(check, strategy, draft, step, preset.checks, minOf, locked);
+              return applied && { draft: applied.draft, notices: [{ ...applied.notice, stage: 'data' as const }] };
+            })();
+      if (!result) continue;
+      draft = result.draft;
+      notices.push(...result.notices);
+      if (score(check, draft) >= minOf(check)) break;
+    }
+  }
+  return { draft, notices };
+}
+
+/**
+ * A token can be moved more than once in data mode (held for a label, then nudged for a road check). It is
+ * reported once: from the receded colour it started at, to the colour the map draws, under the last check.
+ */
+function lastPerTarget(notices: FixNotice[]): FixNotice[] {
+  const merged = new Map<string, FixNotice>();
+  for (const notice of notices) {
+    const key = notice.kind === 'pick' ? `pick:${notice.target}` : notice.target;
+    const earlier = merged.get(key);
+    merged.delete(key);
+    merged.set(key, earlier ? { ...notice, from: earlier.from } : notice);
+  }
+  return [...merged.values()].filter((notice) => notice.from !== notice.to);
+}
+
 function resolveTreatment(definition: TreatmentDefinition, waterLabel: WaterLabel, config: PresetConfig): Treatment {
   const road = (spec: TreatmentDefinition['roadMajor']) => ({
     ...(spec.weight !== 'base' && { width: config.weights[spec.weight] }),
@@ -325,8 +438,8 @@ function resolveTreatment(definition: TreatmentDefinition, waterLabel: WaterLabe
 }
 
 /**
- * primary + optional slots -> preset expressions -> auto-fix -> overrides -> data transform.
- * Pure and deterministic. The result feeds applyTokens with its treatment.
+ * primary + optional slots -> preset expressions -> auto-fix -> overrides -> data transform -> data overrides
+ * -> auto-fix on the data colours. Pure and deterministic. The result feeds applyTokens with its treatment.
  */
 export function resolvePreset(state: PresetState, config: PresetConfig = PRESET_CONFIG): PresetResolved {
   const preset = getPreset(state.preset);
@@ -338,8 +451,15 @@ export function resolvePreset(state: PresetState, config: PresetConfig = PRESET_
   const overridden = applyOverrides(draft.tokens, state.overrides.light);
   const data = state.mode === 'data';
   const hold = data ? holdLabelGrounds(preset.checks, overridden, transformData(overridden, state.recede), draft.waterLabel) : undefined;
-  const tokens = hold ? applyOverrides(hold.tokens, state.overrides.data) : overridden;
   const modeOverrides = state.overrides[state.mode];
+  const overriddenTokens = TOKEN_NAMES.filter((token) => token in modeOverrides);
+  const minOf: MinOf = (check) => (data ? dataMinimum(check, state.recede, config) : check.min);
+  // Data mode: the same auto-fix once more, on the colours the map will draw. Typed data colours are locked.
+  const dataFix = hold
+    ? autoFixData(preset, { ...draft, tokens: applyOverrides(hold.tokens, state.overrides.data) }, overridden, minOf, overriddenTokens, config.autoFix.step)
+    : undefined;
+  const tokens = dataFix ? dataFix.draft.tokens : overridden;
+  const waterLabel = dataFix ? dataFix.draft.waterLabel : draft.waterLabel;
 
   return {
     preset,
@@ -350,13 +470,20 @@ export function resolvePreset(state: PresetState, config: PresetConfig = PRESET_
       source: slot.id in state.slots ? 'user' : 'default',
     })),
     tokens,
-    treatment: resolveTreatment(preset.treatment, draft.waterLabel, config),
+    treatment: resolveTreatment(preset.treatment, waterLabel, config),
     visibility: data ? dataVisibility(state.recede) : NO_HINTS,
     stages: { expressions, fixed: draft.tokens, overridden },
     checks: preset.checks.map((check) => measure(check, draft.tokens, draft.waterLabel)),
-    finalChecks: preset.checks.map((check) => measure(check, tokens, draft.waterLabel, data ? dataMinimum(check, state.recede, config) : check.min)),
-    notices: [...notices, ...(hold?.notices ?? [])],
-    overriddenTokens: TOKEN_NAMES.filter((token) => token in modeOverrides),
+    finalChecks: preset.checks.map((check) => measure(check, tokens, waterLabel, minOf(check))),
+    notices: [
+      ...notices,
+      // A label hold on a token the user then typed for data mode changed nothing they see, so it is not told.
+      ...lastPerTarget([
+        ...(hold?.notices ?? []).filter((notice) => !overriddenTokens.includes(notice.target as TokenName)).map((notice) => ({ ...notice, stage: 'data' as const })),
+        ...(dataFix?.notices ?? []),
+      ]),
+    ],
+    overriddenTokens,
   };
 }
 

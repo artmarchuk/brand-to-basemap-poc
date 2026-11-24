@@ -3,11 +3,13 @@ import type { TokenName } from '../tokens/types';
 
 /**
  * One line per auto-fix, worded for the row it sits next to. Every kind includes the colour that was used.
- * In data mode, fixes other than holds happened on the light colours, before the map receded.
+ * A fix made on the data-mode colours (after the recede) is labelled "In data mode:". While data mode is on,
+ * the other fixes are the ones made on the light colours, before the map receded.
  */
 export function describeFix(notice: FixNotice, dataMode = false): string {
+  if (notice.stage === 'data') return `In data mode: ${describeData(notice)}`;
   const text = describe(notice);
-  return dataMode && notice.kind !== 'hold' ? `Before data mode: ${text.charAt(0).toLowerCase()}${text.slice(1)}` : text;
+  return dataMode ? `Before data mode: ${text.charAt(0).toLowerCase()}${text.slice(1)}` : text;
 }
 
 function describe(notice: FixNotice): string {
@@ -15,15 +17,28 @@ function describe(notice: FixNotice): string {
     case 'slot':
       return `Auto-fix: used ${notice.to} so “${notice.check}” passes.`;
     case 'token':
-      return `Auto-fix: used ${notice.to} (was ${notice.from}) so “${notice.check}” passes.`;
     case 'fallback':
-      return `Auto-fix: used ${notice.to} (was ${notice.from}) so “${notice.check}” passes.`;
-    case 'pick': {
-      const [text, halo] = notice.to.split(' on ');
-      return `Auto-fix: water labels use the ${text} colour with a ${halo} halo so “${notice.check}” passes.`;
-    }
     case 'hold':
-      return `Data mode: used ${notice.to} (receded: ${notice.from}) so “${notice.check}” stays readable.`;
+      return `Auto-fix: used ${notice.to} (was ${notice.from}) so “${notice.check}” passes.`;
+    case 'pick':
+      return `Auto-fix: ${describePick(notice)}`;
+  }
+}
+
+function describePick(notice: FixNotice): string {
+  const [text, halo] = notice.to.split(' on ');
+  return `water labels use the ${text} colour with a ${halo} halo so “${notice.check}” passes.`;
+}
+
+function describeData(notice: FixNotice): string {
+  switch (notice.kind) {
+    case 'pick':
+      return describePick(notice);
+    case 'hold':
+      // Held back towards the light colour, so the map recedes a little less here.
+      return `kept ${notice.to} (receded: ${notice.from}) so “${notice.check}” still passes.`;
+    default:
+      return `used ${notice.to} (receded: ${notice.from}) so “${notice.check}” passes.`;
   }
 }
 

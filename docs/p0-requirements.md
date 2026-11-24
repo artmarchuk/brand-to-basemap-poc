@@ -214,6 +214,7 @@ Spec: [specs/s4-finish-p0.md](specs/s4-finish-p0.md).
 
 - **Base styles, as built:** Q1 above named MapTiler Streets v2. What ships is the Liberty-based style on both sources: OpenFreeMap tiles, or MapTiler `v3-openmaptiles` tiles with the user's key. Streets v2 is not used by the app.
 - **Per-zoom-stop pass/fail is dropped from P0.** The review dots stay.
+- **Data-mode auto-fix** (engine): the per-preset auto-fix also runs on the data-mode colours, after the recede; a colour typed for data mode is never changed; notices read "In data mode: …". See [preset-engine.md](preset-engine.md).
 - **Token export stays in P0** (F6) and the **colour-vision preview** is added to F5, as a preview and a report only.
 - **MapTiler terms.** Fine for this case study, because every user supplies their own key and the logo and credit stay visible. A public or commercial product built on this needs MapTiler's agreement (their free plan covers non-commercial use and R&D only).
 
