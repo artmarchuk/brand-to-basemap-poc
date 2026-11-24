@@ -16,6 +16,8 @@ import { describeFailure, describeFix, noticeToken } from './notices';
 import { PresetPanel } from './PresetPanel';
 import { SourcePanel } from './SourcePanel';
 import { TokenPanel } from './TokenPanel';
+import type { VisionMode } from '../vision/simulate';
+import { VisionControl } from './VisionControl';
 import { ZoomBar } from './ZoomBar';
 
 const SWEEP_MS = 12000;
@@ -50,6 +52,8 @@ export function App() {
   const [exportOpen, setExportOpen] = useState(false);
   const [zoom, setZoom] = useState(restored.state.view.zoom);
   const [sweeping, setSweeping] = useState(false);
+  // Colour-vision preview: local to this session, not part of the state that is shared, saved or exported.
+  const [vision, setVision] = useState<VisionMode>('none');
   const mapRef = useRef<MapLibreMap | null>(null);
   const { brand } = state;
 
@@ -183,6 +187,7 @@ export function App() {
             center={restored.state.view.center}
             zoom={restored.state.view.zoom}
             logo={TILE_SOURCES[source].logo}
+            vision={vision}
             onReady={(map) => (mapRef.current = map)}
             onZoom={(next) => {
               setZoom(next);
@@ -208,6 +213,7 @@ export function App() {
                 ))}
               </select>
             </label>
+            <VisionControl mode={vision} onMode={setVision} />
           </div>
           <div className="stage-bottom">
             <ZoomBar zoom={zoom} reviewed={state.reviewed} sweeping={sweeping} onStop={goToStop} onSweep={sweep} />

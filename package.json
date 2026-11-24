@@ -20,6 +20,8 @@
     "fetch-styles": "node scripts/fetch-styles.mjs",
     "check-drift": "tsx scripts/check-drift.ts",
     "contrast-report": "tsx scripts/generate-contrast-report.ts",
+    "vision-report": "tsx scripts/generate-colour-vision-report.ts",
+    "check-vision": "tsx scripts/check-vision.ts",
     "check-export": "tsx scripts/check-export.ts",
     "compare-sources": "tsx scripts/compare-sources.ts",
     "screens:app": "node scripts/capture-app.mjs http://localhost:4173/",

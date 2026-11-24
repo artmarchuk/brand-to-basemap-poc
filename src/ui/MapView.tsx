@@ -4,6 +4,8 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import { useEffect, useRef } from 'react';
 import type { MapView as View } from '../app/brandState';
 import type { TileSource } from '../style/source';
+import type { VisionMode } from '../vision/simulate';
+import { VisionFilters } from './VisionControl';
 
 // MapLibre 6 ships its worker as a separate module, so the bundler has to emit it.
 setWorkerUrl(workerUrl);
@@ -20,11 +22,13 @@ interface Props {
   onMove: (view: View) => void;
   /** The provider's logo, where its terms require one on the map. */
   logo?: TileSource['logo'];
+  /** Colour-vision preview: a filter on the map canvas only. */
+  vision?: VisionMode;
 }
 
 const THROTTLE_MS = 250;
 
-export function MapView({ style, center, zoom, onReady, onZoom, onIdle, onMove, logo }: Props) {
+export function MapView({ style, center, zoom, onReady, onZoom, onIdle, onMove, logo, vision = 'none' }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const appliedStyle = useRef<StyleSpecification | null>(null);
@@ -88,7 +92,14 @@ export function MapView({ style, center, zoom, onReady, onZoom, onIdle, onMove, 
 
   return (
     <>
-      <div ref={containerRef} className="map-view" role="region" aria-label="Map preview" />
+      <VisionFilters />
+      <div
+        ref={containerRef}
+        className="map-view"
+        role="region"
+        aria-label={vision === 'none' ? 'Map preview' : `Map preview, simulating ${vision}`}
+        data-vision={vision}
+      />
       {logo && (
         <a className="map-logo" href={logo.href} target="_blank" rel="noreferrer">
           <img src={logo.src} alt={logo.alt} />

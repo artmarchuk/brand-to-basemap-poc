@@ -306,6 +306,50 @@ body {
 
 .stage-top {
   top: var(--ui-space-3);
+  right: var(--ui-space-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--ui-space-2);
+  pointer-events: none;
+}
+
+.stage-top > * {
+  pointer-events: auto;
+}
+
+/* Colour-vision preview: a control on the map, and a filter on the map canvas only. */
+.field-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ui-space-2);
+  padding: var(--ui-space-1) var(--ui-space-2);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-color-surface-raised);
+  box-shadow: var(--ui-shadow-md);
+}
+
+.vision-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.map-view[data-vision='protanopia'] .maplibregl-canvas {
+  filter: url('#b2b-vision-protanopia');
+}
+
+.map-view[data-vision='deuteranopia'] .maplibregl-canvas {
+  filter: url('#b2b-vision-deuteranopia');
+}
+
+.map-view[data-vision='tritanopia'] .maplibregl-canvas {
+  filter: url('#b2b-vision-tritanopia');
+}
+
+.map-view[data-vision='achromatopsia'] .maplibregl-canvas {
+  filter: url('#b2b-vision-achromatopsia');
 }
 
 .stage-bottom {
