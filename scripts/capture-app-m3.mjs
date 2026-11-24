@@ -31,10 +31,17 @@ if (kept !== '#eeeeee') {
 }
 await click('button[aria-label="Reset Land to derived"]'); await wait(500);
 
+// A fixed wait is not enough at z16 in software rendering: wait until the map reports it has drawn everything.
+const settled = async (timeoutMs = 60000) => {
+  await wait(2500);
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline && !(await browser.evaluate('window.mapIdle === true && window.b2bMap.areTilesLoaded() && !window.b2bMap.isMoving()'))) await wait(300);
+  await wait(1500);
+};
 for (const [i, name] of names.entries()) {
-  await click('input[name=preset]', i); await wait(7000);
+  await click('input[name=preset]', i); await settled();
   await browser.screenshot(`${OUT}/${name}-z12.png`);
-  await click('.chip', 3); await wait(9000);
+  await click('.chip', 3); await settled();
   await browser.screenshot(`${OUT}/${name}-z16.png`);
   await click('.chip', 2); await wait(3000);
   console.log(name, 'ok');
