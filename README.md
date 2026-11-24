@@ -103,6 +103,7 @@ npm test               # unit and property tests, lint guards
 npm run build          # tokens, lint, typecheck, bundle, and a check that no key is in dist/
 npm run check-export   # renders the exported page in headless Chrome
 npm run check-vision   # checks the colour-vision filter against a served build
+npm run check-reveal   # checks that a layer group shown after a preset switch is drawn at z16
 npm run vision-report  # regenerates docs/colour-vision.md
 npm run demo           # records the demo above with Playwright (needs Chrome and ffmpeg)
 ```

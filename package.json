@@ -22,6 +22,7 @@
     "contrast-report": "tsx scripts/generate-contrast-report.ts",
     "vision-report": "tsx scripts/generate-colour-vision-report.ts",
     "check-vision": "tsx scripts/check-vision.ts",
+    "check-reveal": "node scripts/check-layer-reveal.mjs",
     "demo": "node scripts/record-demo.mjs",
     "check-export": "tsx scripts/check-export.ts",
     "compare-sources": "tsx scripts/compare-sources.ts",
