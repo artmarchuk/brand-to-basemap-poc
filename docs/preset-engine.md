@@ -104,10 +104,16 @@ Rules:
 
 ## Data mode
 
-Data mode runs the existing `transformData` on the resolved tokens, so it needs no preset code. Three generic additions:
+Data mode runs the existing `transformData` on the resolved tokens, so it needs no preset code. Four generic additions:
 
 - **Labels stay AA.** The transform only lightens surfaces. That protects dark labels and costs light ones: Paper labels on Single Ink's ink water failed in 7 of 11 palettes at recede 30. Now, where a label check fails after recede, its ground (and the label token, if it receded) is held back towards its light colour, just far enough to pass.
 - **Other checks relax like the F5 road rule.** In `finalChecks`, a non-label minimum falls linearly to half at recede 100 (`data.relaxTo`), as `roadMajor` falls from 3:1 to 1.5:1.
+
+- **Auto-fix runs again on the data colours** (S4). After the recede, the label holds and the data overrides, the preset's own checks are measured at their data minimums and what fails is repaired with the same strategies in the same order, under the same rules: a fix never breaks a passing check, and every change is a notice. Two things differ:
+  - *A colour typed for data mode is locked.* A token with a data override is never moved; the fix works around it, and if it cannot, the check is reported as still failing.
+  - *A slot strategy holds instead of moving the slot.* Moving a slot would repaint the light map, so the receded colours the check measures are held back towards their light colours, just far enough to pass (`holdForCheck`). Tokens that share a colour with one of them move together, so Figure-Ground's buildings and built-up land stay one colour.
+
+  Notices from this stage carry `stage: "data"` and read "In data mode: …" in the app; a token moved twice is reported once. Light-mode fixes read "Before data mode: …" while data mode is on. A property test runs the 10 fixtures × 3 presets × recede 0-100 in steps of 10: every check passes (55 of 2,640 failed before: yellow roads on Single Ink's paper at recede 10-60, and Figure-Ground's fabric against its water at high recede).
 
 - **Gaps stay gaps.** A token equal to the land in light mode follows the land in data mode. Without this, Figure-Ground's paper roads were pulled towards the surface mean and became grey lines on paper at z16.
 
@@ -137,6 +143,7 @@ In [config.ts](../src/presets/config.ts): the function constants, the `hairline`
 - **Thumbnails are static.** `scripts/make-thumbs.mjs` crops them from the M3 captures (macOS); rerun it when a preset's look changes.
 - **Auto-fix can move a key colour a long way.** A mid-tone or dark primary in Colour Field, or a pastel fabric, is moved to reach label contrast. The UI shows the used colour, but the map may stop feeling on brand. See the report for the worst cases.
 - **Figure-Ground labels on dark fabric rely on the Paper halo.** They are checked against paper and the halo, not against the fabric, so the preset draws a 2.5 px unblurred halo.
-- **In data mode, Figure-Ground's two carriers converge** for pastel and neon palettes: both lose chroma, so the separation check fails at recede 30-100 for 1-3 of 11 palettes.
+- **In data mode, Figure-Ground's two carriers converge** for pastel, yellow and neon palettes: both lose chroma. The data-mode auto-fix now holds both back until they are apart again, so those maps recede less than the slider says; the notice names the colours kept.
+- **Data-mode auto-fix cannot repair a check the user's own colours break.** A typed data colour is locked, and a light map that already fails (typed slots that no fix can reconcile) has nothing to hold back to. The failing check is shown next to its colour.
 - **The Park layer's 0.7 opacity** in Liberty mixes a typed Green with the paper, so a dark green reads as khaki.
 - **No live thumbnails** and no swap-ground option (brief, out of scope).

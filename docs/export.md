@@ -1,8 +1,8 @@
-# Export, share and tile sources (M4)
+# Export, share and tile sources (M4, tokens added in S4)
 
-How the prototype hands a map over: the two export files, the data anchor layer, key handling, the share link and autosave, and the two tile sources. Brief: [briefs/m4-export-state.md](briefs/m4-export-state.md).
+How the prototype hands a map over: the export files, the data anchor layer, key handling, the share link and autosave, and the two tile sources. Brief: [briefs/m4-export-state.md](briefs/m4-export-state.md).
 
-## The two outputs
+## The outputs
 
 The **Export** button in the header opens the export panel at any time. It shows what is on the map now and offers each output with **Copy** and **Download**.
 
@@ -11,9 +11,32 @@ The **Export** button in the header opens the export panel at any time. It shows
 | **Embed snippet** (`map.html`, about 60 KB) | A complete HTML page. It loads `maplibre-gl@6.16.0` from unpkg (ES module build), inlines the style, opens at the current centre and zoom, and shows the attribution expanded (`attributionControl: { compact: false }`). With MapTiler it also adds the MapTiler logo. Paste it into an empty `.html` file and open it. | `exportSnippet` in [src/export/export.ts](../src/export/export.ts) |
 | **Style JSON** (`style.json`, about 140 KB) | A self-contained MapLibre style (version 8) for the current state: preset, primary, typed slots, overrides, Data mode and recede, detail toggles. Attribution is set on the vector source. `metadata["b2b:export"]` records the preset, primary, mode and source, with notes on the anchor and the key. | `exportStyle` in the same file |
 
-Both are built from the same compiled style as the map in the app (`compileBrand` in [src/app/compile.ts](../src/app/compile.ts), then `withTileSource`). A test checks that the app and the export compile the same layers. No overlay or test data is ever exported.
+The snippet and the style JSON are built from the same compiled style as the map in the app (`compileBrand` in [src/app/compile.ts](../src/app/compile.ts), then `withTileSource`). A test checks that the app and the export compile the same layers. No overlay or test data is ever exported.
 
 **Data mode:** the exports use the current mode. In Data mode they carry the receded colours and the label holds at the current recede value. Hidden POIs and thinned labels stay hidden in the export.
+
+## Design tokens
+
+The third output is the map's colours on their own, for a design system or the page around the map. It is the **resolved** token set: what the map draws now, after the preset, the typed slots, auto-fix, overrides and, in Data mode, the recede transform. Code: [src/export/tokens.ts](../src/export/tokens.ts).
+
+| Output | What it is |
+| --- | --- |
+| **Design tokens, DTCG JSON** (`map.tokens.json`, about 2 KB) | A [Design Tokens Community Group](https://www.designtokens.org/) file. One entry per token under the `map` group, each with `$type: "color"`, `$value` as six-digit hex and a `$description`. `$extensions.b2b` records where the set came from: `preset`, `primary`, `mode` (and `recede` in Data mode), `tileSource`, `stateVersion` (the share-link state schema, 3) and `tokenSchema` (0.4.0). |
+| **Design tokens, CSS custom properties** (`map-tokens.css`) | The same 14 colours as `--b2b-<token>: #xxxxxx;` in one `:root` block, with kebab-case names: `--b2b-land`, `--b2b-road-major`, `--b2b-label-primary`. |
+
+```json
+{
+  "map": {
+    "land": { "$type": "color", "$value": "#fbefe0", "$description": "Land and the map background" },
+    "water": { "$type": "color", "$value": "#7fbdb0", "$description": "Water" }
+  },
+  "$extensions": { "b2b": { "preset": "figure-ground", "primary": "#e0623f", "mode": "light", "tileSource": "openfreemap", "stateVersion": 3, "tokenSchema": "0.4.0" } }
+}
+```
+
+- **No key, ever.** The token generators take the source id and nothing else, so "Include my key" does not apply to them. A test checks it on both sources.
+- **Same colours as the map.** [tests/export.test.ts](../tests/export.test.ts) checks that both files hold every resolved token, in every preset, with a typed slot, an override, and Data mode at recede 80, and that those values are the ones in the compiled style's paint properties.
+- The file is one mode at a time, like the other exports. The tokens are an output, not a project file: the share link is what reopens a map.
 
 ## Data anchor layer
 
@@ -37,7 +60,7 @@ The snippet includes this as a comment. Tests:
 - **OpenFreeMap** needs no key and none is involved.
 - **MapTiler**: the user pastes their own key in the Tiles panel. It is stored in localStorage (`b2b:maptilerKey`) only. It is not part of the app state, so it never reaches the share link, the autosave or an export by default.
 - In exports, MapTiler URLs carry the placeholder `YOUR_MAPTILER_KEY`. The snippet declares it once, `const MAPTILER_KEY = 'YOUR_MAPTILER_KEY'`, and swaps it into each request with `transformRequest`, so the key goes in one place. The style JSON has the placeholder in the tile and glyph URLs, and a note in its metadata.
-- **"Include my key"** is an explicit opt-in checkbox in the export panel. It is off every time the panel opens and stays off until ticked. When ticked, the panel warns not to share the files publicly and suggests restricting the key to a domain at cloud.maptiler.com.
+- **"Include my key"** is an explicit opt-in checkbox in the export panel, for the snippet and the style JSON only. It is off every time the panel opens and stays off until ticked. When ticked, the panel warns not to share the files publicly and suggests restricting the key to a domain at cloud.maptiler.com.
 - The deployed app ships no key. `npm run build` still runs [scripts/check-no-keys.mjs](../scripts/check-no-keys.mjs), which fails if the personal key, a `key=` URL with a real-looking key, or the MapTiler Streets style reaches `dist/`.
 
 ## Share link and autosave
@@ -70,6 +93,5 @@ Liberty's unused natural-earth relief raster is dropped from both, because no vi
 - **Sprite from OpenFreeMap on MapTiler.** Liberty's icon names (POIs, shields, one-way arrows) exist only in the OpenFreeMap sprite, so the MapTiler export still loads it from `tiles.openfreemap.org`. MapTiler's own sprites use other names. An alternative is to host the sprite with the app.
 - **MapTiler free plan terms**: free use is limited to non-commercial use and R&D, with 100k requests and 5k sessions a month. The logo and the "© MapTiler" credit must stay visible. See the report for the open question.
 - **The snippet depends on unpkg.** It pins `maplibre-gl@6.16.0`. A self-hosted copy works too: change the two URLs at the top.
-- **Not in the exports yet:** the token set as JSON or CSS variables (F6 in the requirements). The M4 brief asked only for style JSON and the snippet.
 - **Light and Data mode are exported one at a time**, whichever is on. There is no single file with both.
 - MapTiler keys restricted to an HTTP origin block `file://` pages: open the snippet from a local server, or allow `localhost` on the key.

@@ -25,10 +25,13 @@ import {
   validatePreset,
   type PresetState,
 } from '../src/presets';
+import { transformData } from '../src/palette/modes';
 import { PRESET_CONFIG } from '../src/presets/config';
+import { isLabelCheck } from '../src/presets/resolve';
 import { applyTokens } from '../src/style/applyTokens';
 import { colorDistance, contrastRatio, parseColor } from '../src/tokens/color';
-import { TOKEN_NAMES } from '../src/tokens/types';
+import { TOKEN_NAMES, type TokenName } from '../src/tokens/types';
+import { describeFailure } from '../src/ui/notices';
 
 const HEX = /^#[0-9a-f]{6}$/;
 const liberty = JSON.parse(readFileSync('base-styles/liberty.json', 'utf8')) as StyleSpecification;
@@ -422,5 +425,101 @@ describe('preset state', () => {
     expect(choices.groups).toContain('buildings');
     expect(choices.groups).toContain('pois');
     expect(presetDetails(getPreset('single-ink'), {}).groups).not.toContain('buildings');
+  });
+});
+
+describe('data-mode auto-fix', () => {
+  const at = (presetId: string, primary: string, recede: number, overrides: PresetState['overrides'] = { light: {}, data: {} }) =>
+    resolvePreset({ ...createPresetState(presetId, primary), mode: 'data', recede, overrides });
+  const failing = (resolved: ReturnType<typeof resolvePreset>) => resolved.finalChecks.filter((check) => !check.pass).map((check) => check.id);
+
+  it('the yellow primary at recede 80 passes the road threshold', () => {
+    for (const yellow of ['#ffe600', '#F5B700']) {
+      for (const preset of PRESETS) {
+        const resolved = at(preset.id, yellow, 80);
+        const roads = resolved.finalChecks.filter((check) => /road|highway/i.test(check.id));
+        expect(roads.length).toBeGreaterThan(1);
+        expect(roads.filter((check) => !check.pass).map((check) => `${preset.id} ${yellow}: ${check.id} ${check.value} < ${check.min}`)).toEqual([]);
+      }
+    }
+    // Single Ink is the case that failed: pure yellow roads on paper needed a nudge, and it is reported.
+    const ink = at('single-ink', '#ffe600', 80);
+    expect(ink.notices).toContainEqual(expect.objectContaining({ check: 'Major roads on paper', target: 'roadMajor', stage: 'data' }));
+    // The Saffron fixture failed at recede 10-60.
+    for (const recede of [10, 20, 30, 40, 50, 60]) expect(failing(at('single-ink', '#F5B700', recede))).toEqual([]);
+  });
+
+  it('10 fixtures x 3 presets x recede 0-100: every check passes, or a notice is raised for it', () => {
+    let adjusted = 0;
+    for (const fixture of fixtures) {
+      for (const preset of PRESETS) {
+        for (let recede = 0; recede <= 100; recede += 10) {
+          const resolved = at(preset.id, fixture.colors[fixture.primary], recede);
+          const where = `${fixture.name}, ${preset.id}, recede ${recede}`;
+          resolved.finalChecks.forEach((check, index) => {
+            // A check that cannot be repaired must still be told to the user, as the UI's "Still below" line.
+            if (!check.pass) expect(describeFailure(check), where).toContain(preset.checks[index].id);
+            expect(check.pass, `${where}: ${check.id} ${check.value} < ${check.min}`).toBe(true);
+          });
+          const data = resolved.notices.filter((notice) => notice.stage === 'data');
+          adjusted += data.length;
+          // Every data-mode change is told: a token that differs from the plain receded one has a notice.
+          const plain = transformData(resolved.stages.overridden, recede);
+          for (const token of TOKEN_NAMES) {
+            if (resolved.tokens[token] !== plain[token]) expect(data.map((notice) => notice.target), `${where}: ${token}`).toContain(token);
+          }
+          for (const notice of data) if (notice.kind !== 'pick') expect(resolved.tokens[notice.target as TokenName]).toBe(notice.to);
+          if (recede === 0) expect(data).toEqual([]);
+        }
+      }
+    }
+    expect(adjusted).toBeGreaterThan(0);
+  });
+
+  it('never changes a colour typed for data mode, and works around it', () => {
+    // Single Ink, yellow: the fix would darken roadMajor. Typed, it stays, and the failure is reported instead.
+    const typed = at('single-ink', '#ffe600', 80, { light: {}, data: { roadMajor: '#c1bc99' } });
+    expect(typed.tokens.roadMajor).toBe('#c1bc99');
+    expect(typed.notices.filter((notice) => notice.stage === 'data').map((notice) => notice.target)).not.toContain('roadMajor');
+    expect(failing(typed)).toContain('Major roads on paper');
+    // Every preset and fixture: a typed data colour comes out exactly as typed.
+    for (const fixture of fixtures) {
+      for (const preset of PRESETS) {
+        for (const token of ['land', 'water', 'roadMajor', 'urbanLanduse'] as const) {
+          const resolved = at(preset.id, fixture.colors[fixture.primary], 90, { light: {}, data: { [token]: '#808080' } });
+          expect(resolved.tokens[token]).toBe('#808080');
+          expect(resolved.notices.filter((notice) => notice.stage === 'data' && notice.kind !== 'pick').map((notice) => notice.target)).not.toContain(token);
+        }
+      }
+    }
+  });
+
+  it('never moves a slot: the light map is the same whatever the recede', () => {
+    for (const fixture of fixtures) {
+      for (const preset of PRESETS) {
+        const light = resolvePreset(createPresetState(preset.id, fixture.colors[fixture.primary]));
+        const data = at(preset.id, fixture.colors[fixture.primary], 100);
+        expect(data.slots).toEqual(light.slots);
+        expect(data.stages.overridden).toEqual(light.tokens);
+      }
+    }
+  });
+
+  it('a fix never breaks a check that passed after the recede', () => {
+    for (const fixture of fixtures) {
+      for (const preset of PRESETS) {
+        for (const recede of [30, 60, 100]) {
+          const resolved = at(preset.id, fixture.colors[fixture.primary], recede);
+          const labels = resolved.finalChecks.filter((_, index) => isLabelCheck(preset.checks[index]));
+          expect(labels.every((check) => check.pass && check.value >= 4.5)).toBe(true);
+        }
+      }
+    }
+  });
+
+  it('colours that were one colour stay one colour when held (Figure-Ground fabric and buildings)', () => {
+    const resolved = at('figure-ground', '#F5B700', 100);
+    expect(resolved.notices.filter((notice) => notice.stage === 'data').map((notice) => notice.check)).toContain('Fabric apart from water');
+    expect(resolved.tokens.building).toBe(resolved.tokens.urbanLanduse);
   });
 });

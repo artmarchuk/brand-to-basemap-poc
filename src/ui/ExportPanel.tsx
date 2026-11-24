@@ -2,19 +2,31 @@ import { useMemo, useState } from 'react';
 import type { StyleSpecification } from 'maplibre-gl';
 import type { BrandState, SourceId } from '../app/brandState';
 import { exportSnippet, exportStyle } from '../export/export';
+import { exportTokensCss, exportTokensDtcg } from '../export/tokens';
 import { DATA_ANCHOR_ID, TILE_SOURCES } from '../style/source';
+import type { ResolvedTokens } from '../tokens/types';
 
 interface Props {
   /** The compiled style, before the tile source is applied. */
   style: StyleSpecification;
   brand: BrandState;
+  /** The resolved map tokens: the colours the map draws now. */
+  tokens: ResolvedTokens;
   /** The source the map is actually on (MapTiler without a key falls back to OpenFreeMap). */
   source: SourceId;
   apiKey: string;
   onClose: () => void;
 }
 
-type Output = 'snippet' | 'style';
+type Output = 'snippet' | 'style' | 'tokens' | 'css';
+
+const OUTPUTS: Record<Output, { label: string; name: string; file: string; type: string }> = {
+  snippet: { label: 'Embed snippet (HTML page)', name: 'Embed snippet', file: 'map.html', type: 'text/html' },
+  style: { label: 'Style JSON (MapLibre)', name: 'Style JSON', file: 'style.json', type: 'application/json' },
+  tokens: { label: 'Design tokens (DTCG JSON)', name: 'Design tokens, DTCG JSON', file: 'map.tokens.json', type: 'application/json' },
+  css: { label: 'Design tokens (CSS custom properties)', name: 'Design tokens, CSS custom properties', file: 'map-tokens.css', type: 'text/css' },
+};
+const OUTPUT_IDS = Object.keys(OUTPUTS) as Output[];
 
 async function copy(text: string) {
   try {
@@ -34,8 +46,8 @@ function download(name: string, text: string, type: string) {
   URL.revokeObjectURL(url);
 }
 
-/** Always available: the embed snippet and the style JSON for what is on the map now. */
-export function ExportPanel({ style, brand, source, apiKey, onClose }: Props) {
+/** Always available: the embed snippet, the style JSON and the map tokens for what is on the map now. */
+export function ExportPanel({ style, brand, tokens, source, apiKey, onClose }: Props) {
   const [includeKey, setIncludeKey] = useState(false);
   const [copied, setCopied] = useState<Output | 'failed' | null>(null);
   const tiles = TILE_SOURCES[source];
@@ -45,12 +57,18 @@ export function ExportPanel({ style, brand, source, apiKey, onClose }: Props) {
     () => ({
       snippet: exportSnippet(style, brand, { source, key, center: brand.view.center, zoom: brand.view.zoom }),
       style: JSON.stringify(exportStyle(style, brand, { source, key }), null, 2),
+      // The token exports take no key: there is nothing in them to put one in.
+      tokens: `${JSON.stringify(exportTokensDtcg(tokens, brand, { source }), null, 2)}\n`,
+      css: exportTokensCss(tokens, brand, { source }),
     }),
-    [style, brand, source, key],
+    [style, brand, tokens, source, key],
   );
 
   const onCopy = async (output: Output) => setCopied((await copy(outputs[output])) ? output : 'failed');
-  const kb = (text: string) => `${Math.round(new Blob([text]).size / 1024)} KB`;
+  const kb = (text: string) => {
+    const bytes = new Blob([text]).size;
+    return bytes < 1024 ? `${bytes} bytes` : `${Math.round(bytes / 1024)} KB`;
+  };
 
   return (
     <section className="panel-section" aria-labelledby="export-heading">
@@ -71,18 +89,18 @@ export function ExportPanel({ style, brand, source, apiKey, onClose }: Props) {
               </label>
               <p className="hint">
                 {includeKey
-                  ? 'Your key is written into both files. Do not share them publicly, and restrict the key to your domain at cloud.maptiler.com.'
-                  : 'The files contain YOUR_MAPTILER_KEY: replace it with your own key.'}
+                  ? 'Your key is written into the snippet and the style JSON, never into the tokens. Do not share them publicly, and restrict the key to your domain at cloud.maptiler.com.'
+                  : 'The snippet and the style JSON contain YOUR_MAPTILER_KEY: replace it with your own key.'}
               </p>
             </div>
           )}
-          {(['snippet', 'style'] as Output[]).map((output) => (
+          {OUTPUT_IDS.map((output) => (
             <div key={output} className="fieldset">
               <div className="row row-between">
-                <span className="label">{output === 'snippet' ? 'Embed snippet (HTML page)' : 'Style JSON (MapLibre)'}</span>
+                <span className="label">{OUTPUTS[output].label}</span>
                 <span className="hint">{kb(outputs[output])}</span>
               </div>
-              <textarea className="export-output" readOnly value={outputs[output]} aria-label={output === 'snippet' ? 'Embed snippet' : 'Style JSON'} />
+              <textarea className="export-output" readOnly value={outputs[output]} aria-label={OUTPUTS[output].name} />
               <div className="row">
                 <button type="button" className="button" onClick={() => onCopy(output)}>
                   {copied === output ? 'Copied' : 'Copy'}
@@ -90,7 +108,7 @@ export function ExportPanel({ style, brand, source, apiKey, onClose }: Props) {
                 <button
                   type="button"
                   className="button button-quiet"
-                  onClick={() => download(output === 'snippet' ? 'map.html' : 'style.json', outputs[output], output === 'snippet' ? 'text/html' : 'application/json')}
+                  onClick={() => download(OUTPUTS[output].file, outputs[output], OUTPUTS[output].type)}
                 >
                   Download
                 </button>

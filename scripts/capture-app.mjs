@@ -10,14 +10,15 @@ const click = (selector, nth = 0) => browser.evaluate(`document.querySelectorAll
 const focusSlider = () => browser.evaluate(`document.querySelector('[role=slider]').focus()`);
 const settle = async (ms = 9000) => { await wait(ms); };
 
+// Start from the defaults: no autosave from an earlier run.
+await browser.open(URL, 1000);
+await browser.evaluate(`localStorage.removeItem('b2b:state')`);
 await browser.open(URL, 1000);
 await settle(12000);
 await browser.screenshot(`${OUT}/01-light.png`);
 
+// Dark is hidden while presets are on (M3), so 02-dark.png in git is the last S2 capture of it.
 await click('input[name=mode]', 1); await settle();
-await browser.screenshot(`${OUT}/02-dark.png`);
-
-await click('input[name=mode]', 2); await settle();
 await browser.screenshot(`${OUT}/03-data.png`);
 
 // Recede 100 via keyboard on the slider.

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { sampleState, setPrimary, toPresetState } from '../src/app/brandState';
 import { PRESETS, resolvePreset } from '../src/presets';
-import { TOKEN_NAMES } from '../src/tokens/types';
+import { TOKEN_NAMES, type TokenName } from '../src/tokens/types';
 import { describeFix, noticeToken } from '../src/ui/notices';
 
 // Primaries that push the checks: very light, very dark, mid-tone, saturated.
@@ -44,5 +44,26 @@ describe('auto-fix notices', () => {
       for (const notice of held) expect(resolved.tokens[notice.target as keyof typeof resolved.tokens]).toBe(notice.to);
     }
     expect(holds).toBeGreaterThan(0);
+  });
+
+  it('every fix made on the data colours is labelled "In data mode:", and the others are not', () => {
+    let labelled = 0;
+    for (const { preset, primary, mode, recede } of cases) {
+      const brand = { ...setPrimary(sampleState(preset.id), primary), mode, recede };
+      const resolved = resolvePreset(toPresetState(brand));
+      for (const notice of resolved.notices) {
+        const text = describeFix(notice, mode === 'data');
+        expect(text.startsWith('In data mode: ')).toBe(notice.stage === 'data');
+        if (notice.stage !== 'data') continue;
+        labelled++;
+        expect(mode).toBe('data');
+        if (notice.kind !== 'pick') {
+          expect(text).toContain(notice.to);
+          expect(resolved.tokens[notice.target as TokenName]).toBe(notice.to);
+        }
+      }
+      if (mode === 'light') expect(resolved.notices.some((notice) => notice.stage === 'data')).toBe(false);
+    }
+    expect(labelled).toBeGreaterThan(0);
   });
 });
