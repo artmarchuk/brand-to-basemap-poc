@@ -1,6 +1,7 @@
 // Checks that a layer group hidden at first is drawn once it is shown, on tiles that were already visited
 // past the tiles' last zoom. The case that failed: Single Ink (no buildings) at z16, back to z12, switch to
-// Figure-Ground, z16 again: no buildings. Cause and fix are in src/ui/MapView.tsx. Run against a served build:
+// Figure-Ground, z16 again: no buildings. A MapLibre bug in 6.0.0 to 6.16.0, fixed in
+// 6.17.0 (docs/upstream/maplibre-overzoom-cache.md); this guards against it coming back. Run against a served build:
 //
 //   npm run build && npx vite preview --port 4173 &   then   npm run check-reveal [url]
 /* global window -- the functions passed to Playwright run in the page. */

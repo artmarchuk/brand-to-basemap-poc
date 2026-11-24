@@ -46,7 +46,7 @@ Spec: `docs/specs/s4-finish-p0.md`. Token export (`src/export/tokens.ts`): the r
 - **No personal or unrestricted keys in the repo or bundle; personal key only in `.env.local`.** The deployed app ships with no MapTiler key and defaults to OpenFreeMap; MapTiler works only when the user pastes their own key, which stays in localStorage and never goes in the URL. The personal `MAPTILER_KEY` lives in `.env.local` for local scripts only and is never written into fixtures, screenshots, exports or `dist/`; `npm run build` fails if it appears there. There is no demo key.
 - **The app UI is a proof-of-concept.** Phase 2 owns polish. Fix only what affects the map or the function.
 - **Attribution** (provider and OpenStreetMap) is always visible and included in exports.
-- **The tool's own UI meets WCAG AA.**
+- **The tool's own UI meets WCAG AA.** The audit is part of Phase 2 (design agency pass), not P0.
 - **Pure, tested core.** Style and token logic are pure functions with unit tests.
 - Small commits with clear messages. Keep `docs/` current when decisions change.
 

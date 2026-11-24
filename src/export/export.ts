@@ -3,7 +3,7 @@ import type { BrandState } from '../app/brandState';
 import { DATA_ANCHOR_ID, KEY_PLACEHOLDER, TILE_SOURCES, withTileSource, type TileSourceId } from '../style/source';
 
 /** The MapLibre build the snippet loads. Kept to the version the app is tested with. */
-export const MAPLIBRE_VERSION = '6.16.0';
+export const MAPLIBRE_VERSION = '6.19.0';
 const CDN = `https://unpkg.com/maplibre-gl@${MAPLIBRE_VERSION}/dist`;
 
 export interface ExportOptions {

@@ -123,4 +123,14 @@ The attribution for the tile source in use is always visible on the map and is w
 
 ## Licence
 
-This repository does not carry an open-source licence yet. Until one is added, the code is published for reading as part of the case study; please ask before reusing it. The map data, tiles, styles and libraries above keep their own licences and terms.
+The code in this repository is under the [MIT licence](LICENSE), © 2026 [Artem Marchuk](https://artmarchuk.me/). The licence does not cover the material the tool builds on, which keeps its own:
+
+| Material | Licence |
+| --- | --- |
+| Liberty style ([base-styles/liberty.json](base-styles/liberty.json)), from [OpenFreeMap](https://github.com/hyperknot/openfreemap-styles) | MIT, © 2023 Zsolt Ero. Forked from [OSM Liberty](https://github.com/maputnik/osm-liberty) (BSD), whose look derives from OSM Bright (BSD code, CC BY 3.0 design) and OpenMapTiles (BSD 3-Clause code, CC BY 4.0 design) |
+| Map data | © OpenStreetMap contributors, [ODbL](https://www.openstreetmap.org/copyright) |
+| Fonts (Noto Sans, served by OpenFreeMap) | SIL Open Font License 1.1 |
+| Icons (OpenFreeMap sprite, Maki) | CC0 1.0 |
+| MapTiler tiles and fonts, if you use them | [MapTiler's terms](https://www.maptiler.com/terms/) |
+
+OpenMapTiles' design licence asks for a visible "© OpenMapTiles" credit, which the OpenFreeMap attribution on the map and in exports carries. On MapTiler tiles, MapTiler's own credit stands in for it, as MapTiler is permitted to do ([maptiler.com/copyright](https://www.maptiler.com/copyright/)).
