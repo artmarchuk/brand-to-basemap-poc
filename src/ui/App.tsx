@@ -138,7 +138,7 @@ export function App() {
               <button type="button" className="button button-quiet" onClick={() => setNotice(undefined)}>Dismiss</button>
             </p>
           )}
-          {exportOpen && <ExportPanel style={compiled.style} brand={brand} source={source} apiKey={apiKey} onClose={() => setExportOpen(false)} />}
+          {exportOpen && <ExportPanel style={compiled.style} brand={brand} tokens={resolved.tokens} source={source} apiKey={apiKey} onClose={() => setExportOpen(false)} />}
           <PresetPanel
             preset={resolved.preset}
             slots={resolved.slots}
