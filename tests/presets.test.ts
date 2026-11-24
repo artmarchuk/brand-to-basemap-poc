@@ -428,7 +428,8 @@ describe('preset state', () => {
   });
 });
 
-describe('data-mode auto-fix', () => {
+// These run the full resolver a few hundred times each; CI runners are several times slower than a laptop.
+describe('data-mode auto-fix', { timeout: 60_000 }, () => {
   const at = (presetId: string, primary: string, recede: number, overrides: PresetState['overrides'] = { light: {}, data: {} }) =>
     resolvePreset({ ...createPresetState(presetId, primary), mode: 'data', recede, overrides });
   const failing = (resolved: ReturnType<typeof resolvePreset>) => resolved.finalChecks.filter((check) => !check.pass).map((check) => check.id);
