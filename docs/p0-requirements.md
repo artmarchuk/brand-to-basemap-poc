@@ -203,7 +203,7 @@ Brief: [briefs/m4-export-state.md](briefs/m4-export-state.md). Details: [export.
 
 - **Colour persistence (DECIDED, confirmed by Artem Nov 24, 2026):** the primary colour is global; each preset remembers its own typed slots and overrides (per mode); derived slots follow the primary and are never stored. "Reset this preset" and "Reset all presets" clear typed values and overrides and keep the primary. The one-step undo is gone: switching presets loses nothing. The sample-palette button sets the primary (for every preset) and types the sample colours for the current preset.
 - **State v3** (`BrandState`): `primary`, `presetId`, `perPreset`, `mode`, `recede`, `details`, `density`, `source`, `view`. In the hash as `#s=<base64url JSON>` and in localStorage; the hash wins; a bad hash loads defaults with a notice. The key is not part of the state.
-- **Exports:** an embed snippet (full HTML page, MapLibre 6.16.0 from unpkg, inline style, attribution always expanded) and a style JSON, both for the current mode. A persistent Export button sits in the header.
+- **Exports:** an embed snippet (full HTML page, MapLibre 6.19.0 from unpkg; 6.16.0 until Nov 24, 2026, inline style, attribution always expanded) and a style JSON, both for the current mode. A persistent Export button sits in the header.
 - **Data anchor:** `b2b-data-anchor`, an invisible background layer after the last fill or line layer and before the first label.
 - **MapTiler source:** `v3-openmaptiles` tiles and MapTiler fonts with the same Liberty-based style; the sprite stays OpenFreeMap's (Liberty icon names). Logo and "© MapTiler, © OpenStreetMap contributors" when on. Exports carry `YOUR_MAPTILER_KEY` unless the user ticks "Include my key". Rendered comparison: same labels and layers, 1-2 feature differences from data builds.
 - **Notices:** every auto-fix shows next to its slot or map-colour row with the colour used; data-mode holds now report too, and a check that still fails after every fix shows next to its token. Per-zoom-stop pass/fail was skipped, and is dropped from P0 (S4).
@@ -223,8 +223,8 @@ Spec: [specs/s4-finish-p0.md](specs/s4-finish-p0.md).
 S4 is accepted.
 
 - **Licence:** the code is MIT ([LICENSE](../LICENSE)). The Liberty style (MIT, OpenFreeMap; forked from OSM Liberty, BSD), the map data (ODbL), the fonts (Noto Sans, SIL OFL 1.1) and the icons keep their own licences; the README lists them.
-- **No classic overscaling in the exports.** The snippet keeps MapLibre's defaults; only the app's map sets `zoomLevelsToOverscale: undefined`.
-- **MapLibre bug: not reported.** It is already reported and fixed upstream (issue #8918, fixed in 6.17.0). Research and reproduction: [upstream/maplibre-overzoom-cache.md](upstream/maplibre-overzoom-cache.md).
+- **No classic overscaling in the exports**, and since the upgrade to MapLibre 6.19.0 none in the app either: the app and the snippet both run on MapLibre's defaults.
+- **MapLibre bug: not reported.** It is already reported and fixed upstream (issue #8918, fixed in 6.17.0). The app and the snippet were upgraded to 6.19.0 and the workaround removed. Research and reproduction: [upstream/maplibre-overzoom-cache.md](upstream/maplibre-overzoom-cache.md).
 - **Colour-vision collapses stay report-only** in P0. No separation check and no auto-fix for them.
 - **The WCAG AA audit of the tool's own UI moves to Phase 2** (the design agency pass), because that pass replaces the interface. The requirement itself does not change.
 - **The last open P0 item** is the timed first-time-user sessions (2–3 users, "under 5 minutes").
@@ -236,7 +236,7 @@ S4 is accepted.
 - **Measuring the success criteria.** "Under 5 minutes" needs a timed test with 2–3 first-time users: **the last open P0 item**. "Renders identically" is checked by `npm run check-export`, which renders the exported page in headless Chrome on both tile sources.
 - **Hosting and public link.** Claude Code's call (GitHub Pages or Vercel); no secrets in the repo.
 - **Test palettes.** Use palettes inspired by well-known brands but shown under fictional brand names, to avoid trademark use in a public case study.
-- **Export format details.** Snippet decided in M4 (CDN MapLibre 6.16.0, inline style). Token exports decided in S4: DTCG JSON with the state schema version in `$extensions`, and `--b2b-<token>` CSS variables (see [export.md](export.md)).
+- **Export format details.** Snippet decided in M4 (CDN MapLibre, now 6.19.0, inline style). Token exports decided in S4: DTCG JSON with the state schema version in `$extensions`, and `--b2b-<token>` CSS variables (see [export.md](export.md)).
 - **Browser support.** Latest Chrome, Safari, Firefox and Edge.
 
 ## Plan (2-day target)

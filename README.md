@@ -123,7 +123,7 @@ The attribution for the tile source in use is always visible on the map and is w
 
 ## Licence
 
-The code in this repository is under the [MIT licence](LICENSE). The licence does not cover the material the tool builds on, which keeps its own:
+The code in this repository is under the [MIT licence](LICENSE), © 2026 [Artem Marchuk](https://artmarchuk.me/). The licence does not cover the material the tool builds on, which keeps its own:
 
 | Material | Licence |
 | --- | --- |

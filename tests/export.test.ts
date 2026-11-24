@@ -92,7 +92,7 @@ describe('style export', () => {
 describe('embed snippet', () => {
   it('OpenFreeMap: CDN MapLibre, expanded attribution, no key, no logo, the anchor comment', () => {
     const html = exportSnippet(style, brand, { source: 'openfreemap', ...view });
-    expect(html).toContain('https://unpkg.com/maplibre-gl@6.16.0/dist/maplibre-gl.mjs');
+    expect(html).toContain('https://unpkg.com/maplibre-gl@6.19.0/dist/maplibre-gl.mjs');
     expect(html).toContain('attributionControl: { compact: false }');
     expect(html).toContain("beforeId 'b2b-data-anchor'");
     expect(html).not.toMatch(/MAPTILER_KEY|maptiler/i);

@@ -7,7 +7,7 @@ Nov 24, 2026 · research note · **Verdict: do not report.** It is already repor
 - The bug is MapLibre GL JS issue [#8918](https://github.com/maplibre/maplibre-gl-js/issues/8918), "Layer added with addLayer draws nothing beyond its source's maxzoom when no other layer uses its source-layer" (opened Oct 29, 2026, closed Nov 1, 2026).
 - It was fixed by pull request [#8919](https://github.com/maplibre/maplibre-gl-js/pull/8919), released in **6.17.0** (Nov 7, 2026). The issue describes `addLayer`; our case (a hidden layer made visible) has the same cause and the same fix covers it: 6.17.0, 6.18.0 and 6.19.0 all pass our reproduction.
 - Nothing to file and nothing to add to the issue: it is closed, the cause is described there, and the maintainers' fix already handles the visibility case.
-- The app is pinned to 6.16.0, the last affected release, and uses the workaround. The follow-up for us is to upgrade, not to report (see "What this means for the app").
+- The app was on 6.16.0, the last affected release, with a workaround. We upgraded instead of reporting (see "What we did").
 
 ## Reproduction
 
@@ -53,8 +53,8 @@ The pattern follows the cause. Above the source's `maxzoom` the worker cuts each
 
 The app does nothing unsupported. It calls `map.setStyle(style, { diff: true })` with a style in which a layer's `layout.visibility` changes from `none` to `visible`. Replaying the app's two compiled styles (Single Ink, then Figure-Ground) in a plain MapLibre 6.16.0 page gives the same result as the app did: 0 buildings at z16 by default, 25 with classic overscaling, 50 on 6.19.0.
 
-## What this means for the app
+## What we did (Nov 24, 2026)
 
-- The workaround stays correct for 6.16.0: `zoomLevelsToOverscale: undefined` in [src/ui/MapView.tsx](../../src/ui/MapView.tsx), guarded by `npm run check-reveal`.
-- The exports are not affected (they never change visibility) and keep MapLibre's default, as decided.
-- Recommended follow-up, not done here: upgrade the app and the snippet's CDN version to 6.17.0 or later and remove the workaround, after `check-reveal`, `check-export` and the screenshot checks pass on the new version.
+- Upgraded the app and the exported snippet's CDN pin from 6.16.0 to **6.19.0**, which has the upstream fix.
+- Removed the workaround (`zoomLevelsToOverscale: undefined`) from [src/ui/MapView.tsx](../../src/ui/MapView.tsx). The app and the exports now both run on MapLibre's defaults, so they place labels the same way above z14.
+- Kept `npm run check-reveal` as a regression test. It passes on 6.19.0 without the workaround.

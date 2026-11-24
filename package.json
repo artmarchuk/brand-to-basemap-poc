@@ -32,7 +32,7 @@
   "dependencies": {
     "@radix-ui/react-slider": "^1.6.1",
     "culori": "^4.0.2",
-    "maplibre-gl": "^6.16.0",
+    "maplibre-gl": "^6.19.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
