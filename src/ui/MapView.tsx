@@ -51,6 +51,7 @@ export function MapView({ style, center, zoom, onReady, onZoom, onIdle, onMove, 
       // splitting. MapLibre 6.16 caches each split tile in its worker with only the layers that were visible
       // when it was first cut, so a group shown later (buildings after Single Ink, a detail toggle) stayed
       // missing above z14 for every tile already visited. scripts/check-layer-reveal.mjs guards this.
+      // Fixed upstream in 6.17.0 (maplibre-gl-js #8918); drop this option after upgrading.
       zoomLevelsToOverscale: undefined,
     });
     appliedStyle.current = initial.current.style;

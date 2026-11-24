@@ -126,7 +126,7 @@ Everything else depends on this, so it is specified first.
 - **Desktop first.** Designed for laptop and desktop browsers; mobile only needs to not break.
 - **No accounts.** No sign-up, no user database. A MapTiler key, if entered, stays in the user's browser.
 - **Attribution.** Provider and OpenStreetMap attribution always visible and included in exports.
-- **The tool's own UI meets WCAG AA.**
+- **The tool's own UI meets WCAG AA.** The audit is done in Phase 2, on the designed interface (decided Nov 24, 2026).
 - **Quality bar.** In P0 the interface is functional, calm and minimal, on placeholder UI tokens. The final UX, UI and branding come in Phase 2 (design pass after the prototype works).
 
 ## Out of scope for P0
@@ -218,11 +218,22 @@ Spec: [specs/s4-finish-p0.md](specs/s4-finish-p0.md).
 - **Token export stays in P0** (F6) and the **colour-vision preview** is added to F5, as a preview and a report only.
 - **MapTiler terms.** Fine for this case study, because every user supplies their own key and the logo and credit stay visible. A public or commercial product built on this needs MapTiler's agreement (their free plan covers non-commercial use and R&D only).
 
+### Decisions after S4 (Nov 24, 2026)
+
+S4 is accepted.
+
+- **Licence:** the code is MIT ([LICENSE](../LICENSE)). The Liberty style (MIT, OpenFreeMap; forked from OSM Liberty, BSD), the map data (ODbL), the fonts (Noto Sans, SIL OFL 1.1) and the icons keep their own licences; the README lists them.
+- **No classic overscaling in the exports.** The snippet keeps MapLibre's defaults; only the app's map sets `zoomLevelsToOverscale: undefined`.
+- **MapLibre bug: not reported.** It is already reported and fixed upstream (issue #8918, fixed in 6.17.0). Research and reproduction: [upstream/maplibre-overzoom-cache.md](upstream/maplibre-overzoom-cache.md).
+- **Colour-vision collapses stay report-only** in P0. No separation check and no auto-fix for them.
+- **The WCAG AA audit of the tool's own UI moves to Phase 2** (the design agency pass), because that pass replaces the interface. The requirement itself does not change.
+- **The last open P0 item** is the timed first-time-user sessions (2–3 users, "under 5 minutes").
+
 ## Open items for the PM (spec additions, defaults apply unless Artem objects)
 
 - **Auto-fix vs manual overrides.** Default: auto-fix does not change a token the user set by hand; it flags the failing override and asks.
 - **Contrast pair matrix.** The feature thresholds are decided (see F5). The water and park distance threshold is closed: superseded by per-preset checks. Still open: the fixed list of label pairs per mode, and how the halo counts.
-- **Measuring the success criteria.** "Under 5 minutes" needs a timed test with 2–3 first-time users; "renders identically" needs a scripted check (export → plain MapLibre page → visual diff).
+- **Measuring the success criteria.** "Under 5 minutes" needs a timed test with 2–3 first-time users: **the last open P0 item**. "Renders identically" is checked by `npm run check-export`, which renders the exported page in headless Chrome on both tile sources.
 - **Hosting and public link.** Claude Code's call (GitHub Pages or Vercel); no secrets in the repo.
 - **Test palettes.** Use palettes inspired by well-known brands but shown under fictional brand names, to avoid trademark use in a public case study.
 - **Export format details.** Snippet decided in M4 (CDN MapLibre 6.16.0, inline style). Token exports decided in S4: DTCG JSON with the state schema version in `$extensions`, and `--b2b-<token>` CSS variables (see [export.md](export.md)).
@@ -238,8 +249,8 @@ Owners: **CC** = Claude Code, **PM** = the PM chat, **A** = Artem, **DA** = desi
 | S1 Token model and palette engine (M1 + M2) | F0 mapping for Liberty and Streets v2, applyTokens, unmapped-layer report; OKLCH derivation, dark and data transforms, overrides; harness page and screenshots on 10 test palettes | CC | Checkpoint A: review screenshots (about 15 min) |
 | S2 App shell (F1–F4) | Brand input, live map, overrides and reset, detail toggles, light, dark and data modes, recede slider, zoom stops | CC | Checkpoint B: try the app (about 15 min) |
 | S3 Quality and shipping (F5–F6) | Contrast checks per mode and zoom stop, colour-vision simulation, auto-fix with undo, provider switch, exports with a data anchor layer, URL state, attribution | CC | Checkpoint C: try auto-fix and export (about 15 min) |
-| S4 Validation and demo | Export-fidelity check in a plain MapLibre page, run on 10 palettes, WCAG AA audit of the tool's own UI, 2-minute demo script, public URL; optional 2–3 timed first-time-user sessions | CC, PM, A | Final review (about 30 min) |
-| Phase 2: design pass (after P0) | App UX, UI and branding for the working prototype, in Figma; Figma Variables become the source of UI tokens; sync into the repo via the Figma MCP; restyle | DA, CC, A | Reviews |
+| S4 Validation and demo | Export-fidelity check in a plain MapLibre page, run on 10 palettes, demo recording, public URL. **Still open, last P0 item:** 2–3 timed first-time-user sessions | CC, PM, A | Final review (about 30 min) |
+| Phase 2: design pass (after P0) | App UX, UI and branding for the working prototype, in Figma; Figma Variables become the source of UI tokens; sync into the repo via the Figma MCP; restyle; WCAG AA audit of the tool's own UI (moved from S4) | DA, CC, A | Reviews |
 
 ## Backlog
 

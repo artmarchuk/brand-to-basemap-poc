@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>MapLibre: a layer shown at runtime stays missing on overzoomed tiles (fixed in 6.17.0)</title>
+  <style>
+    body { margin: 0; font: 14px system-ui, sans-serif; }
+    #map { position: absolute; top: 40px; bottom: 0; width: 100%; }
+    #bar { height: 40px; display: flex; gap: 12px; align-items: center; padding: 0 12px; }
+  </style>
+</head>
+<body>
+  <div id="bar">
+    <button id="show" disabled>Show buildings</button>
+    <span id="out">Loading…</span>
+  </div>
+  <div id="map"></div>
+  <script type="module">
+    // Only the public MapLibre API and OpenFreeMap tiles. Serve this file over http(s).
+    //   ?v=6.19.0   MapLibre version (default 6.16.0, the last affected release; 6.x only)
+    //   ?z=15       zoom (default 16; anything above the source's maxzoom of 14)
+    //   ?classic    create the map with zoomLevelsToOverscale: undefined (the workaround)
+    const q = new URLSearchParams(location.search);
+    const version = q.get('v') ?? '6.16.0';
+    const classic = q.has('classic');
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = `https://unpkg.com/maplibre-gl@${version}/dist/maplibre-gl.css`;
+    document.head.append(css);
+    const maplibregl = await import(`https://unpkg.com/maplibre-gl@${version}/dist/maplibre-gl.mjs`);
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      center: [8.5417, 47.3769], // Zurich
+      zoom: Number(q.get('z') ?? 16),
+      ...(classic ? { zoomLevelsToOverscale: undefined } : {}),
+      style: {
+        version: 8,
+        sources: {
+          // OpenMapTiles schema, maxzoom 14
+          openmaptiles: { type: 'vector', url: 'https://tiles.openfreemap.org/planet' },
+        },
+        layers: [
+          { id: 'background', type: 'background', paint: { 'background-color': '#f4f1ea' } },
+          // A visible layer on another source layer of the same source. Without one, the bug does not show.
+          { id: 'road', type: 'line', source: 'openmaptiles', 'source-layer': 'transportation', paint: { 'line-color': '#888888' } },
+          // Hidden while the tiles load.
+          {
+            id: 'building', type: 'fill', source: 'openmaptiles', 'source-layer': 'building',
+            layout: { visibility: 'none' },
+            paint: { 'fill-color': '#d0473a' },
+          },
+        ],
+      },
+    });
+    window.map = map;
+
+    const out = document.getElementById('out');
+    const button = document.getElementById('show');
+    const label = `MapLibre ${version}, ${classic ? 'classic overscaling' : 'default options'}, z${map.getZoom()}`;
+    map.once('idle', () => {
+      out.textContent = `${label}. Roads drawn, buildings hidden.`;
+      button.disabled = false;
+    });
+    button.onclick = () => {
+      map.setLayoutProperty('building', 'visibility', 'visible');
+      map.once('idle', () => {
+        const drawn = map.queryRenderedFeatures({ layers: ['building'] }).length;
+        out.textContent = `${label}. Buildings drawn: ${drawn}${drawn === 0 ? ' (bug: none)' : ''}`;
+        window.result = drawn;
+      });
+    };
+  </script>
+</body>
+</html>
