@@ -4,7 +4,7 @@ A web prototype: a designer enters 2-5 brand colours and gets a shippable, quali
 
 ## Read first
 1. `docs/p0-requirements.md`: the full P0 requirements, decisions and plan. It is the source of truth for scope.
-2. `docs/preset-engine.md`: how presets work (M3); `docs/export.md`: exports, share link and tile sources (M4); and `docs/briefs/` for the briefs in order.
+2. `docs/preset-engine.md`: how presets work (M3); `docs/export.md`: exports, share link and tile sources (M4); `docs/colour-vision.md`: the colour-vision report (S4); and `docs/briefs/` for the briefs in order.
 
 ## Who is who
 - **Artem**: product owner and the only human. Makes the key decisions. His time is the bottleneck, so he reviews at short checkpoints only.
@@ -35,6 +35,9 @@ The app is organised around **presets**: Single Ink, Figure-Ground, Colour Field
 **DECIDED (Artem, Nov 24, 2026): colour persistence.** The primary colour is global; each preset remembers its own typed slots and overrides (per mode); derived slots follow the primary and are never stored. Switching presets loses nothing; the resets clear typed values and overrides and keep the primary.
 
 State v3 (`src/app/brandState.ts`) implements that rule. It goes in the hash (`#s=`) and localStorage autosave; the hash wins. Exports (`src/export/export.ts`): an HTML embed snippet and a style JSON, with the `b2b-data-anchor` layer under the labels. Tile source switch (`src/style/source.ts`): OpenFreeMap or MapTiler `v3-openmaptiles` with the user's key, same Liberty-based style, OpenFreeMap sprite on both. Read `docs/export.md`. Checks: `npm run check-export` (exported page in headless Chrome, both sources) and `npm run compare-sources` (OpenFreeMap vs MapTiler sheets); both read `MAPTILER_KEY` from `.env.local` and never write it outside `node_modules/.cache`.
+
+## Finishing P0 (S4, Nov 24, 2026)
+Spec: `docs/specs/s4-finish-p0.md`. Token export (`src/export/tokens.ts`): the resolved map tokens as DTCG JSON and `--b2b-<token>` CSS, never with a key. Data-mode auto-fix (`autoFixData` in `src/presets/resolve.ts`): the preset's checks are repaired again after the recede; a colour typed for data mode is locked; a slot strategy holds colours back instead of moving the slot; notices read "In data mode: …". Colour-vision preview (`src/vision/simulate.ts`, `src/ui/VisionControl.tsx`): a filter on the map canvas, local UI state only; report in `docs/colour-vision.md` (`npm run vision-report`), render check `npm run check-vision`. Per-zoom-stop pass/fail is dropped from P0. `npm run demo` records `docs/screens/demo/` with Playwright.
 
 ## Working rules
 - **Lean and fast.** The target is a working, presentable P0 in 1-2 days. No scope creep; anything not in the P0 requirements is out. Decide small things yourself and note them in your report.
